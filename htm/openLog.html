@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Log</title>
+		<meta description="Squeeezelite- display Log file" />
+		<meta author="Marco Curti" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="script/ios-orientationchange-fix.js"></script>
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="script/selectivizr-min.js"></script>
+		<script src="script/respond.min.js"></script>
+		<![endif]-->
+		<script src="webInterface.js"></script>
+		<script>
+			$(document).ready(function(){
+    				$("#output").load("/cgi-bin/getLog.pl", function(){});
+			});
+		</script>
+	</head>
+	<body>
+		<div id=output name=output> 
+			<p>"Audiodevice loading log file... please wait."</p>
+		</div>
+	</body>
+</html>
