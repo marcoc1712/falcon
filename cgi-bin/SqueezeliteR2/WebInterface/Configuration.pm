@@ -25,7 +25,7 @@ use base qw(SqueezeliteR2::WebInterface::DataStore);
 sub new {
     my $class = shift;
 
-    my $self=$class->SUPER::new("../conf/Squeezelite-R2.conf", 
+    my $self=$class->SUPER::new("../conf/squeezelite-R2.conf", 
                        "Squeezelite-R2 web interface configuration file", 
                        _initDefault());
 
