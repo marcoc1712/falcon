@@ -79,7 +79,7 @@ if (-e $pathname && ! -e $backup){
 
 if (! open($FH, "> $pathname")) {
 
-    print "ERROR: Failure opening '$pathname' - $!";
+    print "ERROR: Failure opening '$pathname' for writing - $!";
     exit 0;
 }
 

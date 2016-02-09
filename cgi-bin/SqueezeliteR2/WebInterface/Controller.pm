@@ -16,9 +16,12 @@ use SqueezeliteR2::WebInterface::Settings;
 use SqueezeliteR2::WebInterface::Status;
 use SqueezeliteR2::WebInterface::Log;
 
+my $log;
+
 sub new {
     my $class = shift;
-
+    $log= Log::Log4perl->get_logger("controller");
+    
     my $conf        = SqueezeliteR2::WebInterface::Configuration->new();
     my $settings    = SqueezeliteR2::WebInterface::Settings->new();
     my $status      = SqueezeliteR2::WebInterface::Status->new();
@@ -29,7 +32,6 @@ sub new {
                 status => $status,
                 error => undef,
              }, $class;
-     
     return $self;
 }
 sub conf {
@@ -67,6 +69,7 @@ sub getSettings {
     return $return;
    
 }
+
 sub setSetting{
     my $self 		= shift;
     my $item		= shift;
@@ -79,6 +82,12 @@ sub setSetting{
 }
 sub saveSettings{
     my $self = shift;
+    my $in = shift;
+    
+    if ($in){
+    
+        $self->settings()->setSettings($in);
+    }
     
     my $return = $self->settings()->save();
     $self->{error}= $self->settings()->getError();

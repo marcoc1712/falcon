@@ -15,21 +15,35 @@ use SqueezeliteR2::WebInterface::Configuration;
 use SqueezeliteR2::WebInterface::Preferences;
 use SqueezeliteR2::WebInterface::CommandLine;
 
+my $log;
+
 sub new {
     my $class = shift;
 
+    $log = Log::Log4perl->get_logger("settings");
+
     my $conf = SqueezeliteR2::WebInterface::Configuration->new();
-    my $prefs = SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
+    my $prefs;
+    my $commandLine;
+
+    if ($conf->getPrefFile() && -e $conf->getPrefFile() && -r $conf->getPrefFile()){
     
+        $prefs = SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
+        $commandLine = SqueezeliteR2::WebInterface::CommandLine->new($prefs);
+
+    } else {
+        my $commandLineText=$conf->readCommandLine();
+        $commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
+        $prefs = $commandLine->getPreferences();
+    }
+    
+
     my $self = bless {
                     conf => $conf,
                     prefs => $prefs,
-                    commandLine => undef,
+                    commandLine => $commandLine,
                     error => undef,
                  }, $class;
-    
-    my $commandLine = SqueezeliteR2::WebInterface::CommandLine->new($self);
-    $self->{commandLine}= $commandLine;
     
     return $self;
 }
@@ -63,19 +77,74 @@ sub getPIDFile{
     $self->{error} =  $self->conf()->getError();
     return  $self->conf()->getPIDFile();
 }
+sub getSettings{
+    my $self 		= shift;
+    
+    if (! $self->prefs()) {return undef}
+    
+    $self->{error} = $self->prefs()->getError();
+    return $self->prefs()->getPrefs();
 
+}
+sub setSettings{
+    my $self 		= shift;
+    my $in              = shift;
+    
+    if (! $self->prefs()) {return undef}
+    
+    if (!$self->prefs()->setPrefs($in)){
+        $self->{error} = $self->prefs()->getError();
+        return 0;
+    }  
+    $self->{error}=undef;
+    return 1;
+}
+
+sub getItem{
+    my $self 		= shift;
+    my $item		= shift;
+    
+    if (! $self->prefs()) {return undef}
+     
+    $self->{error} = $self->prefs()->getError();
+    return $self->prefs()->getItem($item);
+     
+    
+    return undef;
+}
+sub setItem {
+    my $self 		= shift;
+    my $item		= shift;
+    my $value		= shift || undef;
+
+    if (! $self->prefs()) {return undef}
+    
+    if (!$self->prefs()->setItem($item, $value)){
+        $self->{error} = $self->prefs()->getError();
+        return 0;
+    }  
+    $self->{error}=undef;
+    return 1;
+}
+sub isEnabled{
+    my $self            = shift;
+    my $item            = shift;
+
+    $self->{error} =  $self->conf()->getError();
+    return (! $self->conf()->isDisabled($item));
+}
 sub save{
     my $self = shift;
 
     $self->{error} =undef;
 
-    if (! $self->commandLine()->set($self)) {$self->{error} =$self->commandLine()->getError();}
+    if (! $self->commandLine()->setPreferences($self->prefs())) {$self->{error} =$self->commandLine()->getError();}
 
-    if (! $self->{error} && ! $self->conf()->setAutostart($self->get('autostart'))) {
+    if (! $self->{error} && ! $self->conf()->setAutostart($self->getItem('autostart'))) {
         $self->{error} =  $self->conf()->getError();
     }
 
-    if (! $self->{error} && ! $self->conf()->setWakeOnLan($self->get('allowWakeOnLan'))) {
+    if (! $self->{error} && ! $self->conf()->setWakeOnLan($self->getItem('allowWakeOnLan'))) {
         $self->{error} =  $self->conf()->getError();
     }
 
@@ -87,41 +156,5 @@ sub save{
 
     return undef; 
 	
-}
-sub getSettings{
-    my $self 		= shift;
-
-    $self->{error} = $self->prefs()->getError();
-    return $self->prefs()->getPrefs();
-
-}
-sub get{
-    my $self 		= shift;
-    my $item		= shift;
-
-    $self->{error} = $self->prefs()->getError();
-    return $self->prefs()->getItem($item);
-
-}
-sub set {
-    my $self 		= shift;
-    my $item		= shift;
-    my $value		= shift || undef;
-
-    if (!$self->prefs()->setItem($item, $value)){
-        $self->{error} = $self->prefs()->getError();
-        return 0;
-    }  
-    $self->{error}=undef;
-    return 1;
-}
-
-
-sub isEnabled{
-    my $self            = shift;
-    my $item            = shift;
-
-    $self->{error} =  $self->conf()->getError();
-    return (! $self->conf()->isDisabled($item));
 }
 1;

@@ -2,12 +2,19 @@
 
 binmode STDOUT, ':utf8';
 
-use FindBin;
-use lib $FindBin::Bin;
-
 use strict;
 use warnings;
 use utf8;
+
+use FindBin qw($Bin);
+use lib $Bin;
+use lib "./SqueezeliteR2/lib";
+
+use Log::Log4perl;
+Log::Log4perl->init_once("log.conf");
+
+my $log = Log::Log4perl->get_logger("falcon");
+$log->info("started");
 
 use SqueezeliteR2::WebInterface::Controller;
 use SqueezeliteR2::WebInterface::Utils;

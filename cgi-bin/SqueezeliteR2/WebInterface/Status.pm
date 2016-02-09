@@ -15,10 +15,14 @@ use SqueezeliteR2::WebInterface::Configuration;
 use SqueezeliteR2::WebInterface::CommandLine;
 use SqueezeliteR2::WebInterface::Utils;
 
+my $log;
+
 my $utils= SqueezeliteR2::WebInterface::Utils->new();
 
 sub new {
     my $class = shift;
+    
+    $log = Log::Log4perl->get_logger("status");
     
     my $conf= SqueezeliteR2::WebInterface::Configuration->new();
     my $self = bless {
@@ -91,12 +95,28 @@ sub _init{
     if (!$self->_initPathname()){ return undef};
     
     if ($self->_checkExecutable( $self->getStatus()->{'pathname'})){
-    
-        my $settings =SqueezeliteR2::WebInterface::Settings->new();
-        my $cli=SqueezeliteR2::WebInterface::CommandLine->new($settings);
-        $self->getStatus()->{'commandLine'} = substr($cli->get(), length( $self->getStatus()->{'pathname'}));
 
-        $self->{error}=$cli->getError();
+        my $commandLineText=$self->conf()->readCommandLine();
+        my $commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
+        
+        $log->info("actual command line: ".$commandLine->get());
+        $log->info($commandLine->getError() || "ok");
+        
+        $self->{error}=$commandLine->getError();
+        if (! $self->{error}){
+            
+          $self->getStatus()->{'commandLine'} = 
+                $utils->trim(substr($commandLine->get(),length( $self->getStatus()->{'pathname'})+1));
+                
+                $log->info("reported command line: ".$self->getStatus()->{'commandLine'});
+            
+        } else{
+           
+           $self->getStatus()->{'commandLine'} = $self->{error};
+           
+        }
+        
+        
     }
     
     if ( $self->{error}) {return undef;}

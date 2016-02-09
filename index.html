@@ -113,7 +113,7 @@
 							</tr>
 							<tr>
 								<td> <input type="checkbox" id="rate192000" name="rate192000" value="1"> 192000 </td>
-								<td> <input type="checkbox" id="rate352000" name="rate352000" value="1"> 352000 </td>
+								<td> <input type="checkbox" id="rate352800" name="rate352800" value="1"> 352800 </td>
 								<td> <input type="checkbox" id="rate384000" name="rate384000" value="1"> 384000 </td>
 							</tr>
 							<tr>
@@ -130,7 +130,7 @@
 							<table style="width:100%">
 				 				<tr>
 									<td> <input type="checkbox" id="codecMp3" name="codecMp3" value="1"> mp3 </td>
-									<td> <input type="checkbox" id="codecAac" name="codecAacc" value="1"> aac </td>
+									<td> <input type="checkbox" id="codecAac" name="codecAac" value="1"> aac </td>
 									<td> <input type="checkbox" id="codecWma" name="codecWma" value="1"> wma </td>
 								</tr>
 								<tr>
@@ -173,10 +173,10 @@
 
 						<fieldset>
 							<legend>ALSA parameters </legend>
-							<label for="periodCount">Period count:</label>		
-							<input type="number" id="periodCount" name="periodCount" min="1" max="9" step="1" value="3" required class="numero">  <br>
 							<label for="bufferSize">Buffer size:</label>									
 							<input type="number" id="bufferSize" name="bufferSize" min="10" max="1000" step="1" value="100" required class="numero"> ms  <br>
+							<label for="periodCount">Period count:</label>		
+							<input type="number" id="periodCount" name="periodCount" min="1" max="9" step="1" value="3" required class="numero">  <br>
 							<label for="sampleFormat">Sample format:</label>								
 							<input type="number" id="sampleFormat" name="sampleFormat" min="16" max="32" step="8" value="16" required class="numero"> bit  <br>
 							<label for="useMmap">Use MMAP:</label>							

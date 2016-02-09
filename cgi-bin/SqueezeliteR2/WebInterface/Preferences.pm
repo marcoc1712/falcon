@@ -13,10 +13,14 @@ use warnings;
 use SqueezeliteR2::WebInterface::DataStore;
 use base qw(SqueezeliteR2::WebInterface::DataStore);
 
+my $log;
+
 sub new {
     my $class = shift;
     my $file = shift;
-
+    
+    $log = Log::Log4perl->get_logger("preferences");
+    
     my $self=$class->SUPER::new( $file,
                        "Squeezelite-R2 settings", 
                        _initDefault());
@@ -27,10 +31,62 @@ sub new {
 
 sub getPrefs {
     my $self = shift;
-
+    # return the hash table
+    
     return $self->get();
 }
+sub setPrefs{
+    my $self 		= shift;
+    my $in              = shift;
+    
+    # The post method olways pass ONLY the thrue booleans, no matter if they 
+    # changed or not, so we need to set all them to false before.
+    
+    $self->setItem('supportsDOP',0);
+    $self->setItem('lmsDownsampling',0);
+    $self->setItem('autostart',0);
+    $self->setItem('rate008000',0);
+    $self->setItem('rate011025',0);
+    $self->setItem('rate012000',0);
+    $self->setItem('rate016000',0);
+    $self->setItem('rate022050',0);
+    $self->setItem('rate024000',0);
+    $self->setItem('rate032000',0);
+    $self->setItem('rate044100',0);
+    $self->setItem('rate048000',0);
+    $self->setItem('rate088200',0);
+    $self->setItem('rate096000',0);
+    $self->setItem('rate176400',0);
+    $self->setItem('rate192000',0);
+    $self->setItem('rate352800',0);
+    $self->setItem('rate384000',0);
+    $self->setItem('rate705600',0);
+    $self->setItem('rate768000',0);
+    $self->setItem('codecMp3',0);
+    $self->setItem('codecAac',0);
+    $self->setItem('codecWma',0);
+    $self->setItem('codecOgg',0);
+    $self->setItem('codecFlc',0);
+    $self->setItem('codecAlac',0);
+    $self->setItem('codecPcm',0);
+    $self->setItem('codecWav',0);
+    $self->setItem('codecAif',0);
+    $self->setItem('codecDff',0);
+    $self->setItem('codecDsf',0);
+    $self->setItem('useMmap',0);
+    $self->setItem('logSlimproto',0);
+    $self->setItem('logStream',0);
+    $self->setItem('logDecode',0);
+    $self->setItem('logOutput',0);
+    $self->setItem('allowWakeOnLan',0);
+    $self->setItem('allowShutdown',0);
+    $self->setItem('allowReboot',0);
+    
+    foreach my $name (keys %$in) {
 
+        $self->setItem($name, $in->{$name});
+    }
+}
 sub getItem {
     my $self 		= shift;
     my $item		= shift;
@@ -57,14 +113,14 @@ sub save {
 ####################################################################################################
 
 sub _initDefault{
-   
+
     my %defaultHash;
     my $default = \%defaultHash;	
 
-    $default->{"playerName"}='squeezelite-R2@pc-ubuntu';
-    $default->{"audioDevice"}='front:CARD=NVidia_1,DEV=0';
+    $default->{"playerName"}='squeezelite-R2';
+    $default->{"audioDevice"}="";
     $default->{"supportsDOP"}=0;
-    $default->{"lmsDownsampling"}=0;
+    $default->{"lmsDownsampling"}=1;
     $default->{"autostart"}=0;
     $default->{"timeout"}=0;
     $default->{"serverIP"}="";
@@ -81,12 +137,12 @@ sub _initDefault{
     $default->{"rate096000"}=0;
     $default->{"rate176400"}=0;
     $default->{"rate192000"}=0;
-    $default->{"rate352000"}=0;
+    $default->{"rate352800"}=0;
     $default->{"rate384000"}=0;
     $default->{"rate705600"}=0;
     $default->{"rate768000"}=0;
     $default->{"codecMp3"}=0;
-    $default->{"codecAacc"}=0;
+    $default->{"codecAac"}=0;
     $default->{"codecWma"}=0;
     $default->{"codecOgg"}=0;
     $default->{"codecFlc"}=0;
@@ -100,16 +156,16 @@ sub _initDefault{
     $default->{"fromPcmToDOP"}=0;
     $default->{"inBuffer"}=0;
     $default->{"outBuffer"}=0;
-    $default->{"periodCount"}=3;
-    $default->{"bufferSize"}=100;
-    $default->{"sampleFormat"}=16;
-    $default->{"useMmap"}=1;
+    $default->{"periodCount"}=0;
+    $default->{"bufferSize"}=0;
+    $default->{"sampleFormat"}=0;
+    $default->{"useMmap"}=0;
     $default->{"logSlimproto"}=0;
     $default->{"logStream"}=0;
     $default->{"logDecode"}=0;
     $default->{"logOutput"}=0;
     $default->{"logLevel"}="info";
-    $default->{"logFile"}="/home/marco/Scrivania/squeezelite-R2/squeezelite-R2.log";
+    $default->{"logFile"}="";
     $default->{"allowWakeOnLan"}=0;
     $default->{"allowShutdown"}=0;
     $default->{"allowReboot"}=0;

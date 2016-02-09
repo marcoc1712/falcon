@@ -22,9 +22,13 @@ use constant ISMAC        => ( $^O =~ /darwin/i ) ? 1 : 0;
 
 use base qw(SqueezeliteR2::WebInterface::DataStore);
 
+my $log;
+
 sub new {
     my $class = shift;
-
+    
+    $log = Log::Log4perl->get_logger("configuration");
+    
     my $self=$class->SUPER::new("../conf/squeezelite-R2.conf", 
                        "Squeezelite-R2 web interface configuration file", 
                        _initDefault());
@@ -217,7 +221,7 @@ sub writeCommandLine{
     my $command = $script." ".$commandLine;
 
     my @rows = `$command`;
-
+    
     return \@rows;
 
 }
@@ -232,7 +236,14 @@ sub readCommandLine{
 
     my @rows = `$command`;
 
-    return \@rows;
+    my $commandLine="";
+    
+    for my $row (@rows){
+    
+        $commandLine = $commandLine." ".$row;
+    }
+    
+    return $commandLine;
 
 }
 
@@ -293,15 +304,15 @@ sub _checkScript{
             return undef;
         }
 	if (! -e $script) {
-            $self->{error}="ERROR: script idoes not exists"; 
+            $self->{error}="ERROR: script $script does not exists"; 
             return undef;
         }
 	if (! -r $script) {
-            $self->{error}="ERROR: could not read script"; 
+            $self->{error}="ERROR: could not read script $script"; 
             return undef;
         }
 	if (! -x $script) {
-            $self->{error}="ERROR: could not execute script"; 
+            $self->{error}="ERROR: could not execute script $script"; 
             return undef;
         }
         

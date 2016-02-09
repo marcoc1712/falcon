@@ -21,7 +21,7 @@ my $commandLine="";
 my $pathname = "/etc/default/squeezelite";
 
 my $FH;
-if (! -e $pathname) {
+if (-e $pathname) {
 
 	if (! open($FH, "< $pathname")) {
 		print "ERROR: Failure opening '$pathname' for reading- $!";

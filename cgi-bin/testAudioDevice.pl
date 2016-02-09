@@ -6,6 +6,16 @@ use strict;
 use warnings;
 use utf8;
 
+use FindBin qw($Bin);
+use lib $Bin;
+use lib "./SqueezeliteR2/lib";
+
+use Log::Log4perl;
+Log::Log4perl->init_once("log.conf");
+
+my $log = Log::Log4perl->get_logger("falcon");
+$log->info("started");
+
 use SqueezeliteR2::WebInterface::Controller;
 use SqueezeliteR2::WebInterface::Utils;
 
@@ -21,21 +31,5 @@ if (! $return ){
 } 
 
 $utils->printHTML($return);
-
-1;
-
-
-use SqueezeliteR2::WebInterface::Utils;
-use SqueezeliteR2::WebInterface::Configuration;
-use SqueezeliteR2::WebInterface::Settings;
-
-my $utils  = SqueezeliteR2::WebInterface::Utils->new();
-my $conf  = SqueezeliteR2::WebInterface::Configuration->new();
-my $settings= SqueezeliteR2::WebInterface::Settings->new();
-
-my $audiodevice = $settings->get('audioDevice');
-my $out= $conf->testAudioDevice($audiodevice);
-
-$utils->printHTML($out);
 
 1;
