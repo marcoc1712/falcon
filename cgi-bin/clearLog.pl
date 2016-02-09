@@ -25,14 +25,9 @@ my $utils = SqueezeliteR2::WebInterface::Utils->new();
 my $return=$controller->clearLogfile("Web Interface");
 my $error= $controller->getError();
 
+# TEXT is required.
 print "Content-type: text/html\n\n";
-
-if ($error ){
-
-    $return = $error;
-    
-}
-
+if ($error ){$return = $error;}
 print $return;
-#$utils->printHTML($return);
+
 1;

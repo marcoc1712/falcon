@@ -18,7 +18,10 @@ my $cmd= \%commandHash;
 ###########################################################
 
 $cmd->{'front:CARD=NVidia_1,DEV=0'} = 'cat /proc/asound/NVidia_1/codec#0';
+$cmd->{'hw:CARD=NVidia_1,DEV=0'} = 'cat /proc/asound/NVidia_1/codec#0';
 $cmd->{'front:CARD=X20,DEV=0'} = 'cat /proc/asound/X20/stream0';
+
+
 #... and so on.
 
 #############################################################

@@ -23,13 +23,11 @@ my $controller = SqueezeliteR2::WebInterface::Controller->new();
 my $utils = SqueezeliteR2::WebInterface::Utils->new();
 
 my $return=$controller->hwReboot();
+my $error= $controller->getError();
 
-if (! $return ){
-
-    my $error= $controller->getError();
-    $return = $error;  
-} 
-
-$utils->printHTML($return);
+# TEXT is required.
+print "Content-type: text/html\n\n";
+if ($error ){$return = $error;}
+print $return;
 
 1;

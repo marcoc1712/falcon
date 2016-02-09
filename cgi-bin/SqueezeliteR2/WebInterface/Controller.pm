@@ -115,7 +115,7 @@ sub clearLogfile{
     my $self = shift;
     my $who = shift || "";
     
-    my $logFile= $self->settings()->get('logFile');
+    my $logFile= $self->settings()->getItem('logFile');
     $self->{error}= $self->settings()->getError();
     
     if ($self->{error}) {return undef;}
@@ -137,7 +137,7 @@ sub getLogHTML{
     my $self = shift;
     my $limit = shift;
     
-    my $logFile= $self->settings()->get('logFile');
+    my $logFile= $self->settings()->getItem('logFile');
     $self->{error}= $self->settings()->getError();
     
     if ($self->{error}) {return undef;}
@@ -161,7 +161,7 @@ sub testAudioDevice {
     
     if (! $audiodevice) {
     
-        $audiodevice = $self->settings()->get('audioDevice');
+        $audiodevice = $self->settings()->getItem('audioDevice');
     }
     $self->{error}= $self->settings()->getError();
     if (! $audiodevice) {return undef;}

@@ -99,8 +99,8 @@ sub _init{
         my $commandLineText=$self->conf()->readCommandLine();
         my $commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
         
-        $log->info("actual command line: ".$commandLine->get());
-        $log->info($commandLine->getError() || "ok");
+        $log->debug("actual command line: ".$commandLine->get());
+        $log->debug($commandLine->getError() || "ok");
         
         $self->{error}=$commandLine->getError();
         if (! $self->{error}){
@@ -108,7 +108,7 @@ sub _init{
           $self->getStatus()->{'commandLine'} = 
                 $utils->trim(substr($commandLine->get(),length( $self->getStatus()->{'pathname'})+1));
                 
-                $log->info("reported command line: ".$self->getStatus()->{'commandLine'});
+                $log->debug("reported command line: ".$self->getStatus()->{'commandLine'});
             
         } else{
            

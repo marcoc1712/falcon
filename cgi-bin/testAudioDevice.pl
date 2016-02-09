@@ -23,13 +23,11 @@ my $controller = SqueezeliteR2::WebInterface::Controller->new();
 my $utils = SqueezeliteR2::WebInterface::Utils->new();
 
 my $return=$controller->testAudioDevice();
+my $error= $controller->getError();
 
-if (! $return ){
+# HTML is required.
 
-    my $error= $controller->getError();
-    $return = $error;  
-} 
-
+if (! $return ){ $return = $error;} 
 $utils->printHTML($return);
 
 1;

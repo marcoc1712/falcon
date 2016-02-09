@@ -25,17 +25,21 @@ window.onload = function() {
 				enable("clearLog",1);
 		}				
 	};
+
+
+
 	document.getElementById('reloadSettings').onclick = function(){
 		loadSettings();
 	}
-	document.getElementById('testAudioDevice').onclick = function(){
+        
+        document.getElementById('testAudioDevice').onclick = function(){
 		window.open('/htm/testAudioDevice.html');
 	};
-
-	document.getElementById('openLog').onclick = function(){
+        
+        document.getElementById('openLog').onclick = function(){
 		window.open('/htm/openLog.html');
 	};
-
+        
 	document.getElementById('clearLog').onclick = function(){
 		jQuery.get("/cgi-bin/clearLog.pl")
 		.done(function(data) {
