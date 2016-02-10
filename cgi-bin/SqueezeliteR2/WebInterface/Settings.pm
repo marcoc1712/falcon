@@ -32,12 +32,24 @@ sub new {
         $commandLine = SqueezeliteR2::WebInterface::CommandLine->new($prefs);
 
     } else {
-        my $commandLineText=$conf->readCommandLine();
-        $commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
-        $prefs = $commandLine->getPreferences();
-    }
-    
+        
+		my $commandLineText=$conf->readCommandLine();
+		$self->{error} = $conf->getError();
+		
+		if (! $commandLineText){
+			
+			#load defaults.
+			$prefs = SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
+			$commandLine = SqueezeliteR2::WebInterface::CommandLine->new($prefs);
+			
+		} else{
+			
+			#load command line.
+			$commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
+			$prefs = $commandLine->getPreferences();
+		}
 
+    }
     my $self = bless {
                     conf => $conf,
                     prefs => $prefs,

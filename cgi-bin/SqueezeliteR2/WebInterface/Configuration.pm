@@ -306,10 +306,14 @@ sub readCommandLine{
     my $commandLine="";
     
     for my $row (@rows){
-    
+		
+		if (($row  =~ /^ERRROR+$/) || ($row  =~ /^WARNING+$/)){
+			my $error=$row;
+			return undef;
+		} 
+		
         $commandLine = $commandLine." ".$row;
     }
-    
     return $commandLine;
 
 }
