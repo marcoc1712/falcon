@@ -46,42 +46,42 @@ for my $row (@lines) {
 	
 	if (substr($row,0,8) eq "SL_NAME="){
 
-		$name= trim(substr($row,9));
+		$name= trim(substr($row,8));
 		print "name is: ".$name."\n";
 
 	} elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
 
-		$card= trim(substr($row,14));
+		$card= trim(substr($row,13));
 		print "card is: ".$card."\n";
 		
 	} elsif (substr($row,0,13) eq "SB_SERVER_IP="){
 
-		$server= trim(substr($row,14));
+		$server= trim(substr($row,13));
 		print "server is: ".$server."\n";
 
 	} elsif (substr($row,0,14) eq "SB_EXTRA_ARGS="){
 
-		$extra= trim(substr($row,15));
+		$extra= trim(substr($row,14));
 		print "extra is: ".$extra."\n";
 
 	}elsif (substr($row,0,9) eq "SL_NAME ="){
 
-		$name= trim(substr($row,10));
+		$name= trim(substr($row,9));
 		print "name is: ".$name."\n";
 		
 	} elsif (substr($row,0,14) eq "SL_SOUNDCARD ="){
 
-		$card= trim(substr($row,15));
+		$card= trim(substr($row,14));
 		print "card is: ".$card."\n";
 		
 	} elsif (substr($row,0,14) eq "SB_SERVER_IP ="){
 
-		$server= trim(substr($row,15));
+		$server= trim(substr($row,14));
 		print "server is: ".$server."\n";
 		
 	} elsif (substr($row,0,15) eq "SB_EXTRA_ARGS ="){
 
-		$extra= trim(substr($row,16));
+		$extra= trim(substr($row,15));
 		print "extra is: ".$extra."\n";
 	}
 }
@@ -101,6 +101,16 @@ sub trim{
     	$val =~ s/^\s+//; # strip white space from the beginning
     	$val =~ s/\s+$//; # strip white space from the end
     }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
     
     return $val;         
 }

@@ -307,7 +307,7 @@ sub readCommandLine{
     
     for my $row (@rows){
 		
-		if (($row  =~ /^ERRROR+$/) || ($row  =~ /^WARNING+$/)){
+		if (($row  =~ /^ERROR/) || ($row  =~ /^WARNING/)){
 			my $error=$row;
 			return undef;
 		} 
