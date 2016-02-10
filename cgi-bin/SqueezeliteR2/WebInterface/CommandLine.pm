@@ -48,7 +48,7 @@ sub new {
 
     } else {
 		
-		$self->{error}=$conf->getError{};
+		$self->{error}=$conf->getError();
 	}
     return $self;
     
