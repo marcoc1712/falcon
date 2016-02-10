@@ -69,7 +69,7 @@ sub setPreferences {
     $self->{preferences}  = $preferences;
     $self->{commandLine}  = $self->_buildCommandLineFromPreferences();
     
-    $self->_save();
+    return $self->_save();
 }
 sub getError {
     my $self = shift;

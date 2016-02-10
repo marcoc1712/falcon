@@ -151,7 +151,9 @@ sub save{
 
     $self->{error} =undef;
 
-    if (! $self->commandLine()->setPreferences($self->prefs())) {$self->{error} =$self->commandLine()->getError();}
+    if (! ($self->commandLine()->setPreferences($self->prefs()))) {
+		$self->{error} =$self->commandLine()->getError();
+	}
 
     if (! $self->{error} && ! $self->conf()->setAutostart($self->getItem('autostart'))) {
         $self->{error} =  $self->conf()->getError();
