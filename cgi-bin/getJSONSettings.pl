@@ -25,14 +25,10 @@ use SqueezeliteR2::WebInterface::Utils;
 my $controller = SqueezeliteR2::WebInterface::Controller->new();
 my $utils = SqueezeliteR2::WebInterface::Utils->new();
 
+my $result= $controller->getSettings();
+my $error = $controller->getError();
 
-my $result = $controller->getSettings();
-    
-if ($controller->getError()){
-    
-    $utils->printHTML($controller->getError());
-    exit 0;
-}
+if ($error){ $result->{'error'} = $error; }
 
 $utils->printJSON($result);
 

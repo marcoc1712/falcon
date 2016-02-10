@@ -5,12 +5,47 @@
 
 var global_audiodevice=null;
 
+$(document).ready(function() {
+    
+    $('#formSettings').ajaxForm({ 
+        success: function(response, status, xhr, jQform) { 
+            console.log( "success" );
+            
+            console.log( response );
+            //console.log( status );
+            //console.log( xhr );
+            //console.log( jQform );
+
+            alert(response);
+            
+        },
+        error: function() { 
+           console.log( "error" );
+           alert("something went wrong!");
+        }
+    }); 
+
+    //$("#formSettings").submit(function() {
+//
+//        $.ajax({
+//          type: "POST",
+//          url: "/cgi-bin/saveSettings.pl",
+//          data: $(this).serialize(),
+//          target: "hiddenIframe",
+//          success: function() {
+            // callback code here
+//           }
+//       })
+
+//    })
+});
+
 window.onload = function() {
 
 	init(); //load data.
 	
 	// set event listeners.
-	
+
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
 	};
@@ -125,21 +160,22 @@ window.onload = function() {
 	};
 
 };
-
+function initErrorCallback(){
+    
+     document.getElementById("submitSettings").disabled = true;
+     document.getElementById("reloadSettings").disabled = true;
+    
+}
 function init() {
 
-	$("#audioDevice").load('/cgi-bin/loadAudioCards.pl', function(){
-	
-		if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
-			 
-			document.getElementById('audioDevice').value = global_audiodevice;
-		}
-
-	});
 	hide(document.getElementById('status'));
-	loadSettings();
-	enableSettings();
-	loadStatus();
+        
+        loadAudioDevices(initErrorCallback);
+	loadSettings(initErrorCallback);
+	enableSettings(initErrorCallback);
+	loadStatus(initErrorCallback);
+        
+        return 1;
 }
 
 function enable(item,value) {
@@ -197,88 +233,119 @@ function load(item,value) {
 	}
 		
 }
-
-function loadSettings() {
-	jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
-	.done(function(data) {
-		console.log( "success" );
-		$.each( data, function( key, val ) {
-			console.log( key + " - " + val);
-		
-			if (key == "audioDevice"){
-				
-					// special case, options could not be already retrieved .
-					// store a global variable, used whe deferred load will end.
+function loadAudioDevices(errorCallback) {
+    
+	$("#audioDevice").load('/cgi-bin/loadAudioCards.pl', function(){
 	
-					global_audiodevice= val;
-					
-					if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
-					
-						document.getElementById('audioDevice').value = global_audiodevice;				  		
-					}
-			}
+		if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
+			 
+			document.getElementById('audioDevice').value = global_audiodevice;
+		} else {
+                    
+                    errorCallback();
+                }
 
-			load(key,val);
-		});
-	})
-	.fail(function() {
-		console.log( "error" );
-	})
-	.always(function() {
-		console.log( "complete" );
 	});
+    
+}
+function loadSettings(errorCallback) {
+    jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
+    .done(function(data) {
+
+        if (data.error) { 
+
+            console.log( data.error );
+            alert(data.error);
+            errorCallback();
+            return 0;
+        }
+        console.log( "load settings succeded" );
+
+        $.each( data, function( key, val ) {
+                console.log( key + " - " + val);
+
+                if (key == "audioDevice"){
+
+                                // special case, options could not be already retrieved .
+                                // store a global variable, used whe deferred load will end.
+
+                                global_audiodevice= val;
+
+                                if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
+
+                                        document.getElementById('audioDevice').value = global_audiodevice;				  		
+                                }
+                }
+
+                load(key,val);
+        });
+        return 1;   
+    })
+    .fail(function() {
+            console.log( "error" );
+            return 0;
+    });
 }
 
-function loadStatus() {
+function loadStatus(errorCallback) {
 	jQuery.getJSON("/cgi-bin/getJSONStatus.pl")
 	.done(function(data) {
-		console.log( "success" );
-		
-		var isR2version=0;
-		var isPathnameValid=0;
+            
+            if (data.error) { 
 
-		$.each( data, function( key, val ) {
-			console.log( key + " - " + val);
-			
-			if (key == "isR2version")	{
+                console.log( data.error );
+                alert(data.error);
+                errorCallback();
+                return 0;
+            }
+            
+            console.log( "success" );
+
+            var isR2version=0;
+            var isPathnameValid=0;
+
+            $.each( data, function( key, val ) {
+                console.log( key + " - " + val);
+
+                if (key == "isR2version")	{
+
+                                isR2version=1;	
+
+                }	else if (key == "isPathnameValid")	{
+
+                                isPathnameValid=1;
+
+                }	else {
+
+                        load(key,val);
+                }
+
+            });
+
+            if (! isPathnameValid){
+
+                document.getElementById("pathname").style.color="red";
+
+                if (!document.getElementById("pathname").value ||
+                     document.getElementById("pathname").value == ""){
+
+                    document.getElementById("pathname").value="unknow";
+                }		
+            }	
 					
-					isR2version=1;	
+            if (! isR2version ){
 
-			}	else if (key == "isPathnameValid")	{
-					
-					isPathnameValid=1;
+                document.getElementById("version").style.color="red";
 
-			}	else {
-		
-				load(key,val);
-			}
+                if (!document.getElementById("version").value ||
+                     document.getElementById("version").value == ""){
 
-		});
-		
-		if (! isPathnameValid){
+                    document.getElementById("version").value="unknow (not R2)";
+                    document.getElementById("lmsDownsampling").checked;
+                    enable('lmsDownsampling', 0 );
 
-			document.getElementById("pathname").style.color="red";
-
-			if (!document.getElementById("pathname").value ||
-					document.getElementById("pathname").value == ""){
-
-					document.getElementById("pathname").value="unknow";
-			}		
-		}	
-					
-	 if (! isR2version ){
-
-			document.getElementById("version").style.color="red";
-
-			if (!document.getElementById("version").value ||
-					document.getElementById("version").value == ""){
-
-					document.getElementById("version").value="unknow (not R2)";
-					document.getElementById("lmsDownsampling").checked;
-					enable('lmsDownsampling', 0 );
-					
-			}	
-		}	
+                }	
+            }	
 
 	})
 	.fail(function() {
@@ -289,9 +356,18 @@ function loadStatus() {
 	});
 }
 
-function enableSettings() {
+function enableSettings(errorCallback) {
 	jQuery.getJSON("/cgi-bin/getJSONDisabled.pl")
 	.done(function(data) {
+            
+                if (data.error) { 
+                    
+                    console.log( data.error );
+                    alert(data.error);
+                    errorCallback();
+                    return 0;
+                }
+                
 		console.log( "success" );
 		$.each( data, function( key, val ) {
 

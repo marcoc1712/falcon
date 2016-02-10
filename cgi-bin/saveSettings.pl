@@ -30,21 +30,13 @@ my $controller= SqueezeliteR2::WebInterface::Controller->new();
 my %incoming = read_input();
 my $in = \%incoming;
 
-my $message= $controller->saveSettings($in);
+my $return= $controller->saveSettings($in);
 my $error = $controller->getError();
 
+# TEXT is required.
 print "Content-type: text/html\n\n";
-
-if ($error) {
-
-    print $error;
-    exit 0;
-}
-
-print "DONE. New command line is: ".$message." Please restart";
-
-#my @out=($message);
-#$utils->printHTML(\@out);
+if ($error ){$return = $error;}
+print $return;
 
 sub read_input
 {

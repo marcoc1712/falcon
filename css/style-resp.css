@@ -90,6 +90,10 @@ iframe {width:0; height:0; border:0; border:none}
 
 textarea {  
    font-family: "Courier", monospace;  
+   font-size: 14px;   
+}
+code{
+   font-family: "Courier", monospace;  
    font-size: 12px;   
 }
 
@@ -140,7 +144,13 @@ textarea {
  width: 100%;
 }
 
+.blocco-grigio {
+ background: #DCDCDC; 
+}
+
 [class*="colonna-"] + [class*="colonna-"]:last-child {float: right;}
+
+
 
 
 /* Micro-clearfix */

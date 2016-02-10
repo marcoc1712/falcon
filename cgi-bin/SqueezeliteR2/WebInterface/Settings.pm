@@ -152,7 +152,7 @@ sub save{
         $self->{error} = $self->prefs()->getError();
     }
 
-    if (! $self->{error}) {return $self->commandLine()->get()};
+    if (! $self->{error}) {return "DONE. Please restart.";};
 
     return undef; 
 	

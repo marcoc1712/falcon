@@ -1,429 +1,517 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Squeezelite-R2</title>
-		<meta description="Handle Squeeezelite-R2 installation and settings" />
-		<meta author="Marco Curti" />
-		<link rel="stylesheet" href="css/style-resp.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-		<script src="script/ios-orientationchange-fix.js"></script>
-		<!--[if lt IE 9]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<script src="script/selectivizr-min.js"></script>
-		<script src="script/respond.min.js"></script>
-		<![endif]-->
-		
-		<script src="script/webInterface.js"></script>
-
-	</head>
-	<body>	
-
-		<header>
-			<div class="riga">
-				<div class="colonna-1">		
-					<div id="logo">
-						<h1>Squeezelite-R2</h1>
-						<p><img src="htm/header.jpg" alt="star wars theme" class="scala"></a></p>
-					</div>
-					<div id="menuInLinea">
-						<nav>
-							<ul>
-								<li><label id="itemSettings" onclick="showSettings()">Settings</label></li>
-								<li><label id="itemStatus" onclick="showStatus()">Status</label></li>
-								<br>
-							</ul>
-						</nav>
-					</div>
-				</div> <!-- colonna-1-->
-			</div> <!-- riga-->
-		</header>
-
-		<div id="settings" class="riga">
-			<div class="colonna-2-3">
-				<h2>Settings</h2>
-				<section>
-					<FORM name="formSettings" id="formSettings" action="/cgi-bin/saveSettings.pl" method="POST" target="hiddenIframe">
-						<fieldset>
-							<legend>Basic</legend>
-					
-							<label for="playerName">Player name:</label>
-							<input type="text" id="playerName" name="playerName" class="testo" >  <br>	<br>
-					
-							<label for="audioDevice">Audio device:</label>
-							<select id="audioDevice" 
-								    	name="audioDevice" 
-											class="select"
-				 	   					<option value="s">Select</option>
-				 			</select> 
-
-							<br><br>
-
-							<label for="supportsDOP">Supports DOP:</label>							
-							<input type="checkbox" id="supportsDOP" name="supportsDOP" value="1"> <br>
-							
-							<br>
-
-							<label for="lmsDownsampling">LMS Downsample:</label>							
-							<input type="checkbox" id="lmsDownsampling" name="lmsDownsampling" value="1"> <br>
-							
-							<br>
-							
-							<label for="autostart">Autostart:</label>							
-							<input type="checkbox" id="autostart" name="autostart" value="1"> <br>
-
-							<br>
-
-							<label for="timeout">Timeout:</label>
-							<input type="number" id="timeout" name="timeout" min="0" step="1" max=60 value="0" required class="numero"> sec  <br>
-
-							<br>
-
-							<label for="serverIP">Server IP:</label>
-							<input type="text" id="serverIP" name="serverIP" class="testo" 
-											pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\:[1-9][0-9][0-9][0-9])?$" title="IP address i.e 192.168.1.103 or 192.168.1.103:9000" placeholder="___.___.___.___:____">  <br>
-
-						</fieldset>
-
-						<br>	<br>	
-
-						<fieldset>
-							<legend>Sample Rates</legend>
-							<table style="width:100%">
-			 				<tr>
-								<td> <input type="checkbox" id="rate008000" name="rate008000" value="1"> 8000 </td>
-								<td> <input type="checkbox" id="rate011025" name="rate011025" value="1"> 11025 </td>
-								<td> <input type="checkbox" id="rate012000" name="rate012000" value="1"> 12000 </td>
-							</tr>
-							<tr>
-								<td> <input type="checkbox" id="rate016000" name="rate016000" value="1"> 16000 </td>
-								<td> <input type="checkbox" id="rate022050" name="rate022050" value="1"> 22050 </td>
-								<td> <input type="checkbox" id="rate024000" name="rate024000" value="1"> 24000 </td>
-							</tr>
-							<tr>
-								<td> <input type="checkbox" id="rate032000" name="rate032000" value="1"> 32000 </td>
-								<td> <input type="checkbox" id="rate044100" name="rate044100" value="1"> 44100 </td>
-								<td> <input type="checkbox" id="rate048000" name="rate048000" value="1"> 48000 </td>
-							</tr>
-							<tr>
-								<td> <input type="checkbox" id="rate088200" name="rate088200" value="1"> 88200 </td>
-								<td> <input type="checkbox" id="rate096000" name="rate096000" value="1"> 96000 </td>
-								<td> <input type="checkbox" id="rate176400" name="rate176400" value="1"> 176400 </td>
-							</tr>
-							<tr>
-								<td> <input type="checkbox" id="rate192000" name="rate192000" value="1"> 192000 </td>
-								<td> <input type="checkbox" id="rate352800" name="rate352800" value="1"> 352800 </td>
-								<td> <input type="checkbox" id="rate384000" name="rate384000" value="1"> 384000 </td>
-							</tr>
-							<tr>
-								<td> <input type="checkbox" id="rate705600" name="rate705600" value="1"> 705600 </td>
-								<td> <input type="checkbox" id="rate768000" name="rate768000" value="1"> 768000 </td>
-							</tr>
-							</table>
-						</fieldset> 
-
-						<br><br>
-
-						<fieldset>
-							<legend>Input formats</legend>
-							<table style="width:100%">
-				 				<tr>
-									<td> <input type="checkbox" id="codecMp3" name="codecMp3" value="1"> mp3 </td>
-									<td> <input type="checkbox" id="codecAac" name="codecAac" value="1"> aac </td>
-									<td> <input type="checkbox" id="codecWma" name="codecWma" value="1"> wma </td>
-								</tr>
-								<tr>
-									<td> <input type="checkbox" id="codecOgg" name="codecOgg" value="1"> ogg </td>
-									<td> <input type="checkbox" id="codecFlc" name="codecFlc" value="1"> flc </td>
-									<td> <input type="checkbox" id="codecAlac" name="codecAlac" value="1"> alac </td>
-								</tr>
-								<tr>
-									<td> <input type="checkbox" id="codecPcm" name="codecPcm" value="1"> pcm </td>
-									<td> <input type="checkbox" id="codecWav" name="codecWav" value="1"> wav </td>
-									<td> <input type="checkbox" id="codecAif" name="codecAif" value="1"> aiff </td>
-								</tr>
-								<tr>
-									<td> <input type="checkbox" id="codecDff" name="codecDff" value="1"> dff </td>
-									<td> <input type="checkbox" id="codecDsf" name="codecDsf" value="1"> dsf </td>
-							</table>
-						</fieldset>
-
-						<br><br>
-
-						<fieldset>
-							<legend>Transition delay </legend>
-							<label for="fromPcmToPcm">PCM to PCM:</label>							
-							<input type="number" id="fromPcmToPcm" name="fromPcmToPcm" min="0" step="1" value="0" required class="numero"> ms  <br>
-							<label for="fromPcmToDOP">PCM to DOP:</label>							
-							<input type="number" id="fromPcmToDOP" name="fromPcmToDOP" min="0" step="1" value="0" required class="numero"> ms  <br>
-						</fieldset>
-
-						<br><br>
-
-						<fieldset>
-							<legend>Buffer size </legend>
-							<label for="inBuffer">Input:</label>							
-							<input type="number" id="inBuffer" name="inBuffer" min="0" step="4096" value="0" required class="numero"> Kb  <br>
-							<label for="outBuffer">Output:</label>		
-							<input type="number" id="outBuffer" name="outBuffer" min="0" step="4096" value="0" required class="numero"> Kb <br>
-						</fieldset>
-
-						<br><br>
-
-						<fieldset>
-							<legend>ALSA parameters </legend>
-							<label for="bufferSize">Buffer size:</label>									
-							<input type="number" id="bufferSize" name="bufferSize" min="10" max="1000" step="1" value="100" required class="numero"> ms  <br>
-							<label for="periodCount">Period count:</label>		
-							<input type="number" id="periodCount" name="periodCount" min="1" max="9" step="1" value="3" required class="numero">  <br>
-							<label for="sampleFormat">Sample format:</label>								
-							<input type="number" id="sampleFormat" name="sampleFormat" min="16" max="32" step="8" value="16" required class="numero"> bit  <br>
-							<label for="useMmap">Use MMAP:</label>							
-							<input type="checkbox" id="useMmap" name="useMmap" value="1" checked> <br>
-						</fieldset>
-
-						<br><br>
-	
-						<fieldset>
-							<legend>Log </legend>
-					
-							<table id="logTypes" style="width:100%">
-				 				<tr>
-									<td> <input type="checkbox" id="logSlimproto" name="logSlimproto" value="1"> Slimproto </td>
-									<td> <input type="checkbox" id="logStream" name="logStream" value="1"> Stream </td>
-								</tr>
-								<tr>
-									<td> <input type="checkbox" id="logDecode" name="logDecode" value="1"> Decode </td>
-									<td> <input type="checkbox" id="logOutput" name="logOutput" value="1"> Output </td>
-								</tr>
-							</table>
-							<br>
-
-							<label for="logLevel">Level:</label>
-							<select 
-								id="logLevel" 
-					 	    name="logLevel" 
-								class="select"
-								<option value="none" selected>none</option>
-								<option value="info">info</option>
-								<option value="debug">debug</option>
-								<option value="sdebug">verbose</option>
-				 			</select> <br>
-							<label for="logFile">File:</label>
-							<input type="text" id="logFile" name="logFile" class="testo">
-  						<br>	<br>
-						</fieldset>
-
-						<br><br>
-
-						<fieldset>
-							<legend>Remote operations</legend>
-
-							<label for="allowWakeOnLan">Wake on lan:</label>							
-							<input type="checkbox" id="allowWakeOnLan" name="allowWakeOnLan" value="1"> <br>
-
-							<br>
-							<label for="allowShutdown">Shutdown:</label>							
-							<input type="checkbox" id="allowShutdown" name="allowShutdown" value="1"> <br>
-
-							<br>
-							<label for="allowReboot">Restart:</label>							
-							<input type="checkbox" id="allowReboot" name="allowReboot" value="1"> <br>
-
-						</fieldset>
-
-						<br><br>
-
-						<input type="submit" value="Submit">
-                                                <input id="reloadSettings" name="reloadSettings" type="button" value="Reload">
-						<iframe src="" name="hiddenIframe" width="200" height="30" ></iframe>
-
-						<br>
-
-					</FORM>
-				</section>
-			</div> <!-- colonna-2-31 -->
-
-			<div class="colonna-1-3">
-
-				<h2>&nbsp;</h2>
-		
-				<aside>
-
-						<div class="voce">
-							<p>	<strong>Player name:</strong>
-									Any name you like for the player, i.e Squeezelite-R2@debian
-							</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Audio device:</strong>
-									Select from the list the audio device you wish to use.<p>
-							<p> If the list is empty or could not find your audio device, please check installation.</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Support DOP:</strong>
-									Output device supports DSD over PCM </p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>LMS Downsample:</strong>
-									Allow squeezebox server to downsample if the sample rate is not supported. </p>
-							<p> WARNING: this will produce an error in LMS if codec is PCM.
-						</div>
-
-						<div class="voce">
-							<p> <strong>Autostart:</strong>
-									Launch Squeezelite-R2 at startup as a service. Disabled if not available</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Timeout:</strong>
-									Let Squeezelite-R2 release the audio device when not playing for more than 'Timeout' seconds.</p>
-							<p> 0 will reserve the Audio Device to Squeezelite-R2 while running </p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Server Ip:</strong>
-									Connect to specified server, otherwise uses autodiscovery to find server (recommended)</p>
-							<p> Use server:port notation (i.e. 192.168.1.101:9000 ) </p>
-						</div>
-
-						<div class="voce">
-							<p>	<strong>Sample rates:</strong>
-									Tthe player is capable to play.</p>
-							<p> If nothing is selected, no limit is posed and the Audio device hardware capabilities are used at runtime.</p>
-							<p>	WARNING: needs device to be on when squeezelite is started </p>
-						</div>
-
-						<div class="voce">
-							<p>	<strong>Input formats:</strong>
-									(codecs) the player is capable to play.</p>
-							<p> If nothing is selected, all file formats and codecs supported by the libraries loaded at startup (see log) are supported  </p><p>
-						</div>
-
-						<div class="voce">
-							<p>	<strong>Transition delay:</strong>
-									optional delay when switching between different sample rates or between PCM and DoP in ms.</p>
-							<p>	WARNING: require Sample rates to be declared and DOP support enabled </p>
-						</div>
-
-						<div class="voce">
-							<p>	<strong>Buffer size:</strong>
-									Internal Stream and Output buffer sizes in Kbytes.</p>
-						</div>
-
-						<div class="voce">
-							<p>	<strong>ALSA parameters:</strong>
-									Used to open the audio device.</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Log:</strong>
-									Filter events on category and severity, then log messages on file.</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Wake on LAN:</strong>
-									Allow player switch on via remote calls. Disabled if not available</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Shtutdown:</strong>
-									Allow player switch off via remote calls. Disabled if not available</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>Restart:</strong>
-									Allow player restart via remote calls. Disabled if not available</p>
-						</div>
-
-						<div class="voce">
-							<p> <strong>C-3PO plugin: </strong>
-									Is the perfect companion for Squeezelite-R2.</p>
-						</div>
-
-						<div class="voce">
-							<strong>More info: </strong>
-							<a href="http://www.marcoc1712.it">Visit marcoc1712.it!</a> 
-						</div>
-
-				</aside>
-
-			</div> <!-- colonna-1-3 -->
-		</div> <!-- riga-->
-
-		<div id="status" class="riga">
-			<div class="colonna-2-3">
-				<h2>Status</h2>
-				<section>
-			
-						<FORM name="formStatus" id="formStatus">
-
-							<fieldset>
-								<legend> Program </legend>
-								<label for="pathname">Pathname:</label>
-								<input type="text" id="pathname" name="pathname" class="testo" disabled>  <br>	
-								<br>
-								<label for="version">Version:</label>	
-								<input type="text" id="version" name="version" class="testo" disabled>  <br>	
-								<br>
-								<label for="buildOptions">Build options:</label>	
-								<input type="text" id="buildOptions" name="buildOptions" class="testo" disabled>  <br>	
-								<br>
-								<label for="commandLine">Command line:</label>	
-								<input type="text" id="commandLine" name="commandLine" class="testo" disabled>  <br>	
-
-							</fieldset>
-	
-							<br><br>
-							<fieldset>
-								<legend> Process </legend>
-									<label id="running" for="process">Unknown</label>
-									<input type="text" id="process" name="process" class="testo" disabled>  <br>	
-							</fieldset>
-	
-							<br><br>
-
-							<fieldset>
-								<legend> Utilities </legend>
-								 <input id="shutdown" name="shutdown" type="button" value="Shutdown">
-								 <input id="reboot" name="reboot" type="button" value="Reboot">
-								 <input id="start" name="start" type="button" value="Start">
-								 <input id="stop" name="stop" type="button" value="Stop">
-								 <input id="restart" name="restart" type="button" value="Restart">
-								 <input id="testAudioDevice" name="testAudioDevice" type="button" value="Test Audio Device">
-								 <input id="openLog" name="openLog" type="button" value="Open Log">
-								 <input id="clearLog" name="clearLog" type="button" value="Clear Log">
-
-							</fieldset>
-
-							<br><br>
-
-							<fieldset>
-								<legend> Copyrigth </legend>
-								<textarea id="copyrigth" name="copyrigth" rows="24" cols="80" disabled>
- 								</textarea>
-							</fieldset>
-
-							<br><br>
-
-					</FORM>
-
-				</section>
-			</div> <!-- colonna-2-3 -->
-		</div> <!-- riga-->
-
-		<div class="riga">
-			<div class="colonna-1">
-				<footer>
-
-					<p>Squeezelite-R2 web interface v. 1.0.01 &copy; 2015 Marco Curti <a href="http://www.marcoc1712.it"> (marcoc1712.it) </a> .</p>
-
-				</footer>
-			</div> <!-- colonna-1 -->
-		</div> <!-- riga-->
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Squeezelite-R2</title>
+        <meta description="Handle Squeeezelite-R2 installation and settings" />
+        <meta author="Marco Curti" />
+        <link rel="stylesheet" href="css/style-resp.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
+        <script src="script/ios-orientationchange-fix.js"></script>
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="script/selectivizr-min.js"></script>
+        <script src="script/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="script/webInterface.js"></script>
+
+    </head>
+    <body>	
+
+        <header>
+            <div class="riga">
+                <div class="colonna-1">		
+                    <div id="logo">
+                        <h1>Squeezelite-R2</h1>
+                        <p><img src="htm/header.jpg" alt="star wars theme" class="scala"></a></p>
+                    </div>
+                    <div id="menuInLinea">
+                        <nav>
+                            <ul>
+                                <li><label id="itemSettings" onclick="showSettings()">Settings</label></li>
+                                <li><label id="itemStatus" onclick="showStatus()">Status</label></li>
+                                <br>
+                            </ul>
+                        </nav>
+                    </div>
+                </div> <!-- colonna-1-->
+            </div> <!-- riga-->
+        </header>
+
+        <div id="settings" class="riga">
+            <div class="colonna-2-3">
+                <h2>Settings</h2>
+                <section>
+                    <FORM name="formSettings" id="formSettings" action="/cgi-bin/saveSettings.pl" method="POST" target="hiddenIframe">
+                        <!-- <FORM name="formSettings" id="formSettings" target="hiddenIframe">-->
+                        <fieldset>
+                            <legend>Basic</legend>
+
+                            <label for="playerName">Player name:</label>
+                            <input type="text" id="playerName" name="playerName" class="testo" >  <br>	<br>
+
+                            <label for="audioDevice">Audio device:</label>
+                            <select id="audioDevice" 
+                                    name="audioDevice" 
+                                    class="select"
+                                    <option value="s">Select</option>
+                            </select> 
+
+                            <br><br>
+
+                            <label for="supportsDOP">Supports DOP:</label>							
+                            <input type="checkbox" id="supportsDOP" name="supportsDOP" value="1"> <br>
+
+                            <br>
+
+                            <label for="lmsDownsampling">LMS Downsample:</label>							
+                            <input type="checkbox" id="lmsDownsampling" name="lmsDownsampling" value="1"> <br>
+
+                            <br>
+
+                            <label for="autostart">Autostart:</label>							
+                            <input type="checkbox" id="autostart" name="autostart" value="1"> <br>
+
+                            <br>
+
+                            <label for="timeout">Timeout:</label>
+                            <input type="number" id="timeout" name="timeout" min="0" step="1" max=60 value="0" required class="numero"> sec  <br>
+
+                            <br>
+
+                            <label for="serverIP">Server IP:</label>
+                            <input type="text" id="serverIP" name="serverIP" class="testo" 
+                                   pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\:[1-9][0-9][0-9][0-9])?$" title="IP address i.e 192.168.1.103 or 192.168.1.103:9000" placeholder="___.___.___.___:____">  <br>
+
+                        </fieldset>
+
+                        <br>	<br>	
+
+                        <fieldset>
+                            <legend>Sample Rates</legend>
+                            <table style="width:100%">
+                                <tr>
+                                    <td> <input type="checkbox" id="rate008000" name="rate008000" value="1"> 8000 </td>
+                                    <td> <input type="checkbox" id="rate011025" name="rate011025" value="1"> 11025 </td>
+                                    <td> <input type="checkbox" id="rate012000" name="rate012000" value="1"> 12000 </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="rate016000" name="rate016000" value="1"> 16000 </td>
+                                    <td> <input type="checkbox" id="rate022050" name="rate022050" value="1"> 22050 </td>
+                                    <td> <input type="checkbox" id="rate024000" name="rate024000" value="1"> 24000 </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="rate032000" name="rate032000" value="1"> 32000 </td>
+                                    <td> <input type="checkbox" id="rate044100" name="rate044100" value="1"> 44100 </td>
+                                    <td> <input type="checkbox" id="rate048000" name="rate048000" value="1"> 48000 </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="rate088200" name="rate088200" value="1"> 88200 </td>
+                                    <td> <input type="checkbox" id="rate096000" name="rate096000" value="1"> 96000 </td>
+                                    <td> <input type="checkbox" id="rate176400" name="rate176400" value="1"> 176400 </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="rate192000" name="rate192000" value="1"> 192000 </td>
+                                    <td> <input type="checkbox" id="rate352800" name="rate352800" value="1"> 352800 </td>
+                                    <td> <input type="checkbox" id="rate384000" name="rate384000" value="1"> 384000 </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="rate705600" name="rate705600" value="1"> 705600 </td>
+                                    <td> <input type="checkbox" id="rate768000" name="rate768000" value="1"> 768000 </td>
+                                </tr>
+                            </table>
+                        </fieldset> 
+
+                        <br><br>
+
+                        <fieldset>
+                            <legend>Input formats</legend>
+                            <table style="width:100%">
+                                <tr>
+                                    <td> <input type="checkbox" id="codecMp3" name="codecMp3" value="1"> mp3 </td>
+                                    <td> <input type="checkbox" id="codecAac" name="codecAac" value="1"> aac </td>
+                                    <td> <input type="checkbox" id="codecWma" name="codecWma" value="1"> wma </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="codecOgg" name="codecOgg" value="1"> ogg </td>
+                                    <td> <input type="checkbox" id="codecFlc" name="codecFlc" value="1"> flc </td>
+                                    <td> <input type="checkbox" id="codecAlac" name="codecAlac" value="1"> alac </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="codecPcm" name="codecPcm" value="1"> pcm </td>
+                                    <td> <input type="checkbox" id="codecWav" name="codecWav" value="1"> wav </td>
+                                    <td> <input type="checkbox" id="codecAif" name="codecAif" value="1"> aiff </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="codecDff" name="codecDff" value="1"> dff </td>
+                                    <td> <input type="checkbox" id="codecDsf" name="codecDsf" value="1"> dsf </td>
+                            </table>
+                        </fieldset>
+
+                        <br><br>
+
+                        <fieldset>
+                            <legend>Transition delay </legend>
+                            <label for="fromPcmToPcm">PCM to PCM:</label>							
+                            <input type="number" id="fromPcmToPcm" name="fromPcmToPcm" min="0" step="1" value="0" required class="numero"> ms  <br>
+                            <label for="fromPcmToDOP">PCM to DOP:</label>							
+                            <input type="number" id="fromPcmToDOP" name="fromPcmToDOP" min="0" step="1" value="0" required class="numero"> ms  <br>
+                        </fieldset>
+
+                        <br><br>
+
+                        <fieldset>
+                            <legend>Buffer size </legend>
+                            <label for="inBuffer">Input:</label>							
+                            <input type="number" id="inBuffer" name="inBuffer" min="0" step="4096" value="0" required class="numero"> Kb  <br>
+                            <label for="outBuffer">Output:</label>		
+                            <input type="number" id="outBuffer" name="outBuffer" min="0" step="4096" value="0" required class="numero"> Kb <br>
+                        </fieldset>
+
+                        <br><br>
+
+                        <fieldset>
+                            <legend>ALSA parameters </legend>
+                            <label for="bufferSize">Buffer size:</label>									
+                            <input type="number" id="bufferSize" name="bufferSize" min="10" max="1000" step="1" value="100" required class="numero"> ms  <br>
+                            <label for="periodCount">Period count:</label>		
+                            <input type="number" id="periodCount" name="periodCount" min="1" max="9" step="1" value="3" required class="numero">  <br>
+                            <label for="sampleFormat">Sample format:</label>								
+                            <input type="number" id="sampleFormat" name="sampleFormat" min="16" max="32" step="8" value="16" required class="numero"> bit  <br>
+                            <label for="useMmap">Use MMAP:</label>							
+                            <input type="checkbox" id="useMmap" name="useMmap" value="1" checked> <br>
+                        </fieldset>
+
+                        <br><br>
+
+                        <fieldset>
+                            <legend>Log </legend>
+
+                            <table id="logTypes" style="width:100%">
+                                <tr>
+                                    <td> <input type="checkbox" id="logSlimproto" name="logSlimproto" value="1"> Slimproto </td>
+                                    <td> <input type="checkbox" id="logStream" name="logStream" value="1"> Stream </td>
+                                </tr>
+                                <tr>
+                                    <td> <input type="checkbox" id="logDecode" name="logDecode" value="1"> Decode </td>
+                                    <td> <input type="checkbox" id="logOutput" name="logOutput" value="1"> Output </td>
+                                </tr>
+                            </table>
+                            <br>
+
+                            <label for="logLevel">Level:</label>
+                            <select 
+                                id="logLevel" 
+                                name="logLevel" 
+                                class="select"
+                                <option value="none" selected>none</option>
+                                <option value="info">info</option>
+                                <option value="debug">debug</option>
+                                <option value="sdebug">verbose</option>
+                            </select> <br>
+                            <label for="logFile">File:</label>
+                            <input type="text" id="logFile" name="logFile" class="testo">
+                            <br>	<br>
+                        </fieldset>
+
+                        <br><br>
+
+                        <fieldset>
+                            <legend>Remote operations</legend>
+
+                            <label for="allowWakeOnLan">Wake on lan:</label>							
+                            <input type="checkbox" id="allowWakeOnLan" name="allowWakeOnLan" value="1"> <br>
+
+                            <br>
+                            <label for="allowShutdown">Shutdown:</label>							
+                            <input type="checkbox" id="allowShutdown" name="allowShutdown" value="1"> <br>
+
+                            <br>
+                            <label for="allowReboot">Restart:</label>							
+                            <input type="checkbox" id="allowReboot" name="allowReboot" value="1"> <br>
+
+                        </fieldset>
+
+                        <br><br>
+
+                        <input id="submitSettings" name="submitSettings" type="submit" value="Submit">
+                        <input id="reloadSettings" name="reloadSettings" type="button" value="Clear">
+                        <iframe src="" name="hiddenIframe" width="200" height="30" ></iframe>
+
+                        <br>
+
+                    </FORM>
+                </section>
+            </div> <!-- colonna-2-31 -->
+
+            <div class="colonna-1-3">
+
+                <h2>&nbsp;</h2>
+
+                <aside>
+
+                    <div class="voce">
+                        <p>	<strong>Player name:</strong>
+                            Any name you like for the player, i.e Squeezelite-R2@debian
+                        </p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Audio device:</strong>
+                            Select from the list the audio device you wish to use.<p>
+                        <p> If the list is empty or could not find your audio device, please check installation.</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Support DOP:</strong>
+                            Output device supports DSD over PCM </p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>LMS Downsample:</strong>
+                            Allow squeezebox server to downsample if the sample rate is not supported. </p>
+                        <p> WARNING: this will produce an error in LMS if codec is PCM.
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Autostart:</strong>
+                            Launch Squeezelite-R2 at startup as a service. Disabled if not available</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Timeout:</strong>
+                            Let Squeezelite-R2 release the audio device when not playing for more than 'Timeout' seconds.</p>
+                        <p> 0 will reserve the Audio Device to Squeezelite-R2 while running </p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Server Ip:</strong>
+                            Connect to specified server, otherwise uses autodiscovery to find server (recommended)</p>
+                        <p> Use server:port notation (i.e. 192.168.1.101:9000 ) </p>
+                    </div>
+
+                    <div class="voce">
+                        <p>	<strong>Sample rates:</strong>
+                            Tthe player is capable to play.</p>
+                        <p> If nothing is selected, no limit is posed and the Audio device hardware capabilities are used at runtime.</p>
+                        <p>	WARNING: needs device to be on when squeezelite is started </p>
+                    </div>
+
+                    <div class="voce">
+                        <p>	<strong>Input formats:</strong>
+                            (codecs) the player is capable to play.</p>
+                        <p> If nothing is selected, all file formats and codecs supported by the libraries loaded at startup (see log) are supported  </p><p>
+                    </div>
+
+                    <div class="voce">
+                        <p>	<strong>Transition delay:</strong>
+                            optional delay when switching between different sample rates or between PCM and DoP in ms.</p>
+                        <p>	WARNING: require Sample rates to be declared and DOP support enabled </p>
+                    </div>
+
+                    <div class="voce">
+                        <p>	<strong>Buffer size:</strong>
+                            Internal Stream and Output buffer sizes in Kbytes.</p>
+                    </div>
+
+                    <div class="voce">
+                        <p>	<strong>ALSA parameters:</strong>
+                            Used to open the audio device.</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Log:</strong>
+                            Filter events on category and severity, then log messages on file.</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Wake on LAN:</strong>
+                            Allow player switch on via remote calls. Disabled if not available</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Shtutdown:</strong>
+                            Allow player switch off via remote calls. Disabled if not available</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>Restart:</strong>
+                            Allow player restart via remote calls. Disabled if not available</p>
+                    </div>
+
+                    <div class="voce">
+                        <p> <strong>C-3PO plugin: </strong>
+                            Is the perfect companion for Squeezelite-R2.</p>
+                    </div>
+
+                    <div class="voce">
+                        <strong>More info: </strong>
+                        <a href="http://www.marcoc1712.it">Visit marcoc1712.it!</a> 
+                    </div>
+
+                </aside>
+
+            </div> <!-- colonna-1-3 -->
+        </div> <!-- riga-->
+
+        <div id="status" class="riga">
+            <div class="colonna-2-3">
+                <h2>Status</h2>
+                <section>
+                    <fieldset>
+                        <legend> Program </legend>
+                        <div class="likeAlabel">Pathname:</div>
+                        <div class="blocco-grigio" >
+                            <code id="pathname" name="pathname"></code>
+                        </div><br>
+                        <div class="likeAlabel">Version:</div>
+                        <div class="blocco-grigio" >
+                            <code id="version" name="version"></code>
+                        </div><br>
+                        <div class="likeAlabel">Build options:</div>
+                        <div class="blocco-grigio" >
+                            <code id="buildOptions" name="buildOptions"></code>
+                        </div><br>
+                        <div class="likeAlabel">Command line:</div>
+                        <div class="blocco-grigio" >
+                            <code id="commandLine" name="commandLine"></code>
+                        </div><br>
+                    </fieldset><br><br>
+                    
+                     <fieldset>
+                        <legend> Process </legend>
+                        <div class="likeAlabel">Status:</div>
+                        <div class="blocco-grigio" >
+                            <code id="running" name="running"></code>
+                        </div><br>
+                        <div class="likeAlabel">PID:</div>
+                        <div class="blocco-grigio" >
+                            <code id="process" name="process"></code>
+                        </div><br>
+                     </fieldset><br><br>
+                     
+                     <fieldset>
+                        <legend> Utilities </legend>
+                        <input id="shutdown" name="shutdown" type="button" value="Shutdown">
+                        <input id="reboot" name="reboot" type="button" value="Reboot">
+                        <input id="start" name="start" type="button" value="Start">
+                        <input id="stop" name="stop" type="button" value="Stop">
+                        <input id="restart" name="restart" type="button" value="Restart">
+                        <input id="testAudioDevice" name="testAudioDevice" type="button" value="Test Audio Device">
+                        <input id="openLog" name="openLog" type="button" value="Open Log">
+                        <input id="clearLog" name="clearLog" type="button" value="Clear Log">
+
+                      </fieldset><br><br>
+                     
+                      <fieldset>
+                        <legend> Copyrigth </legend>
+                        <div class="blocco-grigio" >
+                            <code id="copyrigth" name="copyrigth"></code>
+                        </div><br>
+                      </fieldset><br><br>
+                     
+                </section>
+            </div> <!-- colonna-2-3 -->
+            <div class="colonna-1-3">
+
+                <h2>&nbsp;</h2>
+
+                <aside>
+
+                    <div class="voce">
+                        <p> <strong>Pathname:</strong>
+                            The fully qualified name of Squeezelite-R2 in your system.</p>
+                        
+                        <p> WARNING: If missed, the web interface could not work at all</p>
+                    </div>
+                   
+                    <div class="voce">
+                        <p> <strong>Version</strong>
+                            The actual version of squeezelite in your system.</p>
+                        
+                        <p> Should be v.x.x.x (R2)</p>
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Build Options</strong>
+                            Option used at compile time.</p>
+                        
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Command line</strong>
+                            The command line stored in the squeezelite launching file (depends on
+                            configuration).</p> 
+                            
+                        <p> WARNING: If missed, the web interface could not work properly.</p>
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Process status</strong>
+                            Either: Running, Stopped or Unknown, if the web interface could not read informations
+                            about running procesess in your system.</p> 
+                    </div>
+                    
+                     <div class="voce">
+                        <p> <strong>PID</strong>
+                            The Process Identifier and related information the operating system returns 
+                            about the process actually running the file in pathname, if any.</p> 
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Shutdown | Reboot</strong>
+                            Enabled if permitted by the OS and depending on configuration,
+                            start a shutdown or reboot process of the system. </p> 
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Start | Stop | Restat </strong>
+                            Enabled if the start/stop services are properly configured
+                            and enabled </p> 
+                    </div>
+                                        
+                    <div class="voce">
+                        <p> <strong>Test audio device </strong>
+                            Require the system to be properly configured for your 
+                            audio devices, display the information OS reports about the
+                            selected audio device and his driver.</p> 
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Open log </strong>
+                            Display the contents of the log file selected in settings.</p>                        
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Clear log </strong>
+                            Delete the current log file and start with a new one 
+                            with same name. No copy is saved</p>                        
+                    </div>
+                    
+                    <div class="voce">
+                        <p> <strong>Copyright </strong>
+                            Message returned by the program </p> 
+                    </div>
+                    
+                    <div class="voce">
+                        <strong>More info: </strong>
+                        <a href="http://www.marcoc1712.it">Visit marcoc1712.it!</a> 
+                    </div>
+                </aside>
+
+            </div> <!-- colonna-1-3 -->
+        </div> <!-- riga-->   
+        <div class="riga">
+            <div class="colonna-1">
+                <footer>
+
+                    <p>Squeezelite-R2 web interface v. 1.0.01 &copy; 2015 Marco Curti <a href="http://www.marcoc1712.it"> (marcoc1712.it) </a> .</p>
+
+                </footer>
+            </div> <!-- colonna-1 -->
+        </div> <!-- riga-->
+    </body>
 </html>
