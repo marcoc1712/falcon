@@ -276,19 +276,17 @@ sub writeCommandLine{
     my $command = $script." ".$commandLine;
 
     my @rows = `$command`;
-    if (! scalar @rows == 1) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
-	} elsif (! ($rows[0]  =~ /^ok+$/)) {
-		my $error=$rows[0];
-		return undef;
+	
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+	for my $r (@rows){
+		$error." ".$utils->trim($r);
+	}
+	$self->{error}=$error;
+	return undef;
 }
 sub readCommandLine{
     my $self = shift;
