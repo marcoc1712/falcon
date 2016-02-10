@@ -42,47 +42,47 @@ for my $row (@lines) {
 
 	$row = trim($row);
 	
-	print $row."\n";
+	#print $row."\n";
 	
 	if (substr($row,0,8) eq "SL_NAME="){
 
 		$name= "-n ".trim(substr($row,8));
-		print "name is: ".$name."\n";
+		#print "name is: ".$name."\n";
 
 	} elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
 
 		$card= "-o ".trim(substr($row,13));
-		print "card is: ".$card."\n";
+		#print "card is: ".$card."\n";
 		
 	} elsif (substr($row,0,13) eq "SB_SERVER_IP="){
 
 		$server= "-s ".trim(substr($row,13));
-		print "server is: ".$server."\n";
+		#print "server is: ".$server."\n";
 
 	} elsif (substr($row,0,14) eq "SB_EXTRA_ARGS="){
 
 		$extra= trim(substr($row,14));
-		print "extra is: ".$extra."\n";
+		#print "extra is: ".$extra."\n";
 
 	}elsif (substr($row,0,9) eq "SL_NAME ="){
 
 		$name= "-n ".trim(substr($row,9));
-		print "name is: ".$name."\n";
+		#print "name is: ".$name."\n";
 		
 	} elsif (substr($row,0,14) eq "SL_SOUNDCARD ="){
 
 		$card= "-o ".trim(substr($row,14));
-		print "card is: ".$card."\n";
+		#print "card is: ".$card."\n";
 		
 	} elsif (substr($row,0,14) eq "SB_SERVER_IP ="){
 
 		$server= "-s ".trim(substr($row,14));
-		print "server is: ".$server."\n";
+		#print "server is: ".$server."\n";
 		
 	} elsif (substr($row,0,15) eq "SB_EXTRA_ARGS ="){
 
 		$extra= trim(substr($row,15));
-		print "extra is: ".$extra."\n";
+		#print "extra is: ".$extra."\n";
 	}
 }
 $commandLine=$name." ".$card." ".$server." ".$extra;
