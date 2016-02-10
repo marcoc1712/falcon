@@ -42,11 +42,14 @@ sub new {
         
         $self->_loadPreferencesFromCommandLine();
 
-    } else {
+    } else if ($preferences){
                   
         $self->setPreferences($preferences);
 
-    }
+    } else {
+		
+		$self->{error}=$conf->getError{};
+	}
     return $self;
     
 }

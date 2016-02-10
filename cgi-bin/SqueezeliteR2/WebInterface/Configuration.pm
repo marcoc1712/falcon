@@ -298,6 +298,11 @@ sub readCommandLine{
 
     my @rows = `$command`;
 
+	if (!@rows || (scalar @rows == 0)){
+		
+		my $error="WARNING: can't read command line";
+		return undef;
+	}
     my $commandLine="";
     
     for my $row (@rows){
