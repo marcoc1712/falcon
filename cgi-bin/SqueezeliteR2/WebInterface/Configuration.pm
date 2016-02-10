@@ -276,13 +276,16 @@ sub writeCommandLine{
     my $command = $script." ".$commandLine;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {
+    if (! scalar @rows == 1)) {
 		
 		my $error="ERROR:";
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
 		$self->{error}=$error;
+		return undef;
+	} elsif (! ($rows[0]  =~ /^ok+$/)) {
+		my $error=$rows[0];
 		return undef;
 	}
     return "ok";

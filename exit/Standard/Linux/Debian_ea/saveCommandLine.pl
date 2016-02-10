@@ -48,10 +48,8 @@ my @after = (
 # Please don't change anything beyond this line
 ################################################################################
 
-my $commandLine = join (" ", @ARGV);
-
 my $FH;
-if (-e $pathname && ! -e $backup){
+if (-e $pathname && !(-e $backup)){
 
 	if (! open($FH, "< $pathname")) {
 		print "ERROR: Failure opening '$pathname' for reading- $!";
@@ -67,7 +65,8 @@ if (-e $pathname && ! -e $backup){
 		print "ERROR: Failure opening '$backup' for writing - $!";
 		exit 0;
 	}
-	for my $line (@before){
+
+	for my $line (@lines){
 
 		print $FH $line."\n";
     }
@@ -80,6 +79,8 @@ if (! open($FH, "> $pathname")) {
     print "ERROR: Failure opening '$pathname' for writing - $!";
     exit 0;
 }
+
+my $commandLine = join (" ", @ARGV);
 
 for my $line (@before){
 
@@ -119,9 +120,10 @@ for my $line (@after){
 }
 close $FH;
 
-# This way the complete command line is returned by extra, as a eorking example
-# you could define how to split the command line to have the four variables filled
-# instead.
+print "ok"; #never remove this line! 
+
+# This way the complete command line is returned in extra, as a working example.
+# You could split the command line to have the four variables filled if you like more.
 
 sub getName{
 	my $commandLine=shift;
