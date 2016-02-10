@@ -37,7 +37,7 @@ if (-e $pathname) {
 	my $server="";
 	my $extra="";
 		
-	for my $row @lines{
+	for my $row (@lines) {
 	
 		$row = trim($row);
 

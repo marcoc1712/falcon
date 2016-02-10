@@ -73,9 +73,16 @@ sub setAutostart {
     my $command = $script." ".($autostart ? 1 : 0);
 
     my @rows = `$command`;
-    if (!scalar @rows == 1) {return undef;}
-
-    return $utils->trim($rows[0]);
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
+    return "ok";
 }
 sub setWakeOnLan {
     my $self = shift;    
@@ -90,9 +97,16 @@ sub setWakeOnLan {
     my $command = $script." ".($wakeOnLan ? 1 : 0);
 
     my @rows = `$command`;
-    if (!scalar @rows == 1) {return undef;}
-
-    return $utils->trim($rows[0]);
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
+    return "ok";
 }
 sub hwReboot {
     my $self = shift;
@@ -106,8 +120,15 @@ sub hwReboot {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {return undef;}
-
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
     return "ok";
 }
 sub hwShutdown {
@@ -122,8 +143,15 @@ sub hwShutdown {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {return undef;}
-
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
     return "ok";
 }
 sub serviceStart {
@@ -138,8 +166,15 @@ sub serviceStart {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {return undef;}
-
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
     return "ok";
 }
 sub serviceStop {
@@ -154,8 +189,15 @@ sub serviceStop {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {return undef;}
-
+	if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
     return "ok";
 }
 sub serviceRestart {
@@ -170,8 +212,15 @@ sub serviceRestart {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {return undef;}
-
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
     return "ok";
 }
 sub getProcessInfo{
@@ -187,7 +236,6 @@ sub getProcessInfo{
     my $command = $script." ".$pid;
 
     my @rows = `$command`;
-
     if (!scalar @rows == 1) {return undef;}
 
     return $pid." - ". $utils->trim($rows[0]);
@@ -213,7 +261,6 @@ sub writeCommandLine{
     my $self = shift;
     my $commandLine = shift;
 
-    
     my $script= $self->get()->{'saveCommandLine'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -221,9 +268,16 @@ sub writeCommandLine{
     my $command = $script." ".$commandLine;
 
     my @rows = `$command`;
-    
-    return \@rows;
-
+    if (!scalar @rows == 0) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		self->{error}=$error;
+		return undef;
+	}
+    return "ok";
 }
 sub readCommandLine{
     my $self = shift;
@@ -296,27 +350,27 @@ sub _initDefault {
 	return $default;
 }
 sub _checkScript{
-        my $self = shift;
+    my $self = shift;
 	my $script= shift;
 	
 	if (! $script) {
-            $self->{error}="ERROR: script is undefined"; 
-            return undef;
-        }
+		$self->{error}="ERROR: script is undefined"; 
+		return undef;
+	}
 	if (! -e $script) {
-            $self->{error}="ERROR: script $script does not exists"; 
-            return undef;
-        }
+		$self->{error}="ERROR: script $script does not exists"; 
+		return undef;
+	}
 	if (! -r $script) {
-            $self->{error}="ERROR: could not read script $script"; 
-            return undef;
-        }
+		$self->{error}="ERROR: could not read script $script"; 
+		return undef;
+	}
 	if (! -x $script) {
-            $self->{error}="ERROR: could not execute script $script"; 
-            return undef;
-        }
+		$self->{error}="ERROR: could not execute script $script"; 
+		return undef;
+	}
         
-        $self->{error}=undef;
+	$self->{error}=undef;
 	return 1;
 }
 1;

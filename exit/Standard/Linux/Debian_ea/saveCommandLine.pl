@@ -30,8 +30,6 @@ my @before = (
     " ",
 	"#########################################################################",
 	" ",
-	
-
     # You could add as many line as you like, remember the # sign and use " ",
 );
 
