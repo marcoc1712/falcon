@@ -240,11 +240,7 @@ function loadAudioDevices(errorCallback) {
 		if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
 			 
 			document.getElementById('audioDevice').value = global_audiodevice;
-		} else {
-                    
-                    errorCallback();
-                }
-
+		} 
 	});
     
 }
