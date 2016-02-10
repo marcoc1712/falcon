@@ -41,39 +41,48 @@ my $extra="";
 for my $row (@lines) {
 
 	$row = trim($row);
-
+	
+	print $row;
+	
 	if (substr($row,0,8) eq "SL_NAME="){
 
 		$name= trim(substr($row,9));
+		print "name is: ".$name;
 
 	} elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
 
 		$card= trim(substr($row,14));
-
+		print "card is: ".$card;
+		
 	} elsif (substr($row,0,13) eq "SB_SERVER_IP="){
 
 		$server= trim(substr($row,14));
+		print "server is: ".$server;
 
 	} elsif (substr($row,0,14) eq "SB_EXTRA_ARGS="){
 
 		$extra= trim(substr($row,15));
+		print "extra is: ".$extra;
 
 	}elsif (substr($row,0,9) eq "SL_NAME ="){
 
 		$name= trim(substr($row,10));
-
+		print "name is: ".$name;
+		
 	} elsif (substr($row,0,14) eq "SL_SOUNDCARD ="){
 
 		$card= trim(substr($row,15));
-
+		print "card is: ".$card;
+		
 	} elsif (substr($row,0,14) eq "SB_SERVER_IP ="){
 
 		$server= trim(substr($row,15));
-
+		print "server is: ".$server;
+		
 	} elsif (substr($row,0,15) eq "SB_EXTRA_ARGS ="){
 
 		$extra= trim(substr($row,16));
-
+		print "extra is: ".$extra;
 	}
 }
 $commandLine=$name." ".$card." ".$server." ".$extra;
