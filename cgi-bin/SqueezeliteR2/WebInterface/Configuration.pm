@@ -79,7 +79,7 @@ sub setAutostart {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -103,7 +103,7 @@ sub setWakeOnLan {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -126,7 +126,7 @@ sub hwReboot {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -149,7 +149,7 @@ sub hwShutdown {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -172,7 +172,7 @@ sub serviceStart {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -195,7 +195,7 @@ sub serviceStop {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -218,7 +218,7 @@ sub serviceRestart {
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
@@ -236,7 +236,15 @@ sub getProcessInfo{
     my $command = $script." ".$pid;
 
     my @rows = `$command`;
-    if (!scalar @rows == 1) {return undef;}
+    if (!scalar @rows == 1) {
+		
+		my $error="ERROR:";
+		for my $r (@rows){
+			$error." ".$utils->trim($r);
+		}
+		$self->{error}=$error;
+		return undef;
+	}
 
     return $pid." - ". $utils->trim($rows[0]);
 }
@@ -274,7 +282,7 @@ sub writeCommandLine{
 		for my $r (@rows){
 			$error." ".$utils->trim($r);
 		}
-		self->{error}=$error;
+		$self->{error}=$error;
 		return undef;
 	}
     return "ok";
