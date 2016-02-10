@@ -42,7 +42,7 @@ sub new {
         
         $self->_loadPreferencesFromCommandLine();
 
-    } else if ($preferences){
+    } elsif ($preferences){
                   
         $self->setPreferences($preferences);
 
