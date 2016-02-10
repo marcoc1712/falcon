@@ -166,16 +166,23 @@ function initErrorCallback(){
      document.getElementById("reloadSettings").disabled = true;
     
 }
+function initOkCallback(){
+    
+     document.getElementById("submitSettings").disabled = false;
+     document.getElementById("reloadSettings").disabled = false;
+    
+}
 function init() {
 
 	hide(document.getElementById('status'));
         
-        loadAudioDevices(initErrorCallback);
+     loadAudioDevices(initErrorCallback);
 	loadSettings(initErrorCallback);
 	enableSettings(initErrorCallback);
 	loadStatus(initErrorCallback);
-        
-        return 1;
+      
+	initOkCallback();
+      return 1;
 }
 
 function enable(item,value) {
