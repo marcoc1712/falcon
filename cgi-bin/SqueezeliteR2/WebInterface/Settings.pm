@@ -25,7 +25,8 @@ sub new {
     my $conf = SqueezeliteR2::WebInterface::Configuration->new();
     my $prefs;
     my $commandLine;
-
+	my $error;
+	
     if ($conf->getPrefFile() && -e $conf->getPrefFile() && -r $conf->getPrefFile()){
     
         $prefs = SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
@@ -34,7 +35,7 @@ sub new {
     } else {
         
 		my $commandLineText=$conf->readCommandLine();
-		$self->{error} = $conf->getError();
+		$error = $conf->getError();
 		
 		if (! $commandLineText){
 			
@@ -54,7 +55,7 @@ sub new {
                     conf => $conf,
                     prefs => $prefs,
                     commandLine => $commandLine,
-                    error => undef,
+                    error => $error,
                  }, $class;
     
     return $self;
