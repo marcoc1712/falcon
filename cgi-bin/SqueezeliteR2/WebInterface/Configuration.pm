@@ -276,7 +276,7 @@ sub writeCommandLine{
     my $command = $script." ".$commandLine;
 
     my @rows = `$command`;
-    if (! scalar @rows == 1)) {
+    if (! scalar @rows == 1) {
 		
 		my $error="ERROR:";
 		for my $r (@rows){
