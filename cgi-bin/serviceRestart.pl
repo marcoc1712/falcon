@@ -23,7 +23,7 @@ my $controller = SqueezeliteR2::WebInterface::Controller->new();
 my $utils = SqueezeliteR2::WebInterface::Utils->new();
 
 my $return=$controller->serviceRestart();
-my $error= $controller->getError
+my $error= $controller->getError();
 
 # TEXT is required.
 print "Content-type: text/html\n\n";
