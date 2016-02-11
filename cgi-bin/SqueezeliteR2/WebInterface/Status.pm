@@ -128,7 +128,7 @@ sub _init{
     
     my $PIDfile	= $self->{conf}->getPIDFile();
     
-     $self->getStatus()->{'running'} ="Not Running";
+    $self->getStatus()->{'running'} ="Not Running";
     
     if ($PIDfile && -e $PIDfile && -r $PIDfile) {
 
@@ -140,7 +140,10 @@ sub _init{
         } else{
             $self->{error}="ERROR: unable to read PID file";
         }
-    }
+    } else {
+	
+		$self->{error}="ERROR: unable to read PID file";
+	}
 
     if ( $self->{error}) {return undef;}
     return  $self->getStatus();
@@ -233,15 +236,24 @@ sub _checkPiD{
     my $self = shift;
 	my $PIDfile = $self->{conf}->getPIDFile();
 
- 	open(my $fh, '<', $PIDfile) or die "Unable to open file, $!";
+ 	if (! (open(my $fh, '<', $PIDfile))){
+		$self->{error} = "ERROR: Unable to open $fh for reading, $!"
+		return undef;
+	};
 
 	#in this case there should be just one line.
 	my @lines=<$fh>;
 	
-	if (! (scalar @lines == 1)) { return 0;}
-
+	if (!(scalar @lines == 1)) { 
+		my $error = "ERROR: ";
+		
+		for my $r (@lines){		
+			$error = $error." ".trim($r);
+		}
+		$self->{error}=$error;
+		return 0;
+	}
 	my $pid = $utils->trim($lines[0]);
-
 	return $self->{conf}->getProcessInfo($pid);
 }
 1;
