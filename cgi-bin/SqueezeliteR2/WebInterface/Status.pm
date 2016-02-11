@@ -128,19 +128,26 @@ sub _init{
     
     my $PIDfile	= $self->{conf}->getPIDFile();
 	
-	if ($PIDfile && (! -e $PIDfile)){
+	if ($PIDfile && !($PIDfile eq "") && !(-e $PIDfile)){
 	
 		$self->getStatus()->{'running'} ="Not running";
 		$self->getStatus()->{'process'}="";
 		return $self->getStatus();
 	}
 	
-	if ($PIDfile && (! $self->_checkPidFile($PIDfile))) {
+	if ($PIDfile && !($PIDfile eq "") && ! $self->_checkPidFile($PIDfile)) {
 		
 		return $self->getStatus();
 	}
 	
-    return $self->_checkProcess();
+    if (!$self->_checkProcess()){
+		
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}=$self->getError();
+		#$self->{error}=undef;
+		
+		return $self->getStatus();
+	}
 }
 sub _checkProcess{
     my $self = shift;
@@ -185,23 +192,19 @@ sub _getProcesInfo{
 	if ($pid && $stat){
 		 $self->getStatus()->{'process'} = $stat;		
 		 $self->getStatus()->{'running'} = "Running";
-	
-		 return $self->getStatus();
 		 
 	} elsif ($stat){
 	
 		 $self->getStatus()->{'process'} = $stat;		
 		 $self->getStatus()->{'running'} = "See below";
-	
-		 return $self->getStatus();
 		 
 	}else {
 	
 		$self->getStatus()->{'running'} ="Unknown";
 		$self->getStatus()->{'process'}= $self->getError();
 		#$self->{error}=undef;
-		return  $self->getStatus();
 	}
+	return  1;
 }
 sub _checkPidFile{
 	my $self = shift;
