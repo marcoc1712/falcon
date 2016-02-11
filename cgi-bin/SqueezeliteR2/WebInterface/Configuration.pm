@@ -287,7 +287,7 @@ sub writeCommandLine{
 	$log->info(scalar @rows);
 	
 	for my $r (@rows){
-		$log->info(@rows ? 'defined' : "undefined");
+		$log->info("row value. ".$r);
 		$error." ".$utils->trim($r);
 	}
 	$self->{error}=$error;
