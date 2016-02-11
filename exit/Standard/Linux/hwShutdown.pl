@@ -13,7 +13,9 @@ my $command= "shutdown";
 
 my @row = `$command`;
 
-if (!scalar @row == 0) {exit 0;}
+if (scalar @rows == 0) { push @rows, "ok";}
 
-print "ok";
+for $row (@rows){
+	print $row;
+}
 1;
