@@ -18,6 +18,7 @@ use warnings;
 
 my $pathname = "/etc/default/squeezelite";
 my $backup = "/etc/default/squeezelite.wbak";
+my $faultback = "/var/www/falcon/conf/squeezelite.default"; #used if can't write backup.
 
 # Some text line to include BEFORE the command line.
 
@@ -40,13 +41,15 @@ my @after = (
     " ",
 	"#########################################################################",
     " ",
-	"# $backup is the original file.",
+	
 );
 # 
 
 ################################################################################
 # Please don't change anything beyond this line
 ################################################################################
+
+my $backupLine="";
 
 my $FH;
 if (-e $pathname && !(-e $backup)){
@@ -62,9 +65,18 @@ if (-e $pathname && !(-e $backup)){
 	
 	if (! open($FH, "> $backup")) {
 
-		print "ERROR: Failure opening '$backup' for writing - $!";
-		exit 0;
+		if (! open($FH, "> $faultback")) {
+		
+			print "ERROR: Failure opening '$backup' for writing - $!";
+			exit 0;
+		}
+		
+		$backupLine = "# Original default file has been saved as $faultback.",
+	} else{
+	
+		$backupLine = "# Original default file has been saved as $faultback.",
 	}
+	
 
 	for my $line (@lines){
 
@@ -118,6 +130,7 @@ for my $line (@after){
     print $FH $line."\n";
     
 }
+
 close $FH;
 
 print "ok"; #never remove this line! 
