@@ -241,9 +241,10 @@ sub serviceRestart {
     my $command = $script;
 
     my @rows = `$command`;
-	
+
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-	
+		
+		 print "return is: " .$rows[0];
 		 return 1;
 	}
 	my $error="ERROR: from exit: $script. Message is: ";
