@@ -852,7 +852,7 @@ sub _decodeSampleRateString{
 		$log->info("max: ".$max);
 		
         $self->_handleMinMaxRate($min,$max);
-		
+		return 1;
     } 
     
     @string = split ',', $rates;
@@ -890,6 +890,7 @@ sub _decodeSampleRateString{
         $self->_handleMinMaxRate($min,$max);
         return 1;
     }
+	return 0;
 }
 
 sub _handleMinMaxRate{
