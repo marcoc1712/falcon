@@ -31,9 +31,7 @@ sub asciiClean {
 	$val !~ s/[^[:ascii:]]//g;
 	
 	}
-	return $val;
-
-
+	return $self->trim($val);
 }
 sub trim{
 	my $class = shift;
