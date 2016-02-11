@@ -140,21 +140,7 @@ sub _init{
 		return $self->getStatus();
 	}
 	
-    my $stat;
-	
-	if ($stat = $self->_checkProcess()){
-		 $self->getStatus()->{'process'} = $stat;		
-		 $self->getStatus()->{'running'} = "Running";
-	
-		 return $self->getStatus();
-		 
-	} else {
-	
-		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}= $self->getError();
-		#$self->{error}=undef;
-		return  $self->getStatus();
-	}
+    return $self->_checkProcess());
 }
 sub _checkProcess{
     my $self = shift;
@@ -188,7 +174,34 @@ sub _checkProcess{
 		$pid = $utils->trim($lines[0]);
 	}
 	# some system does not use PID to get info about services.
-	return $self->{conf}->getProcessInfo($pid);
+	return $self->_getProcesInfo($pid);
+}
+sub _getProcesInfo{
+	my $self = shift;
+	my $pid  = shift;
+	
+	my $stat= $self->{conf}->getProcessInfo($pid);
+	
+	if ($pid && $stat){
+		 $self->getStatus()->{'process'} = $stat;		
+		 $self->getStatus()->{'running'} = "Running";
+	
+		 return $self->getStatus();
+		 
+	} elsif ($stat){
+	
+		 $self->getStatus()->{'process'} = $stat;		
+		 $self->getStatus()->{'running'} = "See below";
+	
+		 return $self->getStatus();
+		 
+	}else {
+	
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}= $self->getError();
+		#$self->{error}=undef;
+		return  $self->getStatus();
+	}
 }
 sub _checkPidFile{
 	my $self = shift;

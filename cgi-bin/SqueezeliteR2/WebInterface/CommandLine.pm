@@ -245,7 +245,7 @@ sub _buildCommandLineFromPreferences{
     
     $log->debug("pidFile: ".($conf->getPIDFile() || ""));
      
-    if ($conf->getPIDFile()){
+    if ($conf->getPIDFile() && !($conf->getPIDFile() eq "")){
 
             $commandLine=$commandLine." -P ".$conf->getPIDFile();
     }	
