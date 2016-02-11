@@ -80,7 +80,11 @@ sub _read{
         return undef;
     }
     
-    open(my $fh, '<',  $self->{file}) or die "Unable to open $self->{file}, $!";
+    if (! open(my $fh, '<',  $self->{file})) {
+	
+		$self->{error} = "ERROR: Unable to open  Log file: $self->{file}, $!";
+		 return undef;
+	};
 
     my @lines=<$fh>;
     
@@ -94,7 +98,13 @@ sub _encodeHTML{
     my $limit   = shift || 10000;
     
     my $lines   = $self->getLines();
-    
+    my @empty=();
+	if (! $lines){
+	
+		$lines= \@empty;
+		#push @empty, $self->getError();)
+	}
+	
     my $size= scalar @$lines;
     my $start=0;
    
