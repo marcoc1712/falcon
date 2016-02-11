@@ -8,7 +8,7 @@
 use strict;
 use warnings;
 
-my $pid:
+my $pid;
 
 if (! scalar @ARGV == 1){
 
