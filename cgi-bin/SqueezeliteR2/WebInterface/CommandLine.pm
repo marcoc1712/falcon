@@ -836,18 +836,23 @@ sub _decodeSampleRateString{
    
     my $preferences= $self->{preferences};
     
-    my @string = split '-', $rates; 
+	$log-info("rates: ".$rates);
+    
+	my @string = split '-', $rates; 
     
     my $min;
     my $max;
-    
+	
     if (scalar @string == 2){ #max min
     
         $min = $string[0];
         $max = $string[1];
-        
-       $self->_handleMinMaxRate($min,$max);
-        
+            
+		$log-info("min: ".$min);
+		$log-info("max: ".$max);
+		
+        $self->_handleMinMaxRate($min,$max);
+		
     } 
     
     @string = split ',', $rates;
@@ -885,8 +890,6 @@ sub _decodeSampleRateString{
         $self->_handleMinMaxRate($min,$max);
         return 1;
     }
-    
-
 }
 
 sub _handleMinMaxRate{
