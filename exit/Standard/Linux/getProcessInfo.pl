@@ -8,14 +8,31 @@
 use strict;
 use warnings;
 
-if (!scalar @ARGV == 1) {exit 0;}
+my $pid:
 
-my $pid = $ARGV[0];
+if (! scalar @ARGV == 1){
 
-my $command= qq(ps -p $pid -o command=);
+	$pid = $ARGV[0];
+}
 
-my @row = `$command`;
+if ($pid){
+	my $command= qq(ps -p $pid -o command=);
 
-if (!scalar @row == 1) {exit 0;}
+	my @row = `$command`;
 
-print $row[0];
+	if (!scalar @row == 1) {exit 0;}
+
+	print $row[0];
+	
+} else {
+
+	my $command = "service squeezelite status";
+	my @row = `$command`;
+	
+	for my $r (@row){
+	
+		print $row[0];
+	}
+}
+1;
+
