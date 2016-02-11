@@ -122,7 +122,7 @@ sub _init{
 
     if ($self->{conf}->isDisabled('getProcessInfo')) {
 		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}=""
+		$self->getStatus()->{'process'}="";
         return  $self->getStatus();
     }
     
@@ -130,7 +130,7 @@ sub _init{
     
 	if (! $PIDfile){
 		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}="please specify a PID file in configuration"
+		$self->getStatus()->{'process'}="please specify a PID file in configuration";
 		return $self->getStatus();
 	}
 	if (! -e $PIDfile) {
