@@ -836,7 +836,7 @@ sub _decodeSampleRateString{
    
     my $preferences= $self->{preferences};
     
-	$log-info("rates: ".$rates);
+	$log->info("rates: ".$rates);
     
 	my @string = split '-', $rates; 
     
