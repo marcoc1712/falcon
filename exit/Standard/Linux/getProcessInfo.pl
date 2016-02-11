@@ -5,8 +5,12 @@
 # @Created 28-gen-2016 16.04.44
 #
 
+binmode STDOUT, ':utf8';
+
 use strict;
 use warnings;
+use utf8;
+
 
 my $pid;
 
