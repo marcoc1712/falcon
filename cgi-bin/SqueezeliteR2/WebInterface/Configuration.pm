@@ -289,7 +289,7 @@ sub writeCommandLine{
 	for my $r (@rows){
 		$log->info("error value BEFORE. ".$error);
 		$log->info("row value. ".$r);
-		$error." ".$utils->trim($r);
+		$error = $error." ".$utils->trim($r);
 		$log->info("error value AFTER. ".$error);
 	}
 	$log->info("error value XXX. ".$error);
