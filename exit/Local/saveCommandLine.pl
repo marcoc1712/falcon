@@ -74,5 +74,6 @@ for my $line (@after){
 }
 close $FH;
 
-1;
+print "ok"; #never remove this line! 
 
+1;

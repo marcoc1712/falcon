@@ -71,18 +71,21 @@ sub setAutostart {
     if (! $self->_checkScript($script)){return undef;}
 
     my $command = $script." ".($autostart ? 1 : 0);
-
-    my @rows = `$command`;
-    if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+	
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
 }
 sub setWakeOnLan {
     my $self = shift;    
@@ -97,16 +100,21 @@ sub setWakeOnLan {
     my $command = $script." ".($wakeOnLan ? 1 : 0);
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+	
+   	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
 }
 sub hwReboot {
     my $self = shift;
@@ -120,16 +128,21 @@ sub hwReboot {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+    
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
 }
 sub hwShutdown {
     my $self = shift;
@@ -143,16 +156,21 @@ sub hwShutdown {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+	
+    if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
 }
 sub serviceStart {
     my $self = shift;
@@ -166,16 +184,20 @@ sub serviceStart {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+    if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
 }
 sub serviceStop {
     my $self = shift;
@@ -189,16 +211,21 @@ sub serviceStop {
     my $command = $script;
 
     my @rows = `$command`;
-	if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+	
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
 }
 sub serviceRestart {
     my $self = shift;
@@ -212,16 +239,22 @@ sub serviceRestart {
     my $command = $script;
 
     my @rows = `$command`;
-    if (!scalar @rows == 0) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
+	
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	
+		 return 1;
 	}
-    return "ok";
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	
+	$self->{error}=$error;
+	return undef;
+	
 }
 sub testAudioDevice{
     my $self = shift;
