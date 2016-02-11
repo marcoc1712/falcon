@@ -31,7 +31,7 @@ if ($pid){
 	
 	for my $r (@row){
 	
-		print $row[0];
+		print $r;
 	}
 }
 1;
