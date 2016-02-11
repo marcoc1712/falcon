@@ -236,7 +236,6 @@ sub testAudioDevice{
     my $command = $script." ".$audiodevice;
 
     my @rows = `$command`;
-
     return \@rows;
 
 }

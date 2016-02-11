@@ -25,6 +25,8 @@ my $utils = SqueezeliteR2::WebInterface::Utils->new();
 my $return=$controller->testAudioDevice();
 my $error= $controller->getError();
 
+print "in cgi".$return[0];
+
 # HTML is required.
 
 if (! $return ){ $return = $error;} 
