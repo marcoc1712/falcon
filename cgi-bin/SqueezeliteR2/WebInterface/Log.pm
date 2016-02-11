@@ -79,8 +79,8 @@ sub _read{
         $self->{error} = "ERROR: could not read Log file: $self->{file}";
         return undef;
     }
-    
-    if (! open(my $fh, '<',  $self->{file})) {
+    my $fh;
+    if (! open($fh, '<',  $self->{file})) {
 	
 		$self->{error} = "ERROR: Unable to open  Log file: $self->{file}, $!";
 		 return undef;
