@@ -236,13 +236,16 @@ sub _checkPiD{
     my $self = shift;
 	my $PIDfile = $self->{conf}->getPIDFile();
 
- 	if (! (open(my $fh, '<', $PIDfile))){
+	my $FH;
+	
+ 	if (! (open($FH, '<', $PIDfile))){
 		$self->{error} = "ERROR: Unable to open $fh for reading, $!";
 		return undef;
 	};
 
 	#in this case there should be just one line.
-	my @lines=<$fh>;
+	my @lines=<$FH>;
+	close $FH;
 	
 	if (!(scalar @lines == 1)) { 
 		my $error = "ERROR: ";
