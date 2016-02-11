@@ -253,14 +253,19 @@ sub getProcessInfo{
     my $command = $script." ".$pid;
 
     my @rows = `$command`;
-    
+    $info="";
+	
+	if ($pid){
+		$info = $pid." - ";
+	} 
+	
 	for my $row (@rows){
 		
 		$row = $utils->trim($row);
-        $commandLine = $commandLine."\n".$row;
+        $info = $info."\n".$row;
     }
 
-    return $pid." - ". $utils->trim($rows[0]);
+    return $info;
 }
 sub writeCommandLine{
     my $self = shift;
