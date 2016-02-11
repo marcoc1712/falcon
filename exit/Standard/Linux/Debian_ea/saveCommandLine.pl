@@ -52,7 +52,7 @@ my @after = (
 my $backupLine="";
 
 my $FH;
-if (-e $pathname && !(-e $backup)){
+if (-e $pathname && !(-e $backup)& !(-e $faultback)){
 
 	if (! open($FH, "< $pathname")) {
 		print "ERROR: Failure opening '$pathname' for reading- $!";
@@ -76,8 +76,6 @@ if (-e $pathname && !(-e $backup)){
 	
 		$backupLine = "# Original default file has been saved as $faultback.",
 	}
-	
-
 	for my $line (@lines){
 
 		print $FH $line."\n";
