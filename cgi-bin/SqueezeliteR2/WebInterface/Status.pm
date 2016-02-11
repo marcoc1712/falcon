@@ -121,8 +121,8 @@ sub _init{
     if ($self->{error}) {return undef;}
 
     if ($self->{conf}->isDisabled('getProcessInfo')) {
-		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}="";
+		$self->getStatus()->{'running'} ="Unknown (disabled))";
+		$self->getStatus()->{'process'}=" ";
         return  $self->getStatus();
     }
     
@@ -142,7 +142,7 @@ sub _init{
 	
     if (!$self->_checkProcess()){
 		
-		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'running'} ="Unknown (Permission Error)";
 		$self->getStatus()->{'process'}=$self->getError();
 		#$self->{error}=undef;
 		
@@ -200,7 +200,7 @@ sub _getProcesInfo{
 		 
 	}else {
 	
-		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'running'} ="Unknown (Exit Error)";
 		$self->getStatus()->{'process'}= $self->getError();
 		#$self->{error}=undef;
 	}
