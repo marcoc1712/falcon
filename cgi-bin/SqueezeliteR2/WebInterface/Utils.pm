@@ -28,7 +28,7 @@ sub asciiClean {
 	
 	if (defined $val) {
 	
-	$val !~ s/[^[:ascii:]]//g;
+	$val =~ s/[^[:ascii:]]//g;
 	
 	}
 	return $class->trim($val);

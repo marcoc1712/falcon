@@ -250,7 +250,7 @@ sub getProcessInfo{
 
     if (! $self->_checkScript($script)){return undef;}
 	
-    my $command = $script." ".$pid;
+    my $command = $script." ".($pid ? $pid : "");
     my @rows = `$command`;
     
 	my $info="";
