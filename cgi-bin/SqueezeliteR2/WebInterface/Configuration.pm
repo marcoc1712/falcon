@@ -223,31 +223,6 @@ sub serviceRestart {
 	}
     return "ok";
 }
-sub getProcessInfo{
-    my $self = shift;
-    my $pid			= shift;
-
-    if ($self->isDisabled('getProcessInfo')) {return undef};
-
-    my $script= $self->get()->{'getProcessInfo'};
-
-    if (! $self->_checkScript($script)){return undef;}
-
-    my $command = $script." ".$pid;
-
-    my @rows = `$command`;
-    if (!scalar @rows == 1) {
-		
-		my $error="ERROR:";
-		for my $r (@rows){
-			$error." ".$utils->trim($r);
-		}
-		$self->{error}=$error;
-		return undef;
-	}
-
-    return $pid." - ". $utils->trim($rows[0]);
-}
 sub testAudioDevice{
     my $self = shift;
     my $audiodevice	= shift;
@@ -264,6 +239,28 @@ sub testAudioDevice{
 
     return \@rows;
 
+}
+sub getProcessInfo{
+    my $self = shift;
+    my $pid			= shift;
+
+    if ($self->isDisabled('getProcessInfo')) {return undef};
+
+    my $script= $self->get()->{'getProcessInfo'};
+
+    if (! $self->_checkScript($script)){return undef;}
+	
+    my $command = $script." ".$pid;
+
+    my @rows = `$command`;
+    
+	for my $row (@rows){
+		
+		$row = $utils->trim($row);
+        $commandLine = $commandLine."\n".$row;
+    }
+
+    return $pid." - ". $utils->trim($rows[0]);
 }
 sub writeCommandLine{
     my $self = shift;
