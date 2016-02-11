@@ -247,6 +247,7 @@ sub serviceRestart {
 		 print "return is: " .$rows[0];
 		 return 1;
 	}
+	print "return is: " .$rows[0];
 	my $error="ERROR: from exit: $script. Message is: ";
 
 	for my $r (@rows){
