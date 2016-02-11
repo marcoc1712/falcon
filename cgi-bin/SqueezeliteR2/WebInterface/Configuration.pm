@@ -287,10 +287,15 @@ sub writeCommandLine{
 	$log->info(scalar @rows);
 	
 	for my $r (@rows){
+		$log->info("error value BEFORE. ".$error);
 		$log->info("row value. ".$r);
 		$error." ".$utils->trim($r);
+		$log->info("error value AFTER. ".$error);
 	}
+	$log->info("error value XXX. ".$error);
 	$self->{error}=$error;
+	$log->info("self error at the end: ".$self->{error});
+	
 	return undef;
 }
 sub readCommandLine{
