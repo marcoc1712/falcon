@@ -253,15 +253,15 @@ sub getProcessInfo{
     my $command = $script." ".$pid;
     my @rows = `$command`;
     
-	my$info="";
-	if ($pid && @rows && (scalar @rows > 0)){
+	my $info="";
+	if ($pid && (scalar @rows > 0)){
 		
 		$info = $pid." - ";
-		for my $row (@rows){
+	}
+	for my $row (@rows){
 
 			$row = $utils->trim($row);
 			$info = $info."\n".$row;
-		}
 	}
     return $info;
 }
