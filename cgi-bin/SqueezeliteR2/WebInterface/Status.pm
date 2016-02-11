@@ -128,7 +128,7 @@ sub _init{
     
     my $PIDfile	= $self->{conf}->getPIDFile();
 	
-	if ($PIDfile && (! -e $PIDfile){
+	if ($PIDfile && (! -e $PIDfile)){
 	
 		$self->getStatus()->{'running'} ="Not running";
 		$self->getStatus()->{'process'}="";
