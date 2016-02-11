@@ -140,7 +140,7 @@ sub _init{
 		return $self->getStatus();
 	}
 	
-    return $self->_checkProcess());
+    return $self->_checkProcess();
 }
 sub _checkProcess{
     my $self = shift;
