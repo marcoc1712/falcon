@@ -848,8 +848,8 @@ sub _decodeSampleRateString{
         $min = $string[0];
         $max = $string[1];
             
-		$log-info("min: ".$min);
-		$log-info("max: ".$max);
+		$log->info("min: ".$min);
+		$log->info("max: ".$max);
 		
         $self->_handleMinMaxRate($min,$max);
 		

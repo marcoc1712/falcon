@@ -381,7 +381,7 @@ sub _checkScript{
     my $self = shift;
 	my $script= shift;
 	
-	$log->info($script);
+	$log->debug($script);
 	
 	if (! $script) {
 		$self->{error}="ERROR: script is undefined"; 
