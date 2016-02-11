@@ -13,7 +13,7 @@ my $command= qq(service squeezelite stop);
 
 my @rows = `$command`;
 
-print "\n".(@rows ? 1 : 0)."\";
+print "\n".(@rows ? 1 : 0)."\n";
 
 if (scalar @rows == 0) {push @rows, "ok";}
 
