@@ -251,20 +251,18 @@ sub getProcessInfo{
     if (! $self->_checkScript($script)){return undef;}
 	
     my $command = $script." ".$pid;
-
     my @rows = `$command`;
-    $info="";
-	
-	if ($pid){
-		$info = $pid." - ";
-	} 
-	
-	for my $row (@rows){
+    
+	my$info="";
+	if ($pid && @row && (scalar @row > 0)){
 		
-		$row = $utils->trim($row);
-        $info = $info."\n".$row;
-    }
+		$info = $pid." - ";
+		for my $row (@rows){
 
+			$row = $utils->trim($row);
+			$info = $info."\n".$row;
+		}
+	}
     return $info;
 }
 sub writeCommandLine{
