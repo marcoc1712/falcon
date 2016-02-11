@@ -375,7 +375,24 @@ function enableSettings(errorCallback) {
 		$.each( data, function( key, val ) {
 
 			console.log( key + " - " + val);
-			enable(key, (val ? 0 : 1));// we get disabled.
+			
+			// we need to enable all in order to see changes.
+			
+			document.getElementById("shutdown").disabled = false;
+			document.getElementById("reboot").disabled = false;
+			document.getElementById("start").disabled = false;
+			document.getElementById("stop").disabled = false;
+			document.getElementById("restart").disabled = false;
+			document.getElementById("testAudioDevice").disabled = false;
+			document.getElementById("openLog").disabled = false;
+			document.getElementById("clearLog").disabled = false;
+			document.getElementById("autostart").disabled = false;
+			document.getElementById("allowReboot").disabled = false;
+			document.getElementById("allowShutdown").disabled = false;
+			document.getElementById("allowWakeOnLan").disabled = false;
+			
+			
+			enable(key, (val ? 0 : 1));// we get only disabled.
 
 		});
 	})
