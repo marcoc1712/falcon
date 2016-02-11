@@ -282,7 +282,12 @@ sub writeCommandLine{
 		 return 1;
 	}
 	my $error="ERROR: from exit: $script. Message is: ";
+	
+	$log->info(@rows ? 'defined' : "undefined");
+	$log->info(scalar @rows);
+	
 	for my $r (@rows){
+		$log->info(@rows ? 'defined' : "undefined");
 		$error." ".$utils->trim($r);
 	}
 	$self->{error}=$error;
