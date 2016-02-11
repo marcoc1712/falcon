@@ -28,7 +28,7 @@ if (! $return ){
 
     my $error= $controller->getError();
     
-    $return = ($error);
+    $return = \($error);
     
 }
 
