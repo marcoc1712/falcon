@@ -69,8 +69,10 @@ sub setAutostart {
     my $script=  $self->get()->{'setAutostart'};
 
     if (! $self->_checkScript($script)){return undef;}
-
+	
     my $command = $script." ".($autostart ? 1 : 0);
+	
+	my @rows = `$command`;
 	
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
