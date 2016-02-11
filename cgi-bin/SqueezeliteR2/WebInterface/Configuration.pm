@@ -259,11 +259,9 @@ sub getProcessInfo{
 		$info = $pid." - ";
 	}
 	for my $row (@rows){
-			
-			
-			$row = $utils->trim($row);
+
 			$row = $utils->asciiClean($row);
-			$info = $info."\n".$row;
+			$info = $info." ".$row;
 	}
     return $info;
 }
