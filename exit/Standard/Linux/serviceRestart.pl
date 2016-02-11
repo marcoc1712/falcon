@@ -15,8 +15,7 @@ my @rows = `$command`;
 
 if (scalar @rows == 0) { push @rows, "ok";}
 
-for $row (@rows){
+for my $row (@rows){
 	print $row;
 }
-
 1;

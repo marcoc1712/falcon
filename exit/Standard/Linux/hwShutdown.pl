@@ -11,11 +11,11 @@ use warnings;
 
 my $command= "shutdown";
 
-my @row = `$command`;
+my @rows = `$command`;
 
 if (scalar @rows == 0) { push @rows, "ok";}
 
-for $row (@rows){
+for my $row (@rows){
 	print $row;
 }
 1;
