@@ -103,7 +103,8 @@ sub _init{
         $log->debug($commandLine->getError() || "ok");
         
         $self->{error}=$commandLine->getError();
-        if (! $self->{error}){
+        
+		if (! $self->{error}){
             
           $self->getStatus()->{'commandLine'} = 
                 $utils->trim(substr($commandLine->get(),length( $self->getStatus()->{'pathname'})+1));
@@ -115,11 +116,9 @@ sub _init{
            $self->getStatus()->{'commandLine'} = $self->{error};
            
         }
-        
-        
     }
     
-    if ( $self->{error}) {return undef;}
+    if ($self->{error}) {return undef;}
 
     if ($self->{conf}->isDisabled('getProcessInfo')) {
 
@@ -128,24 +127,30 @@ sub _init{
     
     my $PIDfile	= $self->{conf}->getPIDFile();
     
-    $self->getStatus()->{'running'} ="Not Running";
-    
-    if ($PIDfile && -e $PIDfile && -r $PIDfile) {
-
-        my $stat= $self->_checkPiD($self->{conf});
-
-        if ($stat){
-             $self->getStatus()->{'process'} = $stat;		
-             $self->getStatus()->{'running'} = "Running:";
-        } else{
-            $self->{error}="ERROR: unable to read PID file";
-        }
-    } else {
+	if (! $PIDfile){
+		$self->getStatus()->{'running'} ="Unknown";
+		return $self->getStatus();
+	}
+	if (! -e $PIDfile) {
 	
-		$self->{error}="ERROR: unable to read PID file";
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->{error}="WARNING: PID file $PIDfile does not exists";
+		return $self->getStatus();
+	}
+	if (!  -r $PIDfile) {
+	
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->{error}="WARNING: Can't read $PIDfile ";
+		return $self->getStatus();
 	}
 
-    if ( $self->{error}) {return undef;}
+    my $stat;
+	if ($stat = $self->_checkPiD($self->{conf})){
+		 $self->getStatus()->{'process'} = $stat;		
+		 $self->getStatus()->{'running'} = "Running";
+	
+		 return $self->getStatus();
+	}
     return  $self->getStatus();
 }
 
