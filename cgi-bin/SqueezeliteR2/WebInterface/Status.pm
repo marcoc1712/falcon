@@ -237,7 +237,7 @@ sub _checkPiD{
 	my $PIDfile = $self->{conf}->getPIDFile();
 
  	if (! (open(my $fh, '<', $PIDfile))){
-		$self->{error} = "ERROR: Unable to open $fh for reading, $!"
+		$self->{error} = "ERROR: Unable to open $fh for reading, $!";
 		return undef;
 	};
 
