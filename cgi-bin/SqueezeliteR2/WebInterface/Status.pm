@@ -121,7 +121,8 @@ sub _init{
     if ($self->{error}) {return undef;}
 
     if ($self->{conf}->isDisabled('getProcessInfo')) {
-
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}=""
         return  $self->getStatus();
     }
     
@@ -129,29 +130,36 @@ sub _init{
     
 	if (! $PIDfile){
 		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}="please specify a PID file in configuration"
 		return $self->getStatus();
 	}
 	if (! -e $PIDfile) {
 	
 		$self->getStatus()->{'running'} ="Unknown";
-		$self->{error}="WARNING: PID file $PIDfile does not exists";
+		$self->getStatus()->{'process'}="WARNING: PID file $PIDfile does not exists";
 		return $self->getStatus();
 	}
 	if (!  -r $PIDfile) {
 	
 		$self->getStatus()->{'running'} ="Unknown";
-		$self->{error}="WARNING: Can't read $PIDfile ";
+		$self->getStatus()->{'process'}="WARNING: Can't read $PIDfile ";
 		return $self->getStatus();
 	}
 
     my $stat;
+	
 	if ($stat = $self->_checkPiD($self->{conf})){
 		 $self->getStatus()->{'process'} = $stat;		
 		 $self->getStatus()->{'running'} = "Running";
 	
 		 return $self->getStatus();
+	} else {
+	
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}= $self->getError();
+		#$self->{error}=undef;
+		return  $self->getStatus();
 	}
-    return  $self->getStatus();
 }
 
 sub _initPathname{
