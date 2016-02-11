@@ -22,6 +22,19 @@ sub new{
 	return $class;
 }
 
+sub asciiClean {
+	my $class = shift;
+	my ($val) = shift;
+	
+	if (defined $val) {
+	
+	$val= !~ s/[^[:ascii:]]//g;
+	
+	}
+	return $val;
+
+
+}
 sub trim{
 	my $class = shift;
 	my ($val) = shift;
