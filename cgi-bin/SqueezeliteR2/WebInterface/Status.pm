@@ -127,32 +127,27 @@ sub _init{
     }
     
     my $PIDfile	= $self->{conf}->getPIDFile();
-    
-	if (! $PIDfile){
-		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}="please specify a PID file in configuration";
-		return $self->getStatus();
-	}
-	if (! -e $PIDfile) {
 	
-		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}="WARNING: PID file $PIDfile does not exists";
-		return $self->getStatus();
-	}
-	if (!  -r $PIDfile) {
+	if ($PIDfile && (! -e $PIDfile){
 	
-		$self->getStatus()->{'running'} ="Unknown";
-		$self->getStatus()->{'process'}="WARNING: Can't read $PIDfile ";
+		$self->getStatus()->{'running'} ="Not running";
+		$self->getStatus()->{'process'}="";
 		return $self->getStatus();
 	}
-
+	
+	if ($PIDfile && (! $self->_checkPidFile($PIDfile))) {
+		
+		return $self->getStatus();
+	}
+	
     my $stat;
 	
-	if ($stat = $self->_checkPiD($self->{conf})){
+	if ($stat = $self->_checkProcess()){
 		 $self->getStatus()->{'process'} = $stat;		
 		 $self->getStatus()->{'running'} = "Running";
 	
 		 return $self->getStatus();
+		 
 	} else {
 	
 		$self->getStatus()->{'running'} ="Unknown";
@@ -161,7 +156,58 @@ sub _init{
 		return  $self->getStatus();
 	}
 }
+sub _checkProcess{
+    my $self = shift;
+	
+	my $PIDfile = $self->{conf}->getPIDFile();
+	my $pid;
+	
+	if ($PIDfile){
 
+		my $FH;
+	
+		if (! (open($FH, '<', $PIDfile))){
+			$self->{error} = "ERROR: Unable to open $PIDfile for reading, $!";
+			return undef;
+		};
+
+		#in this case there should be just one line.
+		my @lines=<$FH>;
+		close $FH;
+
+		if (!(scalar @lines == 1)) { 
+			my $error = "ERROR: ";
+
+			for my $r (@lines){		
+				$error = $error." ".trim($r);
+			}
+			$self->{error}=$error;
+			return 0;
+		}
+		
+		$pid = $utils->trim($lines[0]);
+	}
+	# some system does not use PID to get info about services.
+	return $self->{conf}->getProcessInfo($pid);
+}
+sub _checkPidFile{
+	my $self = shift;
+	my $PIDfile = shift;
+
+	if (! -e $PIDfile) {
+	
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}="WARNING: PID file $PIDfile does not exists";
+		return 0;
+	}
+	if (!  -r $PIDfile) {
+	
+		$self->getStatus()->{'running'} ="Unknown";
+		$self->getStatus()->{'process'}="WARNING: Can't read $PIDfile ";
+		return 0;
+	}
+	return 1;
+}
 sub _initPathname{
     my $self = shift;
     
@@ -244,32 +290,5 @@ sub _checkExecutable{
         }
     }
     return 1;
-}
-sub _checkPiD{
-    my $self = shift;
-	my $PIDfile = $self->{conf}->getPIDFile();
-
-	my $FH;
-	
- 	if (! (open($FH, '<', $PIDfile))){
-		$self->{error} = "ERROR: Unable to open $PIDfile for reading, $!";
-		return undef;
-	};
-
-	#in this case there should be just one line.
-	my @lines=<$FH>;
-	close $FH;
-	
-	if (!(scalar @lines == 1)) { 
-		my $error = "ERROR: ";
-		
-		for my $r (@lines){		
-			$error = $error." ".trim($r);
-		}
-		$self->{error}=$error;
-		return 0;
-	}
-	my $pid = $utils->trim($lines[0]);
-	return $self->{conf}->getProcessInfo($pid);
 }
 1;
