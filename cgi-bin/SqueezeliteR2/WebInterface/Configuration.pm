@@ -254,7 +254,7 @@ sub getProcessInfo{
     my @rows = `$command`;
     
 	my$info="";
-	if ($pid && @row && (scalar @row > 0)){
+	if ($pid && @rows && (scalar @rows > 0)){
 		
 		$info = $pid." - ";
 		for my $row (@rows){
