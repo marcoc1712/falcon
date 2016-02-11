@@ -27,8 +27,10 @@ print "Content-type: text/html\n\n";
 if (! $return ){
 
     my $error= $controller->getError();
-    
-    $return = \($error);
+    my @errors =();
+	push @errors, $error;
+	
+    $return = \@errors;
     
 }
 
