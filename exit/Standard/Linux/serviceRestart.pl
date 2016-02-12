@@ -14,11 +14,11 @@ my $command= qq(service squeezelite restart);
 my $error;
 my @rows = `$command 2>&1`;
 
-print "rows defined: ".(defined @rows ? "defined" : "undefined")." scalar ".(scalar @rows)."\n";
+#print "rows defined: ".(defined @rows ? "defined" : "undefined")." scalar ".(scalar @rows)."\n";
 
-#if (scalar @rows == 0) { push @rows, "ok";}
+if (scalar @rows == 0) { push @rows, "ok";}
 
-#for my $row (@rows){
-#	print $row;
-#}
+for my $row (@rows){
+	print $row;
+}
 1;
