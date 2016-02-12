@@ -11,9 +11,10 @@ use warnings;
 
 my $command= qq(service squeezelite restart);
 
-my @rows = `$command`;
+my $error;
+my @rows = `$command 2>&1`;
 
-print "errorcode: ".($l ? $l: "undefined")."rows defined: ".(defined @rows ? "defined" : "undefined")." scalar ".(scalar @rows)."\n";
+print "rows defined: ".(defined @rows ? "defined" : "undefined")." scalar ".(scalar @rows)."\n";
 
 #if (scalar @rows == 0) { push @rows, "ok";}
 
