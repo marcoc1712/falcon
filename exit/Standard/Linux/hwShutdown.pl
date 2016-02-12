@@ -11,7 +11,7 @@ use warnings;
 
 my $command= "shutdown";
 
-my @rows = `$command`;
+my @rows = `$command 2>&1`;
 
 if (scalar @rows == 0) { push @rows, "ok";}
 

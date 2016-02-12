@@ -265,6 +265,10 @@ sub _checkExecutable{
 
     if (scalar(@license) == 0) {
 
+		# TODO check the eerror with a second call.
+		#To capture a command's STDERR but discard its STDOUT
+		#$output = `cmd 2>&1 1>/dev/null`;  
+	
         $self->{error} = "ERROR unable to run $squeezelitePath -t";
         return undef;
     }

@@ -18,25 +18,21 @@ if (! scalar @ARGV == 1){
 
 	$pid = $ARGV[0];
 }
+my $command;
 
 if ($pid){
-	my $command= qq(ps -p $pid -o command=);
 
-	my @row = `$command`;
-
-	if (!scalar @row == 1) {exit 0;}
-
-	print $row[0];
+	$command= qq(ps -p $pid -o command=);
 	
-} else {
+else {
 
-	my $command = "service squeezelite status";
-	my @row = `$command`;
-	
-	for my $r (@row){
-	
-		print $r;
-	}
+	$command = "service squeezelite status";
 }
+
+my @rows = `$command 2>&1`;
+
+for my $row (@rows){
+	print $row;
+}	
 1;
 

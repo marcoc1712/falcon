@@ -11,13 +11,9 @@ use warnings;
 
 my $command= qq(service squeezelite stop);
 
-my @rows = `$command`;
+my @rows = `$command 2>&1`;
 
-if (scalar @rows == 0) {
-
-	@rows=();
-	push @rows, "ok";
-}
+if (scalar @rows == 0) { push @rows, "ok";}
 
 for my $row (@rows){
 	print $row;

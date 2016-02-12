@@ -58,7 +58,7 @@ if (!$command) {
 	push @lines, "WARNING: Unable to find test command for: $audiodevice";
 
 } else{
-	@lines = `$command`;
+	@lines = `$command 2>&1`;
 }	
 for my $row (@lines){
 
