@@ -242,6 +242,7 @@ sub serviceRestart {
 
     my @rows = `$command`;
 
+	my $error="";
 	for my $r (@rows){
 		
 		$error = $error." ".$utils->trim($r);
