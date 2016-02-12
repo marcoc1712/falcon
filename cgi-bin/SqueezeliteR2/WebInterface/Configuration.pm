@@ -248,8 +248,8 @@ sub serviceRestart {
 	}
 	my $error="ERROR: from exit: $script. Message is: ";
 	
-	$log->info(@rows ? 'defined' : "undefined");
-	$log->info(scalar @rows);
+	$log->info(@rows ? 'defined' : "undefined"); #undefined
+	$log->info(scalar @rows); #0
 	
 	for my $r (@rows){
 		$log->info("error value BEFORE. ".$error);
