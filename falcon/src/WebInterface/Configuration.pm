@@ -379,45 +379,44 @@ sub _initDefault {
        
 	my %defaultHash;
 	my $default = \%defaultHash;
-	
 
-	$default->{'pathname'} = "/home/marco/Scrivania/squeezelite-R2/squeezelite-R2-deb-x86_64";
-	$default->{'prefFile'} = "/home/marco/Scrivania/squeezelite-R2/squeezelite-R2.pref";
-	$default->{'PIDFile'} = "/home/marco/Scrivania/squeezelite-R2/squeezelite-R2.pid";
+	$default->{'pathname'} = "/usr/bin/squeezelite-R2";
+	$default->{'prefFile'} = "/var/www/falcon/data/squeezelite-R2.pref";
+	$default->{'PIDFile'} = "/run/squeezelite-R2.pid";
 
 	# disabled settings and  local installation scripts;
 
 	$default->{DISABLED}->{'autostart'} 	= 1;
-	$default->{'setAutostart'} = "/var/www/exit/Local/setAutostart.pl";
+	$default->{'setAutostart'} = "/var/www/falcon/exit/setAutostart.pl";
 
 	$default->{DISABLED}->{'allowWakeOnLan'} 	= 1;
-	$default->{'setWakeOnLan'} = "/var/www/exit/Local/setWakeOnLan.pl";
+	$default->{'setWakeOnLan'} = "/var/www/falcon/exit/setWakeOnLan.pl";
 
 	$default->{DISABLED}->{'allowReboot'} 	= 1;
 	$default->{DISABLED}->{'reboot'} 		= 1;
-	$default->{'reboot'} = "/var/www/exit/Local/hwReboot.pl";
+	$default->{'reboot'} = "/var/www/falcon/exit/hwReboot.pl";
 
 	$default->{DISABLED}->{'allowShutdown'} 	= 1;
 	$default->{DISABLED}->{'shutdown'} 	= 1;
-	$default->{'shutdown'} = "/var/www/exit/Local/hwShutdown.pl";
+	$default->{'shutdown'} = "/var/www/falcon/exit/hwShutdown.pl";
 
 	$default->{DISABLED}->{'start'} 	= 1;
-	$default->{'start'} = "/var/www/exit/Standard/Linux/ServiceStart.pl";
+	$default->{'start'} = "/var/www/falcon/exit/ServiceStart.pl";
 
 	$default->{DISABLED}->{'stop'} 	= 1;
-	$default->{'stop'} = "/var/www/exit/Standard/Linux/ServiceStop.pl";
+	$default->{'stop'} = "/var/www/falcon/exit/ServiceStop.pl";
 
 	$default->{DISABLED}->{'restart'} 	= 1;
-	$default->{'restart'} = "/var/www/exit/Standard/Linux/ServiceRestart.pl";
+	$default->{'restart'} = "/var/www/falcon/exit/ServiceRestart.pl";
 
 	#$default->{DISABLED}->{'getProcessInfo'} 	= 1;
-	$default->{'getProcessInfo'} = "/var/www/exit/Standard/Linux/getProcessInfo.pl";
+	$default->{'getProcessInfo'} = "/var/www/falcon/exit/getProcessInfo.pl";
 
 	#$default->{DISABLED}->{'testAudioDevice'} = 1;
-	$default->{'testAudioDevice'} = "/var/www/exit/Local/testAudioDevice.pl";
+	$default->{'testAudioDevice'} = "/var/www/falcon/exit/testAudioDevice.pl";
         
-        $default->{'saveCommandLine'} = "/var/www/exit/Local/saveCommandLine.pl";
-        $default->{'readCommandLine'} = "/var/www/exit/Local/readCommandLine.pl";
+	$default->{'saveCommandLine'} = "/var/www/falcon/exit/saveCommandLine.pl";
+	$default->{'readCommandLine'} = "/var/www/falcon/exit/readCommandLine.pl";
 
 	return $default;
 }
