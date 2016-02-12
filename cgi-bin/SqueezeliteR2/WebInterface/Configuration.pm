@@ -158,15 +158,17 @@ sub hwShutdown {
     my $command = $script;
 
     my @rows = `$command`;
-
+	
+	$log->info(@rows ? 'defined' : "undefined"); #undefined
+	$log->info(scalar @rows); #0
+	
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;
 	}
 	my $error="ERROR: from exit: $script. Message is: ";
 	
-	$log->info(@rows ? 'defined' : "undefined"); #undefined
-	$log->info(scalar @rows); #0
+	
 	
 	for my $r (@rows){
 		
