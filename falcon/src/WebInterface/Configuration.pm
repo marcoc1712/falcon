@@ -5,22 +5,22 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Configuration;
+package WebInterface::Configuration;
 
 use strict;
 use warnings;
 use utf8;
 
-use SqueezeliteR2::WebInterface::Utils;
-use SqueezeliteR2::WebInterface::DataStore;
-my $utils= SqueezeliteR2::WebInterface::Utils->new();
+use WebInterface::Utils;
+use WebInterface::DataStore;
+my $utils= WebInterface::Utils->new();
 
 #use constant DISABLED      => "DISABLED";
 
 use constant ISWINDOWS    => ( $^O =~ /^m?s?win/i ) ? 1 : 0;
 use constant ISMAC        => ( $^O =~ /darwin/i ) ? 1 : 0;
 
-use base qw(SqueezeliteR2::WebInterface::DataStore);
+use base qw(WebInterface::DataStore);
 
 my $log;
 

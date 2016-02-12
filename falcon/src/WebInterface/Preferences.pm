@@ -5,13 +5,13 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Preferences;
+package WebInterface::Preferences;
 
 use strict;
 use warnings;
 
-use SqueezeliteR2::WebInterface::DataStore;
-use base qw(SqueezeliteR2::WebInterface::DataStore);
+use WebInterface::DataStore;
+use base qw(WebInterface::DataStore);
 
 my $log;
 

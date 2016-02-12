@@ -5,13 +5,13 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Log;
+package WebInterface::Log;
 
 use strict;
 use warnings;
 
-use SqueezeliteR2::WebInterface::Utils;
-my $utils = SqueezeliteR2::WebInterface::Utils->new();
+use WebInterface::Utils;
+my $utils = WebInterface::Utils->new();
 
 sub new{
     my $class 	= shift;

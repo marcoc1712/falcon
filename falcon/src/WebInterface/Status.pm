@@ -5,26 +5,26 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Status;
+package WebInterface::Status;
 
 use strict;
 use warnings;
 use utf8;
 
-use SqueezeliteR2::WebInterface::Configuration;
-use SqueezeliteR2::WebInterface::CommandLine;
-use SqueezeliteR2::WebInterface::Utils;
+use WebInterface::Configuration;
+use WebInterface::CommandLine;
+use WebInterface::Utils;
 
 my $log;
 
-my $utils= SqueezeliteR2::WebInterface::Utils->new();
+my $utils= WebInterface::Utils->new();
 
 sub new {
     my $class = shift;
     
     $log = Log::Log4perl->get_logger("status");
     
-    my $conf= SqueezeliteR2::WebInterface::Configuration->new();
+    my $conf= WebInterface::Configuration->new();
     my $self = bless {
                     conf => $conf,
                     status => {},
@@ -97,7 +97,7 @@ sub _init{
     if ($self->_checkExecutable( $self->getStatus()->{'pathname'})){
 
         my $commandLineText=$self->conf()->readCommandLine();
-        my $commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
+        my $commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
         
         $log->debug("actual command line: ".$commandLine->get());
         $log->debug($commandLine->getError() || "ok");

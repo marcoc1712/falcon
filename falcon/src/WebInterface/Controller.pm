@@ -5,16 +5,16 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Controller;
+package WebInterface::Controller;
 
 use strict;
 use warnings;
 use utf8;
 
-use SqueezeliteR2::WebInterface::Configuration;
-use SqueezeliteR2::WebInterface::Settings;
-use SqueezeliteR2::WebInterface::Status;
-use SqueezeliteR2::WebInterface::Log;
+use WebInterface::Configuration;
+use WebInterface::Settings;
+use WebInterface::Status;
+use WebInterface::Log;
 
 my $log;
 
@@ -22,9 +22,9 @@ sub new {
     my $class = shift;
     $log= Log::Log4perl->get_logger("controller");
     
-    my $conf        = SqueezeliteR2::WebInterface::Configuration->new();
-    my $settings    = SqueezeliteR2::WebInterface::Settings->new();
-    my $status      = SqueezeliteR2::WebInterface::Status->new();
+    my $conf        = WebInterface::Configuration->new();
+    my $settings    = WebInterface::Settings->new();
+    my $status      = WebInterface::Status->new();
 
     my $self = bless {
                 conf => $conf,
@@ -128,7 +128,7 @@ sub clearLogfile{
         return undef; 
     }
     
-    my $log  = SqueezeliteR2::WebInterface::Log->new($logFile);
+    my $log  = WebInterface::Log->new($logFile);
     
     my $return = $log->clear($who);
     $self->{error}=$log->getError();
@@ -150,7 +150,7 @@ sub getLogHTML{
         return undef;
     }
     
-    my $log  = SqueezeliteR2::WebInterface::Log->new($logFile);
+    my $log  = WebInterface::Log->new($logFile);
     
     my $return = $log->getHTML($limit);
     $self->{error}= $log->getError();

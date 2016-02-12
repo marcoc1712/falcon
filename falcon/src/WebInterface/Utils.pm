@@ -5,16 +5,16 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Utils;
+package WebInterface::Utils;
 
 use strict;
 use warnings;
 use utf8;
 
 use CGI qw(:standard);
-use SqueezeliteR2::WebInterface::JSONhelper;
+use WebInterface::JSONhelper;
 
-my $helper = SqueezeliteR2::WebInterface::JSONhelper->new();
+my $helper = WebInterface::JSONhelper->new();
 
 
 sub new{

@@ -5,7 +5,7 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::JSONhelper;
+package WebInterface::JSONhelper;
 
 use strict;
 use warnings;

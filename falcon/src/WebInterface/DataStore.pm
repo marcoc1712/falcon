@@ -5,7 +5,7 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::DataStore;
+package WebInterface::DataStore;
 
 use Data::Dumper;
 use Storable 'dclone';

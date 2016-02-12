@@ -5,15 +5,15 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::Settings;
+package WebInterface::Settings;
 
 use strict;
 use warnings;
 use utf8;
 
-use SqueezeliteR2::WebInterface::Configuration;
-use SqueezeliteR2::WebInterface::Preferences;
-use SqueezeliteR2::WebInterface::CommandLine;
+use WebInterface::Configuration;
+use WebInterface::Preferences;
+use WebInterface::CommandLine;
 
 my $log;
 
@@ -22,15 +22,15 @@ sub new {
 
     $log = Log::Log4perl->get_logger("settings");
 
-    my $conf = SqueezeliteR2::WebInterface::Configuration->new();
+    my $conf = WebInterface::Configuration->new();
     my $prefs;
     my $commandLine;
 	my $error;
 	
     if ($conf->getPrefFile() && -e $conf->getPrefFile() && -r $conf->getPrefFile()){
     
-        $prefs = SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
-        $commandLine = SqueezeliteR2::WebInterface::CommandLine->new($prefs);
+        $prefs = WebInterface::Preferences->new($conf->getPrefFile());
+        $commandLine = WebInterface::CommandLine->new($prefs);
 
     } else {
         
@@ -40,13 +40,13 @@ sub new {
 		if (! $commandLineText){
 			
 			#load defaults.
-			$prefs = SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
-			$commandLine = SqueezeliteR2::WebInterface::CommandLine->new($prefs);
+			$prefs = WebInterface::Preferences->new($conf->getPrefFile());
+			$commandLine = WebInterface::CommandLine->new($prefs);
 			
 		} else{
 			
 			#load command line.
-			$commandLine = SqueezeliteR2::WebInterface::CommandLine->new(undef, $commandLineText);
+			$commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
 			$prefs = $commandLine->getPreferences();
 		}
 

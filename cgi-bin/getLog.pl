@@ -8,7 +8,8 @@ use utf8;
 
 use FindBin qw($Bin);
 use lib $Bin;
-use lib "./SqueezeliteR2/lib";
+use lib "../falcon/lib";
+use lib "../falcon/src";
 
 use Log::Log4perl;
 Log::Log4perl->init_once("log.conf");
@@ -16,9 +17,9 @@ Log::Log4perl->init_once("log.conf");
 my $log = Log::Log4perl->get_logger("falcon");
 $log->info("started");
 
-use SqueezeliteR2::WebInterface::Controller;
+use WebInterface::Controller;
 
-my $controller = SqueezeliteR2::WebInterface::Controller->new();
+my $controller = WebInterface::Controller->new();
 
 my $return=$controller->getLogHTML(10000);
 

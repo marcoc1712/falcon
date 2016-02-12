@@ -5,17 +5,17 @@
 # @Created 20-gen-2016 18.23.15
 #
 
-package SqueezeliteR2::WebInterface::CommandLine;
+package WebInterface::CommandLine;
 
 use strict;
 use warnings;
 use utf8;
 
-use SqueezeliteR2::WebInterface::Utils;
-use SqueezeliteR2::WebInterface::Configuration;
+use WebInterface::Utils;
+use WebInterface::Configuration;
 
-my $utils= SqueezeliteR2::WebInterface::Utils->new();
-my $conf = SqueezeliteR2::WebInterface::Configuration->new();
+my $utils= WebInterface::Utils->new();
+my $conf = WebInterface::Configuration->new();
 
 my $log;
 
@@ -267,7 +267,7 @@ sub _loadPreferencesFromCommandLine{
     }
      
     if (! $preferences ){ 
-        $preferences= SqueezeliteR2::WebInterface::Preferences->new($conf->getPrefFile());
+        $preferences= WebInterface::Preferences->new($conf->getPrefFile());
         $self->{preferences}=$preferences;
     }
 
