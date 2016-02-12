@@ -13,9 +13,7 @@ my $command= qq(service squeezelite restart);
 
 my @rows = `$command`;
 
-print (scalar @rows)."\n";
-
-if (scalar @rows == 0) { push @rows, "ok";}
+#if (scalar @rows == 0) { push @rows, "ok";}
 
 for my $row (@rows){
 	print $row;
