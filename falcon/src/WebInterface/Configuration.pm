@@ -318,29 +318,34 @@ sub writeCommandLine{
     if (! $self->_checkScript($script)){return undef;}
 
     my $command = $script." ".$commandLine;
-
+   
     my @rows = `$command`;
 	
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-	
-		 return 1;
-	}
-	my $error="ERROR: from exit: $script. Message is: ";
-	
-	#$log->info(@rows ? 'defined' : "undefined");
-	#$log->info(scalar @rows);
-	
-	for my $r (@rows){
-		#$log->info("error value BEFORE. ".$error);
-		#$log->info("row value. ".$r);
-		$error = $error." ".$utils->trim($r);
-		#$log->info("error value AFTER. ".$error);
-	}
-	#$log->info("error value XXX. ".$error);
-	$self->{error}=$error;
-	#$log->info("self error at the end: ".$self->{error});
-	
-	return undef;
+    if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+
+        return 1;
+    }
+    
+    $log->info("script. ".$script);
+    $log->info("command line. ".$commandLine);
+    
+    my $error="ERROR: from exit: $script. Message is: ";
+
+    $log->info(@rows ? 'defined' : "undefined");
+    $log->info(scalar @rows);
+
+    for my $r (@rows){
+        $log->info("error value BEFORE. ".$error);
+        $log->info("row value. ".$r);
+        $error = $error." ".$utils->trim($r);
+        #log->info("error value AFTER. ".$error);
+    }
+    
+    $log->info("error value XXX. ".$error);
+    $self->{error}=$error;
+    $log->info("self error at the end: ".$self->{error});
+
+    return undef;
 }
 sub readCommandLine{
     my $self = shift;

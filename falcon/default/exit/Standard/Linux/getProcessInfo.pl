@@ -14,25 +14,21 @@ use utf8;
 
 my $pid;
 
-if (scalar @ARGV == 1){
+if (! scalar @ARGV == 1){
 
-	$pid = $ARGV[0];
+    print "ERROR: Misising PID";
+    exit 0;
 }
+$pid = $ARGV[0];
+
 my $command;
 
-if ($pid){
-
-	$command= qq(ps -p $pid -o command=);
-	
-} else {
-
-	$command = "service squeezelite status";
-}
+$command= qq(ps -p $pid -o command=);
 
 my @rows = `$command 2>&1`;
 
 for my $row (@rows){
-	print $row;
+    print $row;
 }	
 1;
 

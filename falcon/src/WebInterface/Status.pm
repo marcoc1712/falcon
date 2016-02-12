@@ -128,17 +128,17 @@ sub _init{
     
     my $PIDfile	= $self->{conf}->getPIDFile();
 	
-	if ($PIDfile && !($PIDfile eq "") && !(-e $PIDfile)){
-	
-		$self->getStatus()->{'running'} ="Not running";
-		$self->getStatus()->{'process'}="";
-		return $self->getStatus();
-	}
-	
-	if ($PIDfile && !($PIDfile eq "") && ! $self->_checkPidFile($PIDfile)) {
-		
-		return $self->getStatus();
-	}
+    if ($PIDfile && !($PIDfile eq "") && !(-e $PIDfile)){
+
+            $self->getStatus()->{'running'} ="Not running";
+            $self->getStatus()->{'process'}=" ";
+            return $self->getStatus();
+    }
+
+    if ($PIDfile && !($PIDfile eq "") && ! $self->_checkPidFile($PIDfile)) {
+
+            return $self->getStatus();
+    }
 	
     if (!$self->_checkProcess()){
 		
@@ -198,11 +198,15 @@ sub _getProcesInfo{
 		 $self->getStatus()->{'process'} = $stat;		
 		 $self->getStatus()->{'running'} = "See below";
 		 
-	}else {
-	
-		$self->getStatus()->{'running'} ="Unknown (Exit Error)";
-		$self->getStatus()->{'process'}= $self->getError();
-		#$self->{error}=undef;
+	} elsif ($self->getError()){
+        
+                $self->getStatus()->{'running'} ="Unknown (Exit Error)";
+                $self->getStatus()->{'process'}= $self->getError();
+        
+        } else {
+        
+                $self->getStatus()->{'running'} ="Probably stopped";
+                $self->getStatus()->{'process'}= "Warning: Invalid PID";
 	}
 	return  1;
 }

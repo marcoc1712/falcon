@@ -15,7 +15,7 @@ use WebInterface::Utils;
 use WebInterface::Configuration;
 
 my $utils= WebInterface::Utils->new();
-my $conf = WebInterface::Configuration->new();
+my $conf;
 
 my $log;
 
@@ -27,6 +27,8 @@ sub new {
     
     $log= Log::Log4perl->get_logger("commandline");
     $log->info("started new"); 
+    
+    $conf = WebInterface::Configuration->new();
     
     my $self = bless {
             preferences => $preferences,
@@ -921,6 +923,7 @@ sub _handleMinMaxRate{
 sub _validate {
      my $self = shift;
      
+     $log->error("Comandline::_validate: NOT IMPLEMENTED YET");
      $self->{error}= "WARNING: NOT IMPLEMENTED YET";
      return 0;
 }
