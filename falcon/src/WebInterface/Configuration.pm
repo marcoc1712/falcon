@@ -29,7 +29,7 @@ sub new {
     
     $log = Log::Log4perl->get_logger("configuration");
     
-    my $self=$class->SUPER::new("../conf/squeezelite-R2.conf", 
+    my $self=$class->SUPER::new("../data/falcon.conf", 
                        "Squeezelite-R2 web interface configuration file", 
                        _initDefault());
 
