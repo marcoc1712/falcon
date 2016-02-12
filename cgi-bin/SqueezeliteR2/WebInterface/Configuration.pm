@@ -242,32 +242,26 @@ sub serviceRestart {
 
     my @rows = `$command`;
 
-	my $error="";
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
-	}
-	print $error;
-	die;
-
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-		
-		 print "return is: " .$rows[0];
+	
 		 return 1;
 	}
-	print "return is: " .$rows[0];
 	my $error="ERROR: from exit: $script. Message is: ";
-
+	
+	$log->info(@rows ? 'defined' : "undefined");
+	$log->info(scalar @rows);
+	
 	for my $r (@rows){
-		
+		$log->info("error value BEFORE. ".$error);
+		$log->info("row value. ".$r);
 		$error = $error." ".$utils->trim($r);
-		
+		$log->info("error value AFTER. ".$error);
 	}
-	
+	$log->info("error value XXX. ".$error);
 	$self->{error}=$error;
+	$log->info("self error at the end: ".$self->{error});
+		
 	return undef;
-	
 }
 sub testAudioDevice{
     my $self = shift;
