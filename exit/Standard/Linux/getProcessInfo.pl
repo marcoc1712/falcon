@@ -24,7 +24,7 @@ if ($pid){
 
 	$command= qq(ps -p $pid -o command=);
 	
-else {
+} else {
 
 	$command = "service squeezelite status";
 }
