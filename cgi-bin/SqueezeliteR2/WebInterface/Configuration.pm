@@ -242,6 +242,14 @@ sub serviceRestart {
 
     my @rows = `$command`;
 
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	print $error;
+	die;
+
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 		
 		 print "return is: " .$rows[0];
