@@ -13,7 +13,7 @@ my $command= qq(service squeezelite restart);
 
 my @rows = `$command`;
 
-print "definedd: ."(defined @rows ? "defined" : "undefined")."scalar ".(scalar @rows)."\n";
+print "defined: ".(defined @rows ? "defined" : "undefined")." scalar ".(scalar @rows)."\n";
 
 #if (scalar @rows == 0) { push @rows, "ok";}
 
