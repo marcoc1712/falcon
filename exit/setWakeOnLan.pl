@@ -40,7 +40,7 @@ if ((! ($action eq "enable") ) && (! ($action eq "disable") )){
 # as supposed in the following code:
 
 my $script= "/usr/bin/setWakeOnlan.sh";
-my $error = checkScript($scripr);
+my $error = checkScript($script);
 
 if ( ! $error && (($action eq "enable") ||($action eq "disable"))){
 	 
