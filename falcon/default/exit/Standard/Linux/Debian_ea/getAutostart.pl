@@ -28,7 +28,8 @@ sub validateResult{
 		return "off";
 	}
 	
-	my $message=""
+	my $message="";
+	
 	for my $row (@$result){
 		
 		$message= $message." ".$row;
