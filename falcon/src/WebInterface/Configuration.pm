@@ -70,10 +70,10 @@ sub setAutostart {
 
     if (! $self->_checkScript($script)){return undef;}
 	
-    my $command = $script." ".($autostart ? 1 : 0);
+    my $command = $script." ".($autostart ? "enabled" : "disabled");
 	
 	my @rows = `$command`;
-	
+
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;
@@ -85,7 +85,6 @@ sub setAutostart {
 		$error = $error." ".$utils->trim($r);
 		
 	}
-	
 	$self->{error}=$error;
 	return undef;
 }
@@ -167,9 +166,7 @@ sub hwShutdown {
 		 return 1;
 	}
 	my $error="ERROR: from exit: $script. Message is: ";
-	
-	
-	
+
 	for my $r (@rows){
 		
 		$error = $error." ".$utils->trim($r);
@@ -326,24 +323,24 @@ sub writeCommandLine{
         return 1;
     }
     
-    $log->info("script. ".$script);
-    $log->info("command line. ".$commandLine);
+    #$log->info("script. ".$script);
+    #$log->info("command line. ".$commandLine);
     
     my $error="ERROR: from exit: $script. Message is: ";
 
-    $log->info(@rows ? 'defined' : "undefined");
-    $log->info(scalar @rows);
+   #$log->info(@rows ? 'defined' : "undefined");
+   # $log->info(scalar @rows);
 
     for my $r (@rows){
-        $log->info("error value BEFORE. ".$error);
-        $log->info("row value. ".$r);
+        #$log->info("error value BEFORE. ".$error);
+        #$log->info("row value. ".$r);
         $error = $error." ".$utils->trim($r);
         #log->info("error value AFTER. ".$error);
     }
     
-    $log->info("error value XXX. ".$error);
+    #$log->info("error value XXX. ".$error);
     $self->{error}=$error;
-    $log->info("self error at the end: ".$self->{error});
+    #$log->info("self error at the end: ".$self->{error});
 
     return undef;
 }
