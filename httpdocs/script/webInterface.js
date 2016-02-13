@@ -353,7 +353,7 @@ function loadStatus(errorCallback) {
                     document.getElementById("pathname").value="unknow";
                 }		
             }	
-					
+		 enable('lmsDownsampling', 1 );	
             if (! isR2version ){
 
                 document.getElementById("version").style.color="red";
