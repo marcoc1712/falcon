@@ -70,7 +70,7 @@ sub setAutostart {
 
     if (! $self->_checkScript($script)){return undef;}
 	
-    my $command = $script." ".($autostart ? "enabled" : "disabled");
+    my $command = $script." ".($autostart ? "enable" : "disable");
 	
 	my @rows = `$command`;
 
@@ -98,7 +98,7 @@ sub setWakeOnLan {
 
     if (! $self->_checkScript($script)){return undef;}
 
-    my $command = $script." ".($wakeOnLan ? 1 : 0);
+    my $command = $script." ".($wakeOnLan ? "enable" : "disable");
 
     my @rows = `$command`;
 	
