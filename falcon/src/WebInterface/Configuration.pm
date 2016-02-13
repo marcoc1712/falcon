@@ -120,8 +120,11 @@ sub setWakeOnLan {
 sub hwReboot {
     my $self = shift;
 
-    #if ($self->isDisabled('allowReboot')) {return undef};
-
+    if ($self->isDisabled('reboot')) {return undef};
+	if (! $self->get('allowReboot')) {
+		$self->{error}="WARNING: reboot id disabled, check settings.";
+		return undef;
+	};
     my $script= $self->get()->{'reboot'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -148,7 +151,11 @@ sub hwReboot {
 sub hwShutdown {
     my $self = shift;
 
-	#if ($self->isDisabled('allowShutdown')) {return undef};
+	if ($self->isDisabled('shutdown')) {return undef};
+	if (! $self->get('allowShutdown')) {
+		$self->{error}="WARNING: shoutdown id disabled, check settings.";
+		return undef;
+	};
 
     my $script= $self->get()->{'shutdown'};
 

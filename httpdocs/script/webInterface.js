@@ -4,6 +4,8 @@
 // then the actual value is stored and selected at the end of audioDevice loading.
 
 var global_audiodevice=null;
+var global_reboot=0;
+var global_shutdown=0;
 
 $(document).ready(function() {
     
@@ -60,9 +62,25 @@ window.onload = function() {
 				enable("clearLog",1);
 		}				
 	};
-
-
-
+	document.getElementById('allowReboot').onchange = function(){
+		
+		if (! document.getElementById("allowReboot").value) {
+			enable("reboot",0);
+		} else{
+			enable("reboot",global_shutdown);
+		}
+		
+	};
+	
+	document.getElementById('allowShutdown').onchange = function(){
+		
+		if (! document.getElementById("allowShutdown").value) {
+			enable("shutdown",0);
+		} else{
+			enable("shutdown",global_reboot);
+		}
+	};
+	
 	document.getElementById('reloadSettings').onclick = function(){
 		loadSettings();
 	}
@@ -278,7 +296,7 @@ function loadSettings(errorCallback) {
 
                                         document.getElementById('audioDevice').value = global_audiodevice;				  		
                                 }
-                }
+                } 
 
                 load(key,val);
         });
@@ -387,13 +405,24 @@ function enableSettings(errorCallback) {
 		document.getElementById("allowReboot").disabled = false;
 		document.getElementById("allowShutdown").disabled = false;
 		document.getElementById("allowWakeOnLan").disabled = false;
-			
+
 		$.each( data, function( key, val ) {
 
 			console.log( key + " - " + val);
 			enable(key, (val ? 0 : 1));// we get only disabled.
 
 		});
+		// safety checks here:	
+		global_reboot = document.getElementById("reboot").value;
+		global_shutdown = document.getElementById("shutdown").value;
+
+		if (! document.getElementById("allowReboot").value) {
+			document.getElementById("reboot").disabled = true;
+		}
+		if (! document.getElementById("allowShutdown").value) {
+			document.getElementById("shutdown").disabled = true;
+		}
+		
 	})
 	.fail(function() {
 		console.log( "error" );
