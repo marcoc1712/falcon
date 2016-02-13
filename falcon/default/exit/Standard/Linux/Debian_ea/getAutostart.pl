@@ -17,14 +17,17 @@ print validateResult(\@rows);
 sub validateResult{
 	my $result = shift;
 	
-	if (scalar @$result == 1) && ($$result[0]  =~ /^squeezelite on/)){
+	if ((scalar @$result == 1) && ($$result[0]  =~ /^squeezelite on/)){
 	
 		return "on";
 	
-	} elsif (scalar @$result == 1) && ($$result[0]  =~ /^squeezelite off/)){
+	} 
+	
+	if ((scalar @$result == 1) && ($$result[0]  =~ /^squeezelite off/)){
 	
 		return "off";
 	}
+	
 	my $message=""
 	for my $row (@$result){
 		
