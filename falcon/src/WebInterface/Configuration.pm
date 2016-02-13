@@ -60,6 +60,36 @@ sub isDisabled {
     return $self->get()->{DISABLED}->{$item};
 	
 }
+sub getAutostart {
+	my $self        = shift;
+	if ($self->isDisabled('autostart')) {return 0};
+	my $script=  $self->get()->{'getAutostart'};
+	
+	if (! $self->_checkScript($script)){return undef;}
+	
+	my $command = $script;
+	
+	my @rows = `$command`;
+
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^on+$/)){
+	
+		 return 1;
+	}
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^off+$/)){
+	
+		 return 0;
+	}
+	
+	my $error="ERROR: from exit: $script. Message is: ";
+
+	for my $r (@rows){
+		
+		$error = $error." ".$utils->trim($r);
+		
+	}
+	$self->{error}=$error;
+	return undef;
+}
 sub setAutostart {
     my $self        = shift;
     my $autostart   = shift;

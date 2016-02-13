@@ -48,8 +48,11 @@ sub new {
 			#load command line.
 			$commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
 			$prefs = $commandLine->getPreferences();
+			
+			# try to detect autostart.
+			$error = $conf->getError();
+			$prefs->setItem('autostart', $conf->getAutostart());
 		}
-
     }
     my $self = bless {
                     conf => $conf,
