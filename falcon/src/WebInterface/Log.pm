@@ -10,13 +10,16 @@ package WebInterface::Log;
 use strict;
 use warnings;
 
+use WebInterface::Log;
 use WebInterface::Utils;
 my $utils = WebInterface::Utils->new();
+my $log;
 
 sub new{
     my $class 	= shift;
     my $file 	= shift || die;
-    
+    $log= Log::Log4perl->get_logger("log");
+	
     my $self = bless {
                         file => $file,
                         error => undef,
@@ -69,8 +72,11 @@ sub getError{
 sub _read{
     my $self 	= shift;
     
+	$log->info($self->{file});
+	
     if (! -e $self->{file}) {
-        
+		
+		$log->error($self->{file});
         $self->{error} = "WARNING: Log file $self->{file} does not exists";
         return undef;
     }

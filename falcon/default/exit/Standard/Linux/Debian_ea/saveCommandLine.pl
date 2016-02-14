@@ -24,8 +24,6 @@ my $faultback = "/var/www/falcon/data/squeezelite.default"; #used if can't write
 
 my @before = (
 
-    "#!/bin/bash", # NEVER remove this one.
-    " ",
     "# Squeezelite-R2 command line.",
     "# Please do not modify this file, use Falcon Web Interface instead",
     " ",
@@ -92,35 +90,86 @@ if (! open($FH, "> $pathname")) {
 
 my $commandLine = join (" ", @ARGV);
 
+my @elements= split " ", $commandLine;
+my $options= builsOptionsArray(\@elements);
+
+my $executable;
+my $naem;
+my $card;
+my $server;
+my $extra="";
+
 for my $line (@before){
 
     print $FH $line."\n";
     
 }
 
-my $name= getName($commandLine);
+for my $opt (@$options){
+
+	if (! substr ($opt,0,1 eq "-")){
+		$executable= $opt;
+	
+	} elsif (substr ($opt,0,2 eq "-n")){
+	
+		$name = trim(substr($opt,3));
+	
+	} elsif (substr ($opt,0,2 eq "-o")){
+	
+		$card = trim()substr($opt,3));
+	
+	} elsif (substr ($opt,0,2 eq "-s")){
+		
+		$server = trim()substr($opt,3));
+		
+	} else {
+	
+		$extra=$extra." ".$opt;
+	}
+
+}
+
+sub trim{
+	my ($val) = shift;
+
+  	if (defined $val) {
+
+    	$val =~ s/^\s+//; # strip white space from the beginning
+    	$val =~ s/\s+$//; # strip white space from the end
+    }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
+    
+    return $val;         
+}
+
 if ($name && ! ($name eq "") ){
 
-	print $FH "SL_NAME=".$name."\n";
+	print qq($FH "SL_NAME=".$name.)"\n";
 	
 } 
 
-my $card= getSoundcard($commandLine);
 if ($card && ! ($card eq "") ){
 
-	print $FH "SL_SOUNDCARD=".$card."\n";
+	print qq($FH "SL_SOUNDCARD=".$card)."\n";
 }
 
-my $server= getServer($commandLine);
 if ($server && ! ($server eq "") ){
 
-	print $FH "SB_SERVER_IP=".$server."\n";
+	print qq($FH "SB_SERVER_IP=".$server.)"\n";
 }
 
-my $extra= getExtra($commandLine);
 if ($extra && ! ($extra eq "") ){
 
-	print $FH "SB_EXTRA_ARGS=".$extra."\n";
+	print $FH qq("SB_EXTRA_ARGS=".$extra)."\n";
 }
 
 for my $line (@after){
@@ -133,39 +182,31 @@ close $FH;
 
 print "ok"; #never remove this line! 
 
-# This way the complete command line is returned in extra, as a working example.
-# You could split the command line to have the four variables filled if you like more.
+sub _builsOptionsArray{
+    my $elements = shift;
+    
+    my @options=();
+    my $line;
+    
+    for my $e (@$elements){
+    
+        if ((substr($e,0,1) eq "-") && $line){
+            
+            push @options, $line;
+            $line=$e;
+                
+        } elsif ($line){
+                
+            $line = $line." ".$e;
+                 
+        } else {
 
-sub getName{
-	my $commandLine=shift;
-	
-	my $name="";
-	
-	return $name;
-	
-}
-sub getServer{
-	my $commandLine=shift;
-	
-	my $server="";
-	
-	return $server;
-	
-}
-sub getSoundcard{
-	my $commandLine=shift;
-	
-	my $soundcard="";
-	
-	return $soundcard;
-	
-}
-sub getExtra{
-	my $commandLine=shift;
-	
-	my $extra="";
-	
-	return $commandLine;
+            $line = $e;
+        }
+    }
+    push @options, $line;
+
+    return \@options;
 }
 
 1;
