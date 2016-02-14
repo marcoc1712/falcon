@@ -94,7 +94,7 @@ my @elements= split " ", $commandLine;
 my $options= builsOptionsArray(\@elements);
 
 my $executable;
-my $naem;
+my $name;
 my $card;
 my $server;
 my $extra="";
