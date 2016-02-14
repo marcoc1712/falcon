@@ -153,7 +153,7 @@ sub trim{
 
 if ($name && ! ($name eq "") ){
 
-	print qq($FH "SL_NAME=".$name.)"\n";
+	print qq($FH "SL_NAME=".$name)."\n";
 	
 } 
 
@@ -164,7 +164,7 @@ if ($card && ! ($card eq "") ){
 
 if ($server && ! ($server eq "") ){
 
-	print qq($FH "SB_SERVER_IP=".$server.)"\n";
+	print qq($FH "SB_SERVER_IP=".$server)."\n";
 }
 
 if ($extra && ! ($extra eq "") ){
