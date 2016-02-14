@@ -182,7 +182,7 @@ close $FH;
 
 print "ok"; #never remove this line! 
 
-sub _builsOptionsArray{
+sub builsOptionsArray{
     my $elements = shift;
     
     my @options=();
