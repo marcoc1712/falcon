@@ -116,11 +116,11 @@ for my $opt (@$options){
 	
 	} elsif (substr ($opt,0,2 eq "-o")){
 	
-		$card = trim()substr($opt,3));
+		$card = trim(substr($opt,3));
 	
 	} elsif (substr ($opt,0,2 eq "-s")){
 		
-		$server = trim()substr($opt,3));
+		$server = trim(substr($opt,3));
 		
 	} else {
 	
