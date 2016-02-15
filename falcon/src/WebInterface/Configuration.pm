@@ -195,8 +195,8 @@ sub hwShutdown {
 
     my @rows = `$command`;
 	
-	$log->info(@rows ? 'defined' : "undefined"); #undefined
-	$log->info(scalar @rows); #0
+	$log->debug(@rows ? 'defined' : "undefined"); #undefined
+	$log->debug(scalar @rows); #0
 	
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
@@ -287,18 +287,18 @@ sub serviceRestart {
 	}
 	my $error="ERROR: from exit: $script. Message is: ";
 	
-	#$log->info(@rows ? 'defined' : "undefined"); #undefined
-	#$log->info(scalar @rows); #0
+	#$log->debug(@rows ? 'defined' : "undefined"); #undefined
+	#$log->debug(scalar @rows); #0
 	
 	for my $r (@rows){
-		#$log->info("error value BEFORE. ".$error);
-		#$log->info("row value. ".$r);
+		#$log->debug("error value BEFORE. ".$error);
+		#$log->debug("row value. ".$r);
 		$error = $error." ".$utils->trim($r);
-		#$log->info("error value AFTER. ".$error);
+		#$log->debug("error value AFTER. ".$error);
 	}
-	#$log->info("error value XXX. ".$error);
+	#$log->debug("error value XXX. ".$error);
 	$self->{error}=$error;
-	#$log->info("self error at the end: ".$self->{error});
+	#$log->debug("self error at the end: ".$self->{error});
 		
 	return undef;
 }
@@ -360,24 +360,24 @@ sub writeCommandLine{
         return 1;
     }
     
-    #$log->info("script. ".$script);
-    #$log->info("command line. ".$commandLine);
+    #$log->debug("script. ".$script);
+    #$log->debug("command line. ".$commandLine);
     
     my $error="ERROR: from exit: $script. Message is: ";
 
-   #$log->info(@rows ? 'defined' : "undefined");
-   # $log->info(scalar @rows);
+   #$log->debug(@rows ? 'defined' : "undefined");
+   # $log->debug(scalar @rows);
 
     for my $r (@rows){
-        #$log->info("error value BEFORE. ".$error);
-        #$log->info("row value. ".$r);
+        #$log->debug("error value BEFORE. ".$error);
+        #$log->debug("row value. ".$r);
         $error = $error." ".$utils->trim($r);
-        #log->info("error value AFTER. ".$error);
+        #log->debug("error value AFTER. ".$error);
     }
     
-    #$log->info("error value XXX. ".$error);
+    #$log->debug("error value XXX. ".$error);
     $self->{error}=$error;
-    #$log->info("self error at the end: ".$self->{error});
+    #$log->debug("self error at the end: ".$self->{error});
 
     return undef;
 }

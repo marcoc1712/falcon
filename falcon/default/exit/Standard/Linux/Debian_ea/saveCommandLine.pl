@@ -68,11 +68,11 @@ if (-e $pathname && !(-e $backup)& !(-e $faultback)){
 			exit 0;
 		}
 		
-		$backupLine = "# Original default file has been saved as $faultback.";
+		$backupLine = "# Original file has been saved as $faultback.";
 		
 	} else{
 	
-		$backupLine = "# Original default file has been saved as $backup.";
+		$backupLine = "# Original file has been saved as $backup.";
 	}
 	for my $line (@lines){
 
@@ -83,11 +83,11 @@ if (-e $pathname && !(-e $backup)& !(-e $faultback)){
 }
 elsif (-e $backup){
 
-	$backupLine = "# Original default file has been saved as $backup.";
+	$backupLine = "# Original file has been saved as $backup.";
 	
 } elsif (-e $faultback){
 
-	$backupLine = "# Original default file has been saved as $faultback.";
+	$backupLine = "# Original file has been saved as $faultback.";
 }
 
 if (! open($FH, "> $pathname")) {

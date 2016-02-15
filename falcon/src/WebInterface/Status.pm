@@ -99,7 +99,7 @@ sub _init{
         my $commandLineText=$self->conf()->readCommandLine();
         my $commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
         
-        $log->debug("actual command line: ".$commandLine->get());
+        $log->info("actual command line: ".$commandLine->get());
         $log->debug($commandLine->getError() || "ok");
         
         $self->{error}=$commandLine->getError();
@@ -107,9 +107,9 @@ sub _init{
 		if (! $self->{error}){
             
           $self->getStatus()->{'commandLine'} = 
-                $utils->trim(substr($commandLine->get(),length( $self->getStatus()->{'pathname'})+1));
+                $utils->trim(substr($commandLine->get(),length($self->getStatus()->{'pathname'})));
                 
-                $log->debug("reported command line: ".$self->getStatus()->{'commandLine'});
+                $log->info("reported command line: ".$self->getStatus()->{'commandLine'});
             
         } else{
            

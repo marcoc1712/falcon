@@ -85,7 +85,7 @@ sub _save{
 
     if (! $conf->writeCommandLine($self->{commandLine})){
         $self->{error} = $conf->getError();
-		$log->info("ERROR: Unable to write command line: ".$self->{commandLine}." to file ". $self->{error});
+		$log->error("ERROR: Unable to write command line: ".$self->{commandLine}." to file ". $self->{error});
         return undef;
 	}
 	$log->info("command line: ".$self->{commandLine}." saved");
@@ -838,7 +838,7 @@ sub _decodeSampleRateString{
    
     my $preferences= $self->{preferences};
     
-	$log->info("rates: ".$rates);
+	$log->debug("rates: ".$rates);
     
 	my @string = split '-', $rates; 
     
@@ -850,8 +850,8 @@ sub _decodeSampleRateString{
         $min = $string[0];
         $max = $string[1];
             
-		$log->info("min: ".$min);
-		$log->info("max: ".$max);
+		$log->debug("min: ".$min);
+		$log->debug("max: ".$max);
 		
         $self->_handleMinMaxRate($min,$max);
 		return 1;
