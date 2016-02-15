@@ -116,7 +116,7 @@ for my $line (@before){
 
 for my $opt (@$options){
 	
-	print $opt;
+	print $opt."\n";
 	
 	if (! substr ($opt,0,1 eq "-")){
 		$executable= $opt;
