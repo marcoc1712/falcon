@@ -139,23 +139,23 @@ for my $opt (@$options){
 
 if ($name && ! ($name eq "") ){
 
-	print $FH qq("SL_NAME=".$name)."\n";
+	print $FH qq(SL_NAME="$name")."\n";
 	
 } 
 
 if ($card && ! ($card eq "") ){
 
-	print $FH qq("SL_SOUNDCARD=".$card)."\n";
+	print $FH qq(SL_SOUNDCARD="$card")."\n";
 }
 
 if ($server && ! ($server eq "") ){
 
-	print $FH qq("SB_SERVER_IP=".$server)."\n";
+	print $FH qq(SB_SERVER_IP="$server")."\n";
 }
 
 if ($extra && ! ($extra eq "") ){
 
-	print $FH qq("SB_EXTRA_ARGS=".$extra)."\n";
+	print $FH qq(SB_EXTRA_ARGS="$extra")."\n";
 }
 
 for my $line (@after){
