@@ -138,6 +138,13 @@ for my $opt (@$options){
 		$extra=$extra." ".$opt;
 	}
 }
+
+print "executable: ".$executable."\n";
+print "name: ".$name."\n";
+print "card: ".$card."\n";
+print "server: ".$server."\n";
+print "extra: ".$extra."\n";
+
 if ($name && ! ($name eq "") ){
 
 	print $FH qq("SL_NAME=".$name)."\n";
