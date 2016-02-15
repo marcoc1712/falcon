@@ -345,7 +345,7 @@ sub _setError{
     my $self = shift;
     my $msg  = shift;
     
-	$log->warning("found error in command line: ".$self->{error});
+	$log->warn("found error in command line: ".$msg);
 	
     if ($self->{error}) {
 		
