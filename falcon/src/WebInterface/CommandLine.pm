@@ -88,7 +88,7 @@ sub _save{
 		$log->info("ERROR: Unable to write command line: ".$self->{commandLine}." to file ". $self->{error});
         return undef;
 	}
-	$log->info("command line: ".$self->{commandLine}." wroted to file");
+	$log->info("command line: ".$self->{commandLine}." saved");
     return 1;
     
 }

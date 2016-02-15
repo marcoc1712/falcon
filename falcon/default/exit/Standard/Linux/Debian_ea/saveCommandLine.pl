@@ -65,14 +65,15 @@ if (-e $pathname && !(-e $backup)& !(-e $faultback)){
 
 		if (! open($FH, "> $faultback")) {
 		
-			print "ERROR: Failure opening $faultback for writing - $!";
+			print "ERROR: Failure opening $backup and $faultback for writing - $!";
 			exit 0;
 		}
 		
-		$backupLine = "# Original default file has been saved as $faultback.",
+		$backupLine = "# Original default file has been saved as $faultback.";
+		
 	} else{
 	
-		$backupLine = "# Original default file has been saved as $backup.",
+		$backupLine = "# Original default file has been saved as $backup.";
 	}
 	for my $line (@lines){
 
@@ -80,6 +81,14 @@ if (-e $pathname && !(-e $backup)& !(-e $faultback)){
     }
 
 	close $FH;
+}
+elsif (-e $backup){
+
+	$backupLine = "# Original default file has been saved as $backup.";
+	
+} elsif (-e $faultback){
+
+	$backupLine = "# Original default file has been saved as $faultback.";
 }
 
 if (! open($FH, "> $pathname")) {
@@ -126,8 +135,40 @@ for my $opt (@$options){
 	
 		$extra=$extra." ".$opt;
 	}
-
 }
+if ($name && ! ($name eq "") ){
+
+	print $FH qq("SL_NAME=".$name)."\n";
+	
+} 
+
+if ($card && ! ($card eq "") ){
+
+	print $FH qq("SL_SOUNDCARD=".$card)."\n";
+}
+
+if ($server && ! ($server eq "") ){
+
+	print $FH qq("SB_SERVER_IP=".$server)."\n";
+}
+
+if ($extra && ! ($extra eq "") ){
+
+	print $FH qq("SB_EXTRA_ARGS=".$extra)."\n";
+}
+
+for my $line (@after){
+
+    print $FH $line."\n";
+    
+}
+if ($backupLine){
+
+	print $backupLine."\n";
+}
+close $FH;
+
+print "ok"; #never remove this line! 
 
 sub trim{
 	my ($val) = shift;
@@ -150,37 +191,6 @@ sub trim{
     
     return $val;         
 }
-
-if ($name && ! ($name eq "") ){
-
-	print qq($FH "SL_NAME=".$name)."\n";
-	
-} 
-
-if ($card && ! ($card eq "") ){
-
-	print qq($FH "SL_SOUNDCARD=".$card)."\n";
-}
-
-if ($server && ! ($server eq "") ){
-
-	print qq($FH "SB_SERVER_IP=".$server)."\n";
-}
-
-if ($extra && ! ($extra eq "") ){
-
-	print $FH qq("SB_EXTRA_ARGS=".$extra)."\n";
-}
-
-for my $line (@after){
-
-    print $FH $line."\n";
-    
-}
-
-close $FH;
-
-print "ok"; #never remove this line! 
 
 sub builsOptionsArray{
     my $elements = shift;
