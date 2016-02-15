@@ -115,21 +115,19 @@ for my $line (@before){
 }
 
 for my $opt (@$options){
-	
-	print $opt."\n";
-	
-	if (! substr ($opt,0,1 eq "-")){
+
+	if (!(substr ($opt,0,1) eq "-")){
 		$executable= $opt;
 	
-	} elsif (substr ($opt,0,2 eq "-n")){
+	} elsif (substr ($opt,0,2) eq "-n"){
 	
 		$name = trim(substr($opt,3));
 	
-	} elsif (substr ($opt,0,2 eq "-o")){
+	} elsif (substr ($opt,0,2) eq "-o"){
 	
 		$card = trim(substr($opt,3));
 	
-	} elsif (substr ($opt,0,2 eq "-s")){
+	} elsif (substr ($opt,0,2) eq "-s"){
 		
 		$server = trim(substr($opt,3));
 		
@@ -138,12 +136,6 @@ for my $opt (@$options){
 		$extra=$extra." ".$opt;
 	}
 }
-
-print "executable: ".$executable."\n";
-print "name: ".$name."\n";
-print "card: ".$card."\n";
-print "server: ".$server."\n";
-print "extra: ".$extra."\n";
 
 if ($name && ! ($name eq "") ){
 
