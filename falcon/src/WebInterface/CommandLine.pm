@@ -345,8 +345,10 @@ sub _setError{
     my $self = shift;
     my $msg  = shift;
     
+	$log-warning("found error in command line: ".$self->{error});
+	
     if ($self->{error}) {
-    
+		
         $self->{error}="WARNING: invalid options or values";
     } else{
     
