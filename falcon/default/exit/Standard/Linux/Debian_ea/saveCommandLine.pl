@@ -112,7 +112,7 @@ for my $line (@before){
     print $FH $line."\n";
 }
 
-print $FH " ";
+print $FH " "."\n";
 my $datestring = localtime();
 print $FH "created at $datestring\n";
 print $FH "input commandline is: ".$commandLine."\n";
