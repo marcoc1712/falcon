@@ -47,6 +47,12 @@ for my $row (@lines) {
 	if (substr($row,0,8) eq "SL_NAME="){
 
 		$name= "-n ".trim(substr($row,8));
+		#sanity check on name.
+		if ($name =~ m/\s/) {
+		
+			$name = "squeezelite-R2";
+		}
+		
 		#print "name is: ".$name."\n";
 
 	} elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
