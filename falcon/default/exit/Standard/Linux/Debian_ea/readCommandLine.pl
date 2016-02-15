@@ -50,7 +50,7 @@ for my $row (@lines) {
 		#sanity check on name.
 		if ($name =~ m/\s/) {
 		
-			$name = "squeezelite-R2";
+			$name = "-n squeezelite-R2";
 		}
 		#print "name is: ".$name."\n";
 
