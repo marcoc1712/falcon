@@ -37,7 +37,9 @@ sub new {
 		my $commandLineText=$conf->readCommandLine();
 		$error = $conf->getError();
 		
-		if (! $commandLineText){
+		$log->info($commandLineText);
+		
+		if (! $commandLineText || $commandLineText eq ""){
 			
 			#load defaults.
 			$prefs = WebInterface::Preferences->new($conf->getPrefFile());
