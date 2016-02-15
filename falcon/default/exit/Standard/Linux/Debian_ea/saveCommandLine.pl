@@ -28,7 +28,7 @@ my @before = (
     "# Please do not modify this file, use Falcon Web Interface instead",
     " ",
 	"#########################################################################",
-	" ",
+	" "
     # You could add as many line as you like, remember the # sign and use " ",
 );
 
@@ -38,8 +38,7 @@ my @after = (
     
     " ",
 	"#########################################################################",
-    " ",
-	
+    " "
 );
 # 
 
