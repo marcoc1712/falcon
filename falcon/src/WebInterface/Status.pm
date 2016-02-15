@@ -97,6 +97,7 @@ sub _init{
     if ($self->_checkExecutable( $self->getStatus()->{'pathname'})){
 
         my $commandLineText=$self->conf()->readCommandLine();
+		
         my $commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
         
         $log->info("actual command line: ".$commandLine->get());
@@ -106,8 +107,7 @@ sub _init{
         
 		if (! $self->{error}){
             
-          $self->getStatus()->{'commandLine'} = 
-                $utils->trim(substr($commandLine->get(),length($self->getStatus()->{'pathname'})));
+          $self->getStatus()->{'commandLine'} = $utils->trim($commandLine->get());
                 
                 $log->info("reported command line: ".$self->getStatus()->{'commandLine'});
             
