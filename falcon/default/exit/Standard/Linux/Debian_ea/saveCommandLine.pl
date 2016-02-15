@@ -115,7 +115,9 @@ for my $line (@before){
 }
 
 for my $opt (@$options){
-
+	
+	print $opt;
+	
 	if (! substr ($opt,0,1 eq "-")){
 		$executable= $opt;
 	
@@ -164,7 +166,7 @@ for my $line (@after){
 }
 if ($backupLine){
 
-	print $backupLine."\n";
+	print $FH $backupLine."\n";
 }
 close $FH;
 
