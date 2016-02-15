@@ -52,7 +52,6 @@ for my $row (@lines) {
 		
 			$name = "squeezelite-R2";
 		}
-		
 		#print "name is: ".$name."\n";
 
 	} elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
