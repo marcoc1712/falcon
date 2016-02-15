@@ -107,13 +107,19 @@ my $name;
 my $card;
 my $server;
 my $extra="";
-
+	
 for my $line (@before){
 
     print $FH $line."\n";
-    
 }
 
+print $FH " ";
+my $datestring = localtime();
+print $FH "created at $datestring\n";
+print $FH "input commandline is: ".$commandLine."\n";
+print $FH " ";
+print $FH "#########################################################################";
+ 
 for my $opt (@$options){
 
 	if (!(substr ($opt,0,1) eq "-")){
