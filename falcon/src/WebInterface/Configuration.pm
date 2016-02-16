@@ -63,6 +63,8 @@ sub isDisabled {
 sub getAutostart {
 	my $self        = shift;
 	if ($self->isDisabled('autostart')) {return 0};
+	
+	$self->{error}=undef;
 	my $script=  $self->get()->{'getAutostart'};
 	
 	if (! $self->_checkScript($script)){return undef;}
@@ -96,8 +98,7 @@ sub setAutostart {
 
     if ($self->isDisabled('autostart')) {return 1};
 	
-	$log->info($self->getError());
-    
+	$self->{error}=undef;
 	my $script=  $self->get()->{'setAutostart'};
 	
 	$log->info($self->getError());
@@ -131,7 +132,8 @@ sub setWakeOnLan {
     my $wakeOnLan	= shift;
 
     if ($self->isDisabled('allowWakeOnLan')) {return 1};
-
+	
+	$self->{error}=undef;
     my $script= $self->get()->{'setWakeOnLan'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -163,6 +165,7 @@ sub hwReboot {
 		$self->{error}="WARNING: reboot id disabled, check settings.";
 		return undef;
 	};
+	$self->{error}=undef;
     my $script= $self->get()->{'reboot'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -194,7 +197,7 @@ sub hwShutdown {
 		$self->{error}="WARNING: shoutdown id disabled, check settings.";
 		return undef;
 	};
-
+	$self->{error}=undef;
     my $script= $self->get()->{'shutdown'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -225,7 +228,8 @@ sub serviceStart {
     my $self = shift;
 
     if ($self->isDisabled('start')) {return undef};
-
+	
+	$self->{error}=undef;
     my $script= $self->get()->{'start'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -252,7 +256,8 @@ sub serviceStop {
     my $self = shift;
 
     if ($self->isDisabled('stop')) {return undef};
-
+	
+	$self->{error}=undef;
     my $script= $self->get()->{'stop'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -281,6 +286,7 @@ sub serviceRestart {
 
     if ($self->isDisabled('restart')) {return undef};
 
+	$self->{error}=undef;
     my $script= $self->get()->{'restart'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -316,6 +322,7 @@ sub testAudioDevice{
 
     if ($self->isDisabled('testAudioDevice')) {return undef};
 
+	$self->{error}=undef;
     my $script= $self->get()->{'testAudioDevice'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -332,6 +339,7 @@ sub getProcessInfo{
 
     if ($self->isDisabled('getProcessInfo')) {return undef};
 
+	$self->{error}=undef;
     my $script= $self->get()->{'getProcessInfo'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -355,6 +363,7 @@ sub writeCommandLine{
     my $self = shift;
     my $commandLine = shift;
 
+	$self->{error}=undef;
     my $script= $self->get()->{'saveCommandLine'};
 
     if (! $self->_checkScript($script)){return undef;}
@@ -392,6 +401,7 @@ sub writeCommandLine{
 sub readCommandLine{
     my $self = shift;
 
+	$self->{error}=undef;
     my $script= $self->get()->{'readCommandLine'};
 
     if (! $self->_checkScript($script)){return undef;}
