@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 
-my $command= "reboot";
+my $command= "sudo reboot";
 
 my @rows = `$command 2>&1`;
 
