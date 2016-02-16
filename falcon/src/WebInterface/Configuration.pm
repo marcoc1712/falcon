@@ -113,7 +113,7 @@ sub setAutostart {
 
     if ($self->isDisabled('autostart')) {return 1};
 	
-	my $script= $self->_getExit('setAutostart');_getExit->{'setAutostart'};
+	my $script= $self->_getExit('setAutostart');
     if (! $script){return undef;}
 	
     my $command = $script." ".($autostart ? "enable" : "disable");
