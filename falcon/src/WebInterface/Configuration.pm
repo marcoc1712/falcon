@@ -387,7 +387,32 @@ sub _runExit{
 	return @rows;
 
 }
+sub _getResult{
+    my $self 	= shift;
+	my $rows	= shift;
+	
+    my $rc = do(@$rows);
 
+    # Check for errors
+    if ($@) {
+        $self->{error} = "ERROR: Failure compiling $file - $@";
+        $self->{data}=undef;
+        return 0;
+    } elsif (! defined($rc)) {
+        $self->{error} = "ERROR: Failure reading $file - $!";
+        $self->{data}=undef;
+        return 0;
+    } elsif (! $rc) {
+        $self->{error} = "ERROR: Failure processing $file";
+        $self->{data}=undef;
+        return 0;
+    }
+    
+    $self->{data} = dclone \%data;
+
+    $self->{error} = undef;
+
+    return 1;
 
 sub _initDefault {
        

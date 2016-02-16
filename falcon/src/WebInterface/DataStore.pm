@@ -74,7 +74,6 @@ sub getError{
 
 sub _read{
     my $self 	= shift;
-
     if (! -e $self->{file}) {
 
         $self->{data}= $self->{default};
