@@ -107,7 +107,7 @@ sub _init{
 
 		if ($commandLine->get() && $commandLine->getError()){
 		
-			$self->getStatus()->{'commandLine'} = $self->getStatus()->{'commandLine'}." (".$self->{error}.")";
+			$self->getStatus()->{'commandLine'} = $utils->trim($commandLine->get())." (".$self->{error}.")";
 		
 		} elsif ($commandLine->get()){
 		
