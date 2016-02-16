@@ -80,7 +80,8 @@ sub getAutostart {
 	
 	if ($self->isDisabled('autostart')) {return 0};
 	
-	my $script= $self->_getExit->{'getAutostart'};
+	my $script= $self->_getExit('getAutostart');
+	
     if (! $script){return undef;}
 	
 	my $command = $script;
@@ -112,7 +113,7 @@ sub setAutostart {
 
     if ($self->isDisabled('autostart')) {return 1};
 	
-	my $script= $self->_getExit->{'setAutostart'};
+	my $script= $self->_getExit('setAutostart');_getExit->{'setAutostart'};
     if (! $script){return undef;}
 	
     my $command = $script." ".($autostart ? "enable" : "disable");
@@ -139,7 +140,7 @@ sub setWakeOnLan {
 
     if ($self->isDisabled('allowWakeOnLan')) {return 1};
 	
-	my $script= $self->_getExit->{'setWakeOnLan'};
+	my $script= $self->_getExit('setWakeOnLan');
     if (! $script){return undef;}
 	
     my $command = $script." ".($wakeOnLan ? "enable" : "disable");
@@ -170,7 +171,7 @@ sub hwReboot {
 		return undef;
 	};
 	
-	my $script= $self->_getExit->{'reboot'};
+	my $script= $self->_getExit('reboot');
     if (! $script){return undef;}
 	
     my $command = $script;
@@ -201,7 +202,7 @@ sub hwShutdown {
 		return undef;
 	};
 	
-	my $script= $self->_getExit->{'shutdown'};
+	my $script= $self->_getExit('shutdown');
     if (! $script){return undef;}
 
     my $command = $script;
@@ -231,7 +232,7 @@ sub serviceStart {
 
     if ($self->isDisabled('start')) {return undef};
 
-	my $script= $self->_getExit->{'start'};
+	my $script= $self->_getExit('start');
     if (! $script){return undef;}
 	
     my $command = $script;
@@ -257,7 +258,7 @@ sub serviceStop {
 
     if ($self->isDisabled('stop')) {return undef};
 	
-	my $script= $self->_getExit->{'stop'};
+	my $script= $self->_getExit('stop');
     if (! $script){return undef;}
 
     my $command = $script;
@@ -284,7 +285,7 @@ sub serviceRestart {
 
     if ($self->isDisabled('restart')) {return undef};
 	
-	my $script= $self->_getExit->{'restart'};
+	my $script= $self->_getExit('restart');
     if (! $script){return undef;}
 
     my $command = $script;
@@ -318,7 +319,7 @@ sub testAudioDevice{
 
     if ($self->isDisabled('testAudioDevice')) {return undef};
 
-	my $script= $self->_getExit->{'testAudioDevice'};
+	my $script= $self->_getExit('testAudioDevice');
     if (! $script){return undef;}
 
     my $command = $script." ".$audiodevice;
@@ -333,7 +334,7 @@ sub getProcessInfo{
 
     if ($self->isDisabled('getProcessInfo')) {return undef};
 	
-	my $script= $self->_getExit->{'getProcessInfo'};
+	my $script= $self->_getExit('getProcessInfo');
     if (! $script){return undef;}
 	
     my $command = $script." ".($pid ? $pid : "");
@@ -355,7 +356,7 @@ sub writeCommandLine{
     my $self		= shift;
     my $commandLine = shift;
 	
-	my $script= $self->_getExit->{'saveCommandLine'};
+	my $script= $self->_getExit('saveCommandLine');
     if (! $script){return undef;}
 
     my $command = $script." ".$commandLine;
@@ -391,7 +392,7 @@ sub writeCommandLine{
 sub readCommandLine{
     my $self = shift;
 
-    my $script= $self->_getExit->{'readCommandLine'};
+    my $script= $self->_getExit('readCommandLine');
     if (! $script){return undef;}
 
     my $command = $script;
