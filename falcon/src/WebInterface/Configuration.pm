@@ -436,7 +436,7 @@ sub _getExit{
 
 sub _executeExit(){
 	my $self	= shift;
-	my $script	= shift
+	my $script	= shift;
 	my $options	= shift;
 	
 	my $command;
