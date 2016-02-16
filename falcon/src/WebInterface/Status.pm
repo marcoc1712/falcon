@@ -119,7 +119,7 @@ sub _init{
 		}
     }
     
-    if ($self->{error}) {return undef;}
+    # if ($self->{error}) {return undef;}
 
     if ($self->{conf}->isDisabled('getProcessInfo')) {
 		$self->getStatus()->{'running'} ="Unknown (disabled))";
