@@ -86,7 +86,7 @@ sub printJSON{
 	print "{"."\n";
 	
 	print qq("ERROR" : "$in->{'error'}").","."\n";
-	print qq("MESSAGE" : "'$in->{'message'}").","."\n";
+	print qq("MESSAGE" : "$in->{'message'}").","."\n";
 	print qq("DATA" : [)."\n";
 	
 	my $lines = $in->{'data'};
