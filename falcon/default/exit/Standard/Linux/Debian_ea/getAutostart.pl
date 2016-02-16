@@ -82,11 +82,11 @@ sub trim{
 }
 sub write{
     my $data   = shift;
-    
+
     print <<_MARKER_;
 #####
 #
-# $marker
+# 
 #
 #####
 
@@ -103,6 +103,6 @@ _MARKER_
 
 return 1;
 }
-}
+
 
 1;
