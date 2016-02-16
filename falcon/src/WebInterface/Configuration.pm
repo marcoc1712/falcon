@@ -428,7 +428,7 @@ sub _getExit{
 	my $script= $self->get()->{$exit};
 	if (! $self->_checkScript($script)){return undef;}
 	
-	return $cript;
+	return $script;
 }
 
 sub _initDefault {
