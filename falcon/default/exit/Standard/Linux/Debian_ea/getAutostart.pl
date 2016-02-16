@@ -104,7 +104,7 @@ _MARKER_
 
 return 1;
 }
-printJSON{
+sub printJSON{
 	my $in = shift;
 	
 	print "{"."\n";
