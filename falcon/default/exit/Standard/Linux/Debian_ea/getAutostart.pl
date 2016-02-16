@@ -31,7 +31,7 @@ my $command= "/sbin/chkconfig squeezelite";
 my @rows = `$command 2>&1`;
 
 #print validateResult(\@rows);
-write(validateResult(\@rows));
+printMarker(validateResult(\@rows));
 
 sub validateResult{
 	my $result = shift;
@@ -80,7 +80,7 @@ sub trim{
     
     return $val;         
 }
-sub write{
+sub printMarker{
     my $data   = shift;
 
     print <<_MARKER_;
