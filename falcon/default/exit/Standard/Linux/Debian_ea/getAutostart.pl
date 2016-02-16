@@ -98,7 +98,6 @@ our (%data);
 1;
 # EOF
 _MARKER_
-    return 1;
 }
 
 1;
