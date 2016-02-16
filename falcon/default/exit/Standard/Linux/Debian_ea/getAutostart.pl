@@ -31,7 +31,8 @@ my $command= "/sbin/chkconfig squeezelite";
 my @rows = `$command 2>&1`;
 
 #print validateResult(\@rows);
-printMarker(validateResult(\@rows));
+#printMarker(validateResult(\@rows));
+printJSON(validateResult(\@rows));
 
 sub validateResult{
 	my $result = shift;
