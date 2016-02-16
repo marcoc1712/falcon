@@ -104,18 +104,19 @@ sub _init{
         $log->debug($commandLine->getError() || "ok");
         
         $self->{error}=$commandLine->getError();
-        
-		if (! $self->{error}){
-            
-          $self->getStatus()->{'commandLine'} = $utils->trim($commandLine->get());
-                
-                $log->info("reported command line: ".$self->getStatus()->{'commandLine'});
-            
-        } else{
-           
-           $self->getStatus()->{'commandLine'} = $self->{error};
-           
-        }
+
+		if ($commandLine->get() && $commandLine->getError()){
+		
+			$self->getStatus()->{'commandLine'} = $self->getStatus()->{'commandLine'}." (".$self->{error}.")";
+		
+		} elsif ($commandLine->get()){
+		
+			$self->getStatus()->{'commandLine'} = $utils->trim($commandLine->get());
+		
+		} else {
+			
+			$self->getStatus()->{'commandLine'} = $commandLine->getError();
+		}
     }
     
     if ($self->{error}) {return undef;}
