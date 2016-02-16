@@ -48,6 +48,7 @@ sub validateResult{
 	}
 	return $message;
 }
+
 sub trim{
 	my ($val) = shift;
 
@@ -69,4 +70,28 @@ sub trim{
     
     return $val;         
 }
+sub _write{
+    my $self   = shift;
+    my $data   = shift;
+    
+    print <<_MARKER_;
+#####
+#
+# $marker
+#
+#####
+
+use strict;
+use warnings;
+
+our (%data);
+
+# The configuration data
+@{[Data::Dumper->Dump([$data], ['*data'])]}
+1;
+# EOF
+_MARKER_
+    return 1;
+}
+
 1;

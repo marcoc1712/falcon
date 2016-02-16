@@ -91,7 +91,7 @@ sub getAutostart {
 		 return 0;
 	}
 	
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: getAutostart. Message is: ";
 
 	for my $r (@rows){
 		
@@ -113,7 +113,7 @@ sub setAutostart {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: setAutostart. Message is: ";
 
 	for my $r (@rows){
 		
@@ -135,7 +135,7 @@ sub setWakeOnLan {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: setWakeOnLan. Message is: ";
 
 	for my $r (@rows){
 		
@@ -161,7 +161,7 @@ sub hwReboot {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: reboot. Message is: ";
 
 	for my $r (@rows){
 		
@@ -190,7 +190,7 @@ sub hwShutdown {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: shutdown. Message is: ";
 
 	for my $r (@rows){
 		
@@ -212,7 +212,7 @@ sub serviceStart {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: start. Message is: ";
 
 	for my $r (@rows){
 		
@@ -234,7 +234,7 @@ sub serviceStop {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: stop. Message is: ";
 
 	for my $r (@rows){
 		
@@ -256,7 +256,7 @@ sub serviceRestart {
 	
 		 return 1;
 	}
-	my $error="ERROR: from exit: $script. Message is: ";
+	my $error="ERROR: from exit: restart. Message is: ";
 	
 	#$log->debug(@rows ? 'defined' : "undefined"); #undefined
 	#$log->debug(scalar @rows); #0
@@ -318,7 +318,7 @@ sub writeCommandLine{
     #$log->debug("script. ".$script);
     #$log->debug("command line. ".$commandLine);
     
-    my $error="ERROR: from exit: $script. Message is: ";
+    my $error="ERROR: from exit: saveCommandLine. Message is: ";
 
    #$log->debug(@rows ? 'defined' : "undefined");
    # $log->debug(scalar @rows);
@@ -381,6 +381,8 @@ sub _runExit{
 		$command = $script;
 	}
     my @rows = `$command`;
+	
+	
 	
 	return @rows;
 
