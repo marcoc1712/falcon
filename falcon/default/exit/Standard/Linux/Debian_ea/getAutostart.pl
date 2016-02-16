@@ -44,21 +44,22 @@ sub validateResult{
 	$out->{'message'}="";
 	$out->{'data'}=\@data;
 	
-	push @data, "prova";
-	
 	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
 	
 		my $str = trim(substr(trim($$result[0]),11));
 		push @data, $str;
-	} 
-	# else
-	my $message="";
-	
-	for my $row (@$result){
 		
-		push @data, trim($row);
+	} else {
+	
+		for my $row (@$result){
+		
+			push @data, trim($row);
+		}
 	}
 	return $out;
+	}
+
+
 }
 
 sub trim{

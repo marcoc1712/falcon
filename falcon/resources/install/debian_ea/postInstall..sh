@@ -46,6 +46,11 @@ touch  /var/log/squeezelite-R2/squeezelite-R2.log
 chown www-data:www-data /var/log/squeezelite-R2/squeezelite-R2.log
 chmod g=rw /var/log/squeezelite-R2/squeezelite-R2.log
 ###
+###
+### Installa chkconfig
+apt-get install chkconfig
+
+###
 ### problema (aggirato) dei permessi alla creazione dei nuovi files creati da root nelle cartelle di proprietà www-data
 ### bisogna impostare umask? a che valore?
 ###
