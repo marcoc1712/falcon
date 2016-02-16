@@ -30,8 +30,6 @@ my $command= "/sbin/chkconfig squeezelite";
 
 my @rows = `$command 2>&1`;
 
-#print validateResult(\@rows);
-#printMarker(validateResult(\@rows));
 printJSON(validateResult(\@rows));
 
 sub validateResult{
@@ -81,47 +79,30 @@ sub trim{
     
     return $val;         
 }
-sub printMarker{
-    my $data   = shift;
 
-    print <<_MARKER_;
-#####
-#
-# 
-#
-#####
-
-use strict;
-use warnings;
-
-our (%data);
-
-# The data
-@{[Data::Dumper->Dump([$data], ['*data'])]}
-1;
-# EOF
-_MARKER_
-
-return 1;
-}
 sub printJSON{
 	my $in = shift;
 	
 	print "{"."\n";
 	
-	print "  ERROR = ".q($in->{'error'}).","."\n";
-	print "  MESSAGE = ".q($in->{'message'}).","."\n";
-	print "  DATA = ["."\n";
+	print qq("ERROR" : "$in->{'error'}").","."\n";
+	print qq("MESSAGE" : "'$in->{'message'}").","."\n";
+	print qq("DATA" : [)."\n";
 	
-	for my $row (@$in->{'data'}){
-	
-		print "            ".q($row).","."\n";
+	my $lines = $in->{'data'};
+	my $first=1;
+	for my $row (@$lines){
+		if (!$first) {
+			print","."\n";
+		} else {
+			print"\n";
+			$first=0;
+		}
+		print "            ".qq("$row");
 	}
-	
+	print "\n";
 	print "         ]"."\n";
 	print "}"."\n";
-	
-
 }
 
 1;
