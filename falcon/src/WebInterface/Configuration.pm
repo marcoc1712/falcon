@@ -97,7 +97,11 @@ sub setAutostart {
     if ($self->isDisabled('autostart')) {return 1};
 
     my $script=  $self->get()->{'setAutostart'};
-		
+	
+	$log->info($self->getError());
+	$log->info($self->get()->{'pathname'});
+	$log->info($self->get()->{'isDefault'});
+	
 	$log->info($script);
 	
     if (! $self->_checkScript($script)){return undef;}
@@ -420,7 +424,8 @@ sub _initDefault {
        
 	my %defaultHash;
 	my $default = \%defaultHash;
-
+	
+	$default->{'isDefault'} = 1;
 	$default->{'pathname'} = "/usr/bin/squeezelite-R2";
 	$default->{'prefFile'} = "/var/www/falcon/data/squeezelite-R2.pref";
 	$default->{'PIDFile'} = "/run/squeezelite-R2.pid";
