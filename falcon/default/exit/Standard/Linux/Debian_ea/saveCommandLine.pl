@@ -49,7 +49,7 @@ my @after = (
 my $backupLine="";
 
 my $FH;
-if (-e $pathname && !(-e $backup)& !(-e $faultback)){
+if (-e $pathname && !(-e $backup) && !(-e $faultback)){
 
 	if (! open($FH, "< $pathname")) {
 		print "ERROR: Failure opening '$pathname' for reading- $!";

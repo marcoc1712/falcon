@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 
-my $command= qq(service squeezelite start);
+my $command= qq(sudo service squeezelite start);
 
 my @rows = `$command 2>&1`;
 
