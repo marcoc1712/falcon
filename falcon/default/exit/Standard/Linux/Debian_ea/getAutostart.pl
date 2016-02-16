@@ -23,6 +23,8 @@
 
 use strict;
 use warnings;
+use Data::Dumper;
+use Storable 'dclone';
 
 my $command= "/sbin/chkconfig squeezelite";
 
@@ -81,7 +83,7 @@ sub trim{
 sub write{
     my $data   = shift;
     
-    print _MARKER_;
+    print <<_MARKER_;
 #####
 #
 # $marker
@@ -94,10 +96,13 @@ use warnings;
 our (%data);
 
 # The configuration data
-@{[Data::Dumper->Dump([$data], ['*data'])]};
+@{[Data::Dumper->Dump([$data], ['*data'])]}
 1;
 # EOF
 _MARKER_
+
+return 1;
+}
 }
 
 1;
