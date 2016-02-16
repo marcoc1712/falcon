@@ -1,7 +1,6 @@
-# installa git
-cd /var/www
-apt-get install git
-git clone https://github.com/marcoc1712/falcon.git
+# aggiorna falcon.
+cd /var/www/falcon
+git pull
 
 # crea la cartella data
 cd /var/www/falcon
@@ -10,21 +9,6 @@ chown www-data:www-data data
 
 #imposta la configurazione di Falcon
 ln -s  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
-
-# ATTENZIONE CONFIGURARE SOLO IL WS effettivamente in uso.
-
-# copia la configurazione del webserver Apache2
-mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default-old.conf
-cp /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-#abilita le CGI
-
-ln -s /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/mods-available/cgid.conf /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/mods-enabled/cgid.conf
-ln -s /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/mods-available/cgid.load /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/mods-enabled/cgid.load
-
-# copia la configurazione del webserver lighttpd
-
-mv /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd-old.conf
-mv  /var/www/falcon/falcon/resources/install/WebServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
 
 #corregge i privilegi di esecuzione agli script:
 chmod +x var/www/falcon/cgi-bin/*.pl
@@ -69,4 +53,11 @@ chmod g=rw /var/log/squeezelite-R2/squeezelite-R2.log
 ### Reboot, bisogna essere root (?)									-> visudo
 ### Service xqueezelite (start,stop,restart) accesso negato.		-> visudo (?)
 ### 
+### NON FUNZIONA:
+
+### ERROR: from exit: /var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/serviceRestart.pl. 
+### Message is:   We trust you have received the usual lecture from the local System Administrator. 
+### It usually boils down to these three things:  #1) Respect the privacy of others. #2) Think before you type. 
+### #3) With great power comes great responsibility.  sudo: no tty present and no askpass program specified
+
 ### TODO: Attivare la rotazione dei files di log.
