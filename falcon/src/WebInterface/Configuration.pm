@@ -359,9 +359,11 @@ sub writeCommandLine{
 	my $script= $self->_getExit('saveCommandLine');
     if (! $script){return undef;}
 
-    my $command = $script." ".$commandLine;
+    #my $command = $script." ".$commandLine;
    
-    my @rows = `$command`;
+    #my @rows = `$command`;
+	
+	my @rows=$self->_executeExit($script, $commandLine);
 	
     if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 
@@ -430,6 +432,23 @@ sub _getExit{
 	if (! $self->_checkScript($script)){return undef;}
 	
 	return $script;
+}
+
+sub _executeExit(){
+	my $self	= shift;
+	my $script	= shift
+	my $options	= shift;
+	
+	my $command;
+	
+	if ($options){
+		$command = $script." ".$options;
+	} else{
+		$command = $script;
+	}
+    my @rows = `$command`;
+	
+	return @rows;
 }
 
 sub _initDefault {
