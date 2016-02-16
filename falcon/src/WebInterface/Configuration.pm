@@ -97,7 +97,9 @@ sub setAutostart {
     if ($self->isDisabled('autostart')) {return 1};
 
     my $script=  $self->get()->{'setAutostart'};
-
+		
+	$log->info($script);
+	
     if (! $self->_checkScript($script)){return undef;}
 	
     my $command = $script." ".($autostart ? "enable" : "disable");
