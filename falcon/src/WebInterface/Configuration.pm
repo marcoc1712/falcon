@@ -95,8 +95,10 @@ sub setAutostart {
     my $autostart   = shift;
 
     if ($self->isDisabled('autostart')) {return 1};
-
-    my $script=  $self->get()->{'setAutostart'};
+	
+	$log->info($self->getError());
+    
+	my $script=  $self->get()->{'setAutostart'};
 	
 	$log->info($self->getError());
 	$log->info($self->get()->{'pathname'});
