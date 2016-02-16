@@ -80,14 +80,8 @@ sub getAutostart {
 	
 	if ($self->isDisabled('autostart')) {return 0};
 	
-	my $script= $self->_getExit('getAutostart');
+	my @rows = $self->_runExit('getAutostart');
 	
-    if (! $script){return undef;}
-	
-	my $command = $script;
-	
-	my @rows = `$command`;
-
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^on+$/)){
 	
 		 return 1;
@@ -113,12 +107,7 @@ sub setAutostart {
 
     if ($self->isDisabled('autostart')) {return 1};
 	
-	my $script= $self->_getExit('setAutostart');
-    if (! $script){return undef;}
-	
-    my $command = $script." ".($autostart ? "enable" : "disable");
-	
-	my @rows = `$command`;
+	my @rows = $self->_runExit('setAutostart', $autostart);
 
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
@@ -140,14 +129,9 @@ sub setWakeOnLan {
 
     if ($self->isDisabled('allowWakeOnLan')) {return 1};
 	
-	my $script= $self->_getExit('setWakeOnLan');
-    if (! $script){return undef;}
-	
-    my $command = $script." ".($wakeOnLan ? "enable" : "disable");
-
-    my @rows = `$command`;
-	
-   	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	my @rows = $self->_runExit('setWakeOnLan', $wakeOnLan);
+    
+	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;
 	}
@@ -171,13 +155,8 @@ sub hwReboot {
 		return undef;
 	};
 	
-	my $script= $self->_getExit('reboot');
-    if (! $script){return undef;}
-	
-    my $command = $script;
-
-    my @rows = `$command`;
-    
+	my @rows = $self->_runExit('reboot');
+        
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;
@@ -202,13 +181,8 @@ sub hwShutdown {
 		return undef;
 	};
 	
-	my $script= $self->_getExit('shutdown');
-    if (! $script){return undef;}
-
-    my $command = $script;
-
-    my @rows = `$command`;
-	
+	my @rows = $self->_runExit('shutdown');
+    	
 	$log->debug(@rows ? 'defined' : "undefined"); #undefined
 	$log->debug(scalar @rows); #0
 	
@@ -232,12 +206,8 @@ sub serviceStart {
 
     if ($self->isDisabled('start')) {return undef};
 
-	my $script= $self->_getExit('start');
-    if (! $script){return undef;}
-	
-    my $command = $script;
-
-    my @rows = `$command`;
+	my @rows = $self->_runExit('start');
+    
     if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;
@@ -258,12 +228,7 @@ sub serviceStop {
 
     if ($self->isDisabled('stop')) {return undef};
 	
-	my $script= $self->_getExit('stop');
-    if (! $script){return undef;}
-
-    my $command = $script;
-
-    my @rows = `$command`;
+	my @rows = $self->_runExit('stop');
 	
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
@@ -285,13 +250,8 @@ sub serviceRestart {
 
     if ($self->isDisabled('restart')) {return undef};
 	
-	my $script= $self->_getExit('restart');
-    if (! $script){return undef;}
-
-    my $command = $script;
-
-    my @rows = `$command`;
-
+	my @rows = $self->_runExit('restart');
+    
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;
@@ -319,12 +279,8 @@ sub testAudioDevice{
 
     if ($self->isDisabled('testAudioDevice')) {return undef};
 
-	my $script= $self->_getExit('testAudioDevice');
-    if (! $script){return undef;}
-
-    my $command = $script." ".$audiodevice;
-
-    my @rows = `$command`;
+	my @rows = $self->_runExit('testAudioDevice', $audiodevice);
+    
     return \@rows;
 
 }
@@ -334,12 +290,8 @@ sub getProcessInfo{
 
     if ($self->isDisabled('getProcessInfo')) {return undef};
 	
-	my $script= $self->_getExit('getProcessInfo');
-    if (! $script){return undef;}
-	
-    my $command = $script." ".($pid ? $pid : "");
-    my @rows = `$command`;
-    
+	my @rows = $self->_runExit('getProcessInfo', $pid);
+   
 	my $info="";
 	if ($pid && (scalar @rows > 0)){
 		
@@ -356,15 +308,8 @@ sub writeCommandLine{
     my $self		= shift;
     my $commandLine = shift;
 	
-	my $script= $self->_getExit('saveCommandLine');
-    if (! $script){return undef;}
-
-    #my $command = $script." ".$commandLine;
-   
-    #my @rows = `$command`;
-	
-	my @rows=$self->_executeExit($script, $commandLine);
-	
+	my @rows = $self->_runExit('saveCommandLine', $commandLine);
+    
     if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 
         return 1;
@@ -394,13 +339,8 @@ sub writeCommandLine{
 sub readCommandLine{
     my $self = shift;
 
-    my $script= $self->_getExit('readCommandLine');
-    if (! $script){return undef;}
-
-    my $command = $script;
-
-    my @rows = `$command`;
-
+    my @rows = $self->_runExit('readCommandLine');
+    
 	if (!@rows || (scalar @rows == 0)){
 		
 		my $error="WARNING: can't read command line";
@@ -423,21 +363,15 @@ sub readCommandLine{
 
 ####################################################################################################
 
-sub _getExit{
+sub _runExit{
 	my $self = shift;
 	my $exit = shift;
+	my $options	= shift;
+	
 	
 	$self->{error}=undef;
 	my $script= $self->get()->{$exit};
 	if (! $self->_checkScript($script)){return undef;}
-	
-	return $script;
-}
-
-sub _executeExit(){
-	my $self	= shift;
-	my $script	= shift;
-	my $options	= shift;
 	
 	my $command;
 	
@@ -449,7 +383,9 @@ sub _executeExit(){
     my @rows = `$command`;
 	
 	return @rows;
+
 }
+
 
 sub _initDefault {
        
