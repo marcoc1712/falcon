@@ -57,9 +57,6 @@ sub validateResult{
 		}
 	}
 	return $out;
-	}
-
-
 }
 
 sub trim{
