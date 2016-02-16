@@ -44,6 +44,8 @@ sub validateResult{
 	$out->{'message'}="";
 	$out->{'data'}=\@data;
 	
+	push @data, "prova";
+	
 	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
 	
 		my $str = trim(substr(trim($$result[0]),11));
@@ -95,7 +97,7 @@ use warnings;
 
 our (%data);
 
-# The configuration data
+# The data
 @{[Data::Dumper->Dump([$data], ['*data'])]}
 1;
 # EOF
