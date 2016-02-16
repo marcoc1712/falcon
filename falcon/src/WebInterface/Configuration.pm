@@ -77,12 +77,11 @@ sub isDisabled {
 }
 sub getAutostart {
 	my $self        = shift;
+	
 	if ($self->isDisabled('autostart')) {return 0};
 	
-	$self->{error}=undef;
-	my $script=  $self->get()->{'getAutostart'};
-	
-	if (! $self->_checkScript($script)){return undef;}
+	my $script= $self->_getExit->{'getAutostart'};
+    if (! $script)){return undef;}
 	
 	my $command = $script;
 	
@@ -113,16 +112,8 @@ sub setAutostart {
 
     if ($self->isDisabled('autostart')) {return 1};
 	
-	$self->{error}=undef;
-	my $script=  $self->get()->{'setAutostart'};
-	
-	$log->info($self->getError());
-	$log->info($self->get()->{'pathname'});
-	$log->info($self->get()->{'isDefault'});
-	
-	$log->info($script);
-	
-    if (! $self->_checkScript($script)){return undef;}
+	my $script= $self->_getExit->{'setAutostart'};
+    if (! $script)){return undef;}
 	
     my $command = $script." ".($autostart ? "enable" : "disable");
 	
@@ -148,11 +139,9 @@ sub setWakeOnLan {
 
     if ($self->isDisabled('allowWakeOnLan')) {return 1};
 	
-	$self->{error}=undef;
-    my $script= $self->get()->{'setWakeOnLan'};
-
-    if (! $self->_checkScript($script)){return undef;}
-
+	my $script= $self->_getExit->{'setWakeOnLan'};
+    if (! $script)){return undef;}
+	
     my $command = $script." ".($wakeOnLan ? "enable" : "disable");
 
     my @rows = `$command`;
@@ -180,11 +169,10 @@ sub hwReboot {
 		$self->{error}="WARNING: reboot id disabled, check settings.";
 		return undef;
 	};
-	$self->{error}=undef;
-    my $script= $self->get()->{'reboot'};
-
-    if (! $self->_checkScript($script)){return undef;}
-
+	
+	my $script= $self->_getExit->{'reboot'};
+    if (! $script)){return undef;}
+	
     my $command = $script;
 
     my @rows = `$command`;
@@ -212,10 +200,9 @@ sub hwShutdown {
 		$self->{error}="WARNING: shoutdown id disabled, check settings.";
 		return undef;
 	};
-	$self->{error}=undef;
-    my $script= $self->get()->{'shutdown'};
-
-    if (! $self->_checkScript($script)){return undef;}
+	
+	my $script= $self->_getExit->{'shutdown'};
+    if (! $script)){return undef;}
 
     my $command = $script;
 
@@ -243,12 +230,10 @@ sub serviceStart {
     my $self = shift;
 
     if ($self->isDisabled('start')) {return undef};
+
+	my $script= $self->_getExit->{'start'};
+    if (! $script)){return undef;}
 	
-	$self->{error}=undef;
-    my $script= $self->get()->{'start'};
-
-    if (! $self->_checkScript($script)){return undef;}
-
     my $command = $script;
 
     my @rows = `$command`;
@@ -272,10 +257,8 @@ sub serviceStop {
 
     if ($self->isDisabled('stop')) {return undef};
 	
-	$self->{error}=undef;
-    my $script= $self->get()->{'stop'};
-
-    if (! $self->_checkScript($script)){return undef;}
+	my $script= $self->_getExit->{'stop'};
+    if (! $script)){return undef;}
 
     my $command = $script;
 
@@ -300,11 +283,9 @@ sub serviceRestart {
     my $self = shift;
 
     if ($self->isDisabled('restart')) {return undef};
-
-	$self->{error}=undef;
-    my $script= $self->get()->{'restart'};
-
-    if (! $self->_checkScript($script)){return undef;}
+	
+	my $script= $self->_getExit->{'restart'};
+    if (! $script)){return undef;}
 
     my $command = $script;
 
@@ -337,10 +318,8 @@ sub testAudioDevice{
 
     if ($self->isDisabled('testAudioDevice')) {return undef};
 
-	$self->{error}=undef;
-    my $script= $self->get()->{'testAudioDevice'};
-
-    if (! $self->_checkScript($script)){return undef;}
+	my $script= $self->_getExit->{'testAudioDevice'};
+    if (! $script)){return undef;}
 
     my $command = $script." ".$audiodevice;
 
@@ -350,14 +329,12 @@ sub testAudioDevice{
 }
 sub getProcessInfo{
     my $self = shift;
-    my $pid			= shift;
+    my $pid	 = shift;
 
     if ($self->isDisabled('getProcessInfo')) {return undef};
-
-	$self->{error}=undef;
-    my $script= $self->get()->{'getProcessInfo'};
-
-    if (! $self->_checkScript($script)){return undef;}
+	
+	my $script= $self->_getExit->{'getProcessInfo'};
+    if (! $script)){return undef;}
 	
     my $command = $script." ".($pid ? $pid : "");
     my @rows = `$command`;
@@ -375,13 +352,11 @@ sub getProcessInfo{
     return $info;
 }
 sub writeCommandLine{
-    my $self = shift;
+    my $self		= shift;
     my $commandLine = shift;
-
-	$self->{error}=undef;
-    my $script= $self->get()->{'saveCommandLine'};
-
-    if (! $self->_checkScript($script)){return undef;}
+	
+	my $script= $self->_getExit->{'saveCommandLine'};
+    if (! $script)){return undef;}
 
     my $command = $script." ".$commandLine;
    
@@ -416,10 +391,8 @@ sub writeCommandLine{
 sub readCommandLine{
     my $self = shift;
 
-	$self->{error}=undef;
-    my $script= $self->get()->{'readCommandLine'};
-
-    if (! $self->_checkScript($script)){return undef;}
+    my $script= $self->_getExit->{'readCommandLine'};
+    if (! $script)){return undef;}
 
     my $command = $script;
 
@@ -446,6 +419,17 @@ sub readCommandLine{
 }
 
 ####################################################################################################
+
+sub _getExit{
+	my $self = shift;
+	my $exit = shift;
+	
+	$self->{error}=undef;
+	my $script= $self->get()->{$exit};
+	if (! $self->_checkScript($script)){return undef;}
+	
+	return $cript;
+}
 
 sub _initDefault {
        

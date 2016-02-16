@@ -22,6 +22,7 @@
 ################################################################################
 
 package WebInterface::JSONhelper;
+#simple, one level JSON encoder/decoder, just to avoid dependancy.
 
 use strict;
 use warnings;
@@ -39,7 +40,7 @@ sub encode{
     my $out="";
 
     if (! $data) {return undef;}
-
+	
     $out= $out."{";
 
     if (ref $data eq "ARRAY"){

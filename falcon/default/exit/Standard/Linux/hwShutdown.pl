@@ -24,7 +24,6 @@
 use strict;
 use warnings;
 
-
 my $command= "sudo shutdown";
 
 my @rows = `$command 2>&1`;
