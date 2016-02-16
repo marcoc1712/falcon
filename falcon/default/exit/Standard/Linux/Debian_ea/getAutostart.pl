@@ -109,9 +109,9 @@ printJSON{
 	
 	print "{"."\n";
 	
-	print ("ERROR = ".$in->{'error'}).","."\n";
-	print ("MESSAGE = ".$in->{'message'}).","."\n";
-	print ("DATA = ["."\n";
+	print "ERROR = ".$in->{'error'}.","."\n";
+	print "MESSAGE = ".$in->{'message'}.","."\n";
+	print "DATA = ["."\n";
 	
 	for my $row ($in->{'data'}){
 	
