@@ -94,7 +94,7 @@ use warnings;
 our (%data);
 
 # The configuration data
-@{[Data::Dumper->Dump([$data], ['*data'])]}
+@{[Data::Dumper->Dump([$data], ['*data'])]};
 1;
 # EOF
 _MARKER_
