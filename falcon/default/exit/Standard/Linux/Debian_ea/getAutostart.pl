@@ -109,13 +109,13 @@ sub printJSON{
 	
 	print "{"."\n";
 	
-	print "  ERROR = ".$in->{'error'}.","."\n";
-	print "  MESSAGE = ".$in->{'message'}.","."\n";
+	print "  ERROR = ".q($in->{'error'}).","."\n";
+	print "  MESSAGE = ".q($in->{'message'}).","."\n";
 	print "  DATA = ["."\n";
 	
-	for my $row ($in->{'data'}){
+	for my $row (@$in->{'data'}){
 	
-		print "            ".$row.","."\n";
+		print "            ".q($row).","."\n";
 	}
 	
 	print "         ]"."\n";
