@@ -28,25 +28,33 @@ my $command= "/sbin/chkconfig squeezelite";
 
 my @rows = `$command 2>&1`;
 
-print validateResult(\@rows);
+#print validateResult(\@rows);
+write(validateResult(\@rows));
 
 sub validateResult{
 	my $result = shift;
 	
+	my %outHash;
+	my $out= \%outHash;
+	my @data=();
+	
+	$out->{'error'}=0;
+	$out->{'message'}="";
+	$out->{'data'}=\@data;
+	
 	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
 	
 		my $str = trim(substr(trim($$result[0]),11));
-		return $str;
-	
+		push @data, $str;
 	} 
-	
+	# else
 	my $message="";
 	
 	for my $row (@$result){
 		
-		$message= $message." ".trim($row);
+		push @data, trim($row);
 	}
-	return $message;
+	return $out;
 }
 
 sub trim{
@@ -70,8 +78,7 @@ sub trim{
     
     return $val;         
 }
-sub _write{
-    my $self   = shift;
+sub write{
     my $data   = shift;
     
     print <<_MARKER_;
