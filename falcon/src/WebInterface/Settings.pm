@@ -159,20 +159,24 @@ sub save{
     if (! ($self->commandLine()->setPreferences($self->prefs()))) {
 		$self->{error} =$self->commandLine()->getError();
 	}
-
+	$log->info("after command line: ".($self->{error} ? $self->{error} : ""));
+	
     if (! $self->{error} && ! $self->conf()->setAutostart($self->getItem('autostart'))) {
         $self->{error} =  $self->conf()->getError();
     }
-
+	$log->info("after autostart : ".($self->{error} ? $self->{error} : ""));
+	
     if (! $self->{error} && ! $self->conf()->setWakeOnLan($self->getItem('allowWakeOnLan'))) {
         $self->{error} =  $self->conf()->getError();
     }
-
-    if (! $self->{error} && ! $self->prefs()->save()) {
+	$log->info("after wakeOnLan : ".($self->{error} ? $self->{error} : ""));
+    
+	if (! $self->{error} && ! $self->prefs()->save()) {
         $self->{error} = $self->prefs()->getError();
     }
-
-    if (! $self->{error}) {return "DONE. Please restart.";};
+	$log->info("after prefs : ".($self->{error} ? $self->{error} : ""));
+    
+	if (! $self->{error}) {return "DONE. Please restart.";};
 
     return undef; 
 	
