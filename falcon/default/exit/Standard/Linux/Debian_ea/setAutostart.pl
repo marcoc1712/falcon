@@ -88,7 +88,7 @@ sub validateResult{
 			printJSON($out);
 			exit 0;
 			
-		} elsif if ( $row  =~ /^WARNING/){
+		} elsif ( $row  =~ /^WARNING/){
 		
 			$out->{'status'}="WARNING";
 			$out->{'message'}=trim(substr($row,7));
