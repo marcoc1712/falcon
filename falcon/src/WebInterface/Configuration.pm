@@ -86,9 +86,9 @@ sub getAutostart {
 	
 	if ($result){
 		
-		if ($result->{data}){
+		if ($result->{'data'}){
 			
-			my $rows =  $result->{data};
+			my $rows =  $result->{'data'};
 
 			if ((scalar @$rows == 1) && ($$rows[0]  =~ /^on+$/)){
 
@@ -99,28 +99,19 @@ sub getAutostart {
 				 return 0;
 			}
 		} 
-		if ( $result->{status} && (! $result->{status} ed "ok")){
+		if ( $result->{'status'} && (! $result->{'status'} ed "ok")){
 		
-			$self->{error}=$result->{status};
+			$self->{error}=$result->{'status'};
 		}
 		
 		$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
 		
-		if ( $result->{message}){
+		if ( $result->{'message'}){
 		
-			$self->{error}=$result->{message};
+			$self->{error}=$result->{'message'};
 		}
 	}
-	#
-	#my $error="ERROR: from exit: getAutostart. Message is: ";
-	#
-	#for my $r (@rows){
-	#	
-	#	$error = $error." ".$utils->trim($r);
-	#	
-	#}
-	#$self->{error}=$error;
-	
+
 	return undef;
 }
 sub setAutostart {
