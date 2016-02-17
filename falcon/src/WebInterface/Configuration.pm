@@ -112,7 +112,7 @@ sub setAutostart {
     if ($self->isDisabled('autostart')) {return 1};
 	
 	my @rows = $self->_runExit('setAutostart', ($autostart ? 'enable' : 'disable'));
-	my $result = _getResult(\@rows);
+	my $result = $self->_getResult(\@rows);
 	
 	if ( $result->{'status'} eq "DONE"){
 		
