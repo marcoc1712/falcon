@@ -134,7 +134,8 @@ sub setWakeOnLan {
     if ($self->isDisabled('allowWakeOnLan')) {return 1};
 	
 	my @rows = $self->_runExit('setWakeOnLan', $wakeOnLan);
-    
+    my $result = $self->_getExitResult(\@rows);
+	
 	if ( $result->{'status'} eq "DONE"){
 		
 		return 1;
