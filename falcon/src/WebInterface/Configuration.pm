@@ -99,7 +99,7 @@ sub getAutostart {
 				 return 0;
 			}
 		} 
-		if ( $result->{'status'} && (! $result->{'status'} ed "ok")){
+		if ( $result->{'status'} && (! $result->{'status'} eq "ok")){
 		
 			$self->{error}=$result->{'status'};
 		}
