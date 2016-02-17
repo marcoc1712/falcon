@@ -429,7 +429,7 @@ sub _getExitResult{
 	
 	for my $el (@elements){
 		
-		if ($el == "") {next;}
+		if ($el eq "") {next;}
 		
 		if (! $inArray){
 
