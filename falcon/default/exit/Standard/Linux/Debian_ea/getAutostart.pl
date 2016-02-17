@@ -74,7 +74,7 @@ sub validateResult{
 	return $out;
 }
 ###############################################################################
-# This code should be in a library, please don modify it.
+# This code should be in a library, please do not modify it.
 ###############################################################################
 
 sub trim {
