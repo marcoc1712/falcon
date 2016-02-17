@@ -470,9 +470,11 @@ sub _getExitResult{
 		}
 	}
 	### minimal Sanity check
+
+	for my $k (keys %$out){
 	
-	use Data::Dump;
-	$log->info("out: ".Data::Dump::dump($out));
+		print $k, $out->{$k};
+	}
 	
 	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
 	
