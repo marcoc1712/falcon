@@ -114,11 +114,6 @@ sub setAutostart {
 	my @rows = $self->_runExit('setAutostart', ($autostart ? 'enable' : 'disable'));
 	my $result = $self->_getExitResult(\@rows);
 	
-	$log->info("setAutostart");
-	$log->info(join(', ', @rows));
-	$log->info("status: ".$result->{'status'});
-	$log->info("message: ".$result->{'message'});
-	
 	if ( $result->{'status'} eq "DONE"){
 		
 		return 1;
@@ -140,19 +135,17 @@ sub setWakeOnLan {
 	
 	my @rows = $self->_runExit('setWakeOnLan', $wakeOnLan);
     
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-	
-		 return 1;
+	if ( $result->{'status'} eq "DONE"){
+		
+		return 1;
 	}
-	my $error="ERROR: from exit: setWakeOnLan. Message is: ";
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: setWakeOnLan. Message is: ";
 
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
+	if ( $result->{'message'}){
+
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
-	
-	$self->{error}=$error;
 	return undef;
 }
 sub hwReboot {

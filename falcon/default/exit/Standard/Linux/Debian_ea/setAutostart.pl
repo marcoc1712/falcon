@@ -164,4 +164,3 @@ sub printJSON{
 	print "}"."\n";
 }
 1;
-1;

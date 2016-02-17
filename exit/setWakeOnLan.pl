@@ -1,25 +1,65 @@
 #!/usr/bin/perl
+# $Id$
 #
-# @File getProcessInfo.pl
-# @Author marco
-# @Created 28-gen-2016 16.04.44
+# WEB INTERFACE and Controll application for an headless squeezelite
+# installation.
 #
+# Best used with Squeezelite-R2 
+# (https://github.com/marcoc1712/squeezelite/releases)
+#
+# Copyright 2016 Marco Curti, marcoc1712 at gmail dot com.
+# Please visit www.marcoc1712.it
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License,
+# version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+################################################################################
 
 use strict;
 use warnings;
 
+# the return MUST be in form of an hash with three elements:
+#
+# 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
+# 'message' = status message displayed to the user, MUST be a valid UTF_8 string,
+#             please avoid special and control characters.
+# 'data'		= ARRAY of valid UTF_8 string containing the command result, 
+#             contents is validated only by the application.
+#
+# any other element is discharged.
+#
+# here the PROTOTYPE:
+
+my @data=();
+my $out={};
+$out->{'status'}='ok';
+$out->{'message'}="";
+$out->{'data'}=\@data;
+
 if (! scalar @ARGV == 1){
 
-    print "WARNING: Missing action";
-    exit 0;
+    $out->{'status'}="WARNING";
+	$out->{'message'}="Missing action";
+	
+	printJSON($out);
+	exit 0;
 }
 
 my $action = $ARGV[0];
 
 if ((! ($action eq "enable") ) && (! ($action eq "disable") )){
 
-    print "WARNING: Invalid action";
-    exit 0;
+	$out->{'status'}="WARNING";
+	$out->{'message'}="Invalid action";
+	
+	printJSON($out);
+	exit 0;
 
 }
 # You must first check if your system could handle wakeonLan, then
@@ -37,62 +77,127 @@ if ((! ($action eq "enable") ) && (! ($action eq "disable") )){
 #
 # or just one: /usr/bin/setWakeOnlan.sh <enable|disable>
 # 
-# as supposed in the following code:
+# as supposed in the following code, as for an example.
+#
 
 my $script= "/usr/bin/setWakeOnlan.sh";
 my $error = checkScript($script);
 
-if ( ! $error && (($action eq "enable") ||($action eq "disable"))){
-	 
-	my $command= $script." ".$action;
+if ($error) {
 
-	my @rows = `$command 2>&1`;
-
-	print validateResult(\@rows);
+	$out->{'status'}="ERROR";
+	$out->{'message'}=$error;
 	
-} else{
+	printJSON($out);
+	exit 0;
+}
 
-	print $error; 
+my $command= $script." ".$action;
+my @rows = `$command 2>&1`;
+
+validateResult(\@rows);
+
+sub validateResult{
+	my $result = shift;
+	
+	my $message="";
+	for my $row (@$result){
+	
+		if ($row  =~ /^ERROR/){
+		
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim(substr($row,5));
+			
+			printJSON($out);
+			exit 0;
+			
+		} elsif ( $row  =~ /^WARNING/){
+		
+			$out->{'status'}="WARNING";
+			$out->{'message'}=trim(substr($row,7));
+						
+			printJSON($out);
+			exit 0;
+			
+		}
+		else{
+			$message = $message." ".trim($row);
+		}
+	}
+	
+	$out->{'status'}="ok";
+	$out->{'message'}=$message;
+
+	printJSON($out);
+	exit 1;
 }
 
 sub checkScript{
    my $script= shift;
 	
 	if (! $script) {
-		return "ERROR: script is undefined"; 
+		return "script is undefined"; 
 	}
 	if (! -e $script) {
-		return "ERROR: script $script does not exists"; 
+		return "script $script does not exists"; 
 	}
 	if (! -r $script) {
-		return "ERROR: could not read script $script"; 
+		return "could not read script $script"; 
 	}
 	if (! -x $script) {
-		return "ERROR: could not execute script $script"; 
+		return "could not execute script $script"; 
 	}
 	return 0;
 }
 
-sub validateResult{
-	my $result = shift;
+###############################################################################
+# This code should be in a library, please do not modify it.
+###############################################################################
+
+sub trim {
+	my ($val) = shift;
+
+  	if (defined $val) {
+
+    	$val =~ s/^\s+//; # strip white space from the beginning
+    	$val =~ s/\s+$//; # strip white space from the end
+    }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
 	
-	# insert here any logit to validate the result.
-	# NOTE $result i a pointer to an array!
-	
-	#You could use something like that to investigate each line:
-	
-	for my $row (@$result){
-	
-		# do something with the line i.e.
-		if (($row  =~ /^ERROR/) || ($row  =~ /^WARNING/)){
-		
-			return $row; #error condition.
-		}
-		# Return a string stating with "ERROR" or "WARNING" to explicity
-		# set an axception, but any string <> "ok" is handles as an exception.
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
 	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
 	
-	# if nothing wrong is detected, returns "ok".
-	return "ok";
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
+    
+    return $val;         
+}
+
+sub printJSON{
+	my $in = shift;
+	
+	print "{"."\n";
+	
+	print qq("status" : "$in->{'status'}").","."\n";
+	print qq("message" : "$in->{'message'}").","."\n";
+	print qq("data" : [)."\n";
+	
+	my $lines = $in->{'data'};
+	my $first=1;
+	for my $row (@$lines){
+		if (!$first) {
+			print","."\n";
+		} else {
+			print"\n";
+			$first=0;
+		}
+		print "            ".qq("$row");
+	}
+	print "\n";
+	print "         ]"."\n";
+	print "}"."\n";
 }
 1;
