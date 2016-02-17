@@ -43,8 +43,6 @@ $out->{'status'}='ok';
 $out->{'message'}="";
 $out->{'data'}=\@data;
 
-my $action;
-
 if (! scalar @ARGV == 1){
 	
 	$out->{'status'}="WARNING";
