@@ -96,11 +96,7 @@ sub getAutostart {
 			return 0;
 		}
 	} 
-	if ( $result->{'status'}){
-
-		$self->{error}=$result->{'status'};
-	}
-
+	$self->{error}=$result->{'status'};
 	$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
 
 	if ( $result->{'message'}){
@@ -116,19 +112,19 @@ sub setAutostart {
     if ($self->isDisabled('autostart')) {return 1};
 	
 	my @rows = $self->_runExit('setAutostart', ($autostart ? 'enable' : 'disable'));
-
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+	my $result = _getResult(\@rows);
 	
-		 return 1;
+	if ( $result->{'status'} eq "DONE") ){
+		
+		return 1;
 	}
-	my $error="ERROR: from exit: setAutostart. Message is: ";
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
 
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
+	if ( $result->{'message'}){
+
+		$self->{error}=$result->{'message'};
 	}
-	$self->{error}=$error;
 	return undef;
 }
 sub setWakeOnLan {
