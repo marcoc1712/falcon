@@ -80,7 +80,15 @@ sub validateResult{
 	
 	for my $row (@$result){
 
-		if ($row  =~ /^ERROR/){
+		if ($row  =~ /^Failed/){
+		
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim($row,5);
+			
+			printJSON($out);
+			exit 0;
+			
+		}elsif ($row  =~ /^ERROR/){
 		
 			$out->{'status'}="ERROR";
 			$out->{'message'}=trim(substr($row,5));
