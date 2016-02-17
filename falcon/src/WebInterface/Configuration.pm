@@ -115,7 +115,7 @@ sub setAutostart {
 
     if ($self->isDisabled('autostart')) {return 1};
 	
-	my @rows = $self->_runExit('setAutostart', $autostart);
+	my @rows = $self->_runExit('setAutostart', ($autostart ? 'enable' : 'disable'));
 
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
