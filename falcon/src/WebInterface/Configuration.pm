@@ -128,7 +128,7 @@ sub setAutostart {
 
 	if ( $result->{'message'}){
 
-		$self->{error}=$result->{'message'};
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
 	return undef;
 }
