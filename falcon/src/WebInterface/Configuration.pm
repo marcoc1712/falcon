@@ -473,7 +473,7 @@ sub _getExitResult{
 
 	for my $k (keys %$out){
 	
-		print $k, $out->{$k};
+		print "key: ".$k." value: ".$out->{$k}."\n";
 	}
 	
 	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
