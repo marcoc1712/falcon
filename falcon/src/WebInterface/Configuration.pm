@@ -81,7 +81,7 @@ sub getAutostart {
 	if ($self->isDisabled('autostart')) {return 0};
 	
 	my @rows = $self->_runExit('getAutostart');
-	my $result = _getResult(\@rows);
+	my $result = $self->_getResult(\@rows);
 
 	if ($result->{'data'}){
 
