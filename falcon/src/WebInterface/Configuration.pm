@@ -84,34 +84,6 @@ sub getAutostart {
 	
 	my $result = _getResult(\@rows);
 	
-	if ($result){
-		
-		if ($result->{'data'}){
-			
-			my $rows =  $result->{'data'};
-
-			if ((scalar @$rows == 1) && ($$rows[0]  =~ /^on+$/)){
-
-			 return 1;
-			}
-			if ((scalar @$rows == 1) && ($$rows[0]  =~ /^off+$/)){
-
-				 return 0;
-			}
-		} 
-		if ( $result->{'status'} && (! $result->{'status'} ed "ok")){
-		
-			$self->{error}=$result->{'status'};
-		}
-		
-		$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
-		
-		if ( $result->{'message'}){
-		
-			$self->{error}=$result->{'message'};
-		}
-	}
-
 	return undef;
 }
 sub setAutostart {
