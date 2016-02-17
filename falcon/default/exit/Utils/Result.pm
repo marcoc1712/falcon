@@ -5,9 +5,9 @@
 # @Created 17-feb-2016 11.35.59
 #
 
-package Util::Result
+package Util::Result;
 
-sub trim{
+sub trim {
 	my ($val) = shift;
 
   	if (defined $val) {
@@ -53,3 +53,4 @@ sub printJSON{
 	print "         ]"."\n";
 	print "}"."\n";
 }
+1;
