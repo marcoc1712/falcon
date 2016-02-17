@@ -24,9 +24,6 @@
 use strict;
 use warnings;
 
-use lib "../../../../exit"; #change this on move, it should poit to ..../falcon/falcon/default/exit.
-use Utils::Result;
-
 # the return MUST be in form of an hash with three elements:
 #
 # 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
@@ -53,16 +50,16 @@ my @rows = `$command 2>&1`;
 
 #result validation and return.
 validateResult(\@rows);
-Utils::Result::printJSON($out);
+printJSON($out);
 
 sub validateResult{
 	my $result = shift;
 	
 	#here your validation code.
 	
-	if ((scalar @$result == 1) && (Utils::Result::trim($$result[0])  =~ /^squeezelite/)){
+	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
 	
-		my $str = Utils::Result::trim(substr(Utils::Result::trim($$result[0]),11));
+		my $str = trim(substr(trim($$result[0]),11));
 		push @data, $str;
 		
 	} else {
@@ -75,5 +72,55 @@ sub validateResult{
 		$out->{'message'}=$message;
 	}
 	return $out;
+}
+###############################################################################
+# This code should be in a library, please don modify it.
+###############################################################################
+
+sub trim {
+	my ($val) = shift;
+
+  	if (defined $val) {
+
+    	$val =~ s/^\s+//; # strip white space from the beginning
+    	$val =~ s/\s+$//; # strip white space from the end
+    }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
+    
+    return $val;         
+}
+
+sub printJSON{
+	my $in = shift;
+	
+	print "{"."\n";
+	
+	print qq("ERROR" : "$in->{'error'}").","."\n";
+	print qq("MESSAGE" : "$in->{'message'}").","."\n";
+	print qq("DATA" : [)."\n";
+	
+	my $lines = $in->{'data'};
+	my $first=1;
+	for my $row (@$lines){
+		if (!$first) {
+			print","."\n";
+		} else {
+			print"\n";
+			$first=0;
+		}
+		print "            ".qq("$row");
+	}
+	print "\n";
+	print "         ]"."\n";
+	print "}"."\n";
 }
 1;
