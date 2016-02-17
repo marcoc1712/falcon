@@ -50,19 +50,13 @@ chmod g=rw /var/log/squeezelite-R2/squeezelite-R2.log
 ### Installa chkconfig
 apt-get install chkconfig
 
+### Shutdown, bisogna essere root.									-> visudo
+### Reboot, bisogna essere root (?)									-> visudo
+### Service xqueezelite (start,stop,restart) accesso negato.		-> visudo
+### update-rc.d (autostart) accesso negato							-> visudo
+
 ###
 ### problema (aggirato) dei permessi alla creazione dei nuovi files creati da root nelle cartelle di proprietà www-data
 ### bisogna impostare umask? a che valore?
 ###
-### Shutdown, bisogna essere root.									-> visudo
-### Reboot, bisogna essere root (?)									-> visudo
-### Service xqueezelite (start,stop,restart) accesso negato.		-> visudo (?)
-### 
-### NON FUNZIONA:
-
-### ERROR: from exit: /var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/serviceRestart.pl. 
-### Message is:   We trust you have received the usual lecture from the local System Administrator. 
-### It usually boils down to these three things:  #1) Respect the privacy of others. #2) Think before you type. 
-### #3) With great power comes great responsibility.  sudo: no tty present and no askpass program specified
-
 ### TODO: Attivare la rotazione dei files di log.

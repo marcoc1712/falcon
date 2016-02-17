@@ -65,7 +65,7 @@ if ((! ($action eq "enable") ) && (! ($action eq "disable") )){
 
 }
 #here the command to be executed;
-my $command= "update-rc.d -n squeezelite $action";
+my $command= "sudo update-rc.d -n squeezelite $action";
 
 my @rows = `$command 2>&1`;
 
