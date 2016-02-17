@@ -103,8 +103,6 @@ sub decode{
 	
 	#simple one level implementation.
 	
-	my $row = @$data shift;
-	
     return undef;
 }
 1;
