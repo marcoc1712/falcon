@@ -5,7 +5,7 @@
 # @Created 17-feb-2016 11.35.59
 #
 
-package Util::Result;
+package Utils::Result;
 
 sub trim {
 	my ($val) = shift;
