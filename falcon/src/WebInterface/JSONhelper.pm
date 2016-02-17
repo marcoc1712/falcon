@@ -100,8 +100,11 @@ sub decode{
     my $out="";
 
     if (! $data) {return undef;}
-
-    #tobe handled
+	
+	#simple one level implementation.
+	
+	my $row = @$data shift;
+	
     return undef;
 }
 1;

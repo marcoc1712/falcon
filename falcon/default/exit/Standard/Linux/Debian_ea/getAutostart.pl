@@ -39,7 +39,7 @@ sub validateResult{
 	my $out= \%outHash;
 	my @data=();
 	
-	$out->{'error'}=0;
+	$out->{'status'}='ok';
 	$out->{'message'}="";
 	$out->{'data'}=\@data;
 	
@@ -49,11 +49,13 @@ sub validateResult{
 		push @data, $str;
 		
 	} else {
-	
+		my $message="";
 		for my $row (@$result){
 		
-			push @data, trim($row);
+			$message= $message.trim($row);
 		}
+		$out->{'status'}='warning';
+		$out->{'message'}=$message;
 	}
 	return $out;
 }

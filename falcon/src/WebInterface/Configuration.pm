@@ -82,23 +82,44 @@ sub getAutostart {
 	
 	my @rows = $self->_runExit('getAutostart');
 	
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^on+$/)){
+	my $result = _getResult(\@rows);
 	
-		 return 1;
-	}
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^off+$/)){
-	
-		 return 0;
-	}
-	
-	my $error="ERROR: from exit: getAutostart. Message is: ";
+	if ($result){
+		
+		if ($result->{data}){
+			$rows =  $result->{data};
 
-	for my $r (@rows){
+			if ((scalar @$rows == 1) && ($$rows[0]  =~ /^on+$/)){
+
+			 return 1;
+			}
+			if ((scalar @$rows == 1) && ($$rows[0]  =~ /^off+$/)){
+
+				 return 0;
+			}
+		} 
+		if ( $result->{status} && (! $result->{status} ed "ok")){
 		
-		$error = $error." ".$utils->trim($r);
+			$self->{error}=$result->{status};
+		}
 		
+		$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
+		
+		if ( $result->{message}){
+		
+			$self->{error}=$result->{message};
+		}
 	}
-	$self->{error}=$error;
+	#
+	#my $error="ERROR: from exit: getAutostart. Message is: ";
+	#
+	#for my $r (@rows){
+	#	
+	#	$error = $error." ".$utils->trim($r);
+	#	
+	#}
+	#$self->{error}=$error;
+	
 	return undef;
 }
 sub setAutostart {
@@ -368,7 +389,6 @@ sub _runExit{
 	my $exit = shift;
 	my $options	= shift;
 	
-	
 	$self->{error}=undef;
 	my $script= $self->get()->{$exit};
 	if (! $self->_checkScript($script)){return undef;}
@@ -380,12 +400,76 @@ sub _runExit{
 	} else{
 		$command = $script;
 	}
-    my @rows = `$command`;
-	
-	
-	
+    my @rows = `$command`;	
 	return @rows;
+}
 
+sub _getResult{
+	my $self = shift;
+	my $in = shift;
+	
+	my $out=();
+	
+	if (!$in){
+		return undef;
+	}
+
+	my $result="";
+	
+	for my $line (@$in){
+		$result = $result.$utils->trim($line);
+	}
+	#print $result."\n";
+	
+	#validate json first and last char;
+	if (! $result || length($result)<3) {return undef;}
+	
+	if (! ((substr($result,0,1)) eq "{")){return undef;}
+	if (! ((substr($result,length($result)-1)) eq "}")){return undef;}
+	
+	$result= substr($result,1);
+	$result= substr($result,0,length($result)-1)."\n";
+	
+	my @elements= split ",", $result;
+	
+	my $inArray=0;
+	my $curKey;
+	
+	for my $el (@elements){
+		
+		if (! $inArray){
+
+			my @keyVals= split ":", $el;
+			#Data::Dump::dump @keyVals;	
+
+			if (! scalar @keyVals == 2){return undef;}
+			
+			$curKey = $utils->trim($keyVals[0]);
+			my $val = $utils->trim($keyVals[1]);
+			
+			if (substr($val,0,1) eq "[") {
+				
+				$out->{$curKey}= substr($val,1);
+				$inArray =1;
+			} else{
+			
+				$out->{$curKey}=$val;
+			}
+			
+		} else { # in array 
+
+			if (substr($el,length($el)-2) eq "]\n") {
+
+				$out->{$curKey}=$out->{$curKey}.", ".substr($el,0,length($el)-2);
+				$inArray =0;
+				
+			} else{
+			
+				$out->{$curKey}=$out->{$curKey}.", ".$el;
+			}
+		}
+	}
+	return $out;
 }
 
 sub _initDefault {

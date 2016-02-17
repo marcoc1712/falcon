@@ -115,6 +115,9 @@ if (! open($FH, "> $pathname")) {
 my $commandLine = join (" ", @ARGV);
 
 my @elements= split " ", $commandLine;
+
+# my @elements = @ARGV; 
+
 my $options= builsOptionsArray(\@elements);
 
 my $executable;
