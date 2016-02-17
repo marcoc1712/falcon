@@ -114,11 +114,6 @@ sub setAutostart {
 	my @rows = $self->_runExit('setAutostart', ($autostart ? 'enable' : 'disable'));
 	my $result = $self->_getExitResult(\@rows);
 	
-	for my $k (keys %$result){
-	
-		print "key ".$k." - value ".$result->{$k}."\n";
-	}
-	
 	$log->info("setAutostart");
 	$log->info(join(', ', @rows));
 	$log->info("status: ".$result->{'status'});
