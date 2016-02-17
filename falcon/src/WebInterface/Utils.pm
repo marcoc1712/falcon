@@ -68,6 +68,7 @@ sub trim{
     return $val;         
 }
 sub trimQuotes{
+	my $class = shift;
 	my ($val) = shift;
 
   	if (defined $val) {
