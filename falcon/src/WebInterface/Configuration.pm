@@ -471,7 +471,10 @@ sub _getExitResult{
 	}
 	### minimal Sanity check
 	
-	if (!$out->{'status'} || (lc($out->{'status'}) eq "ok")) {
+	use Data::Dump;
+	$log->info("out: ".Data::Dump::dump($out));
+	
+	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
 	
 		$out->{'status'}="DONE";
 	}
