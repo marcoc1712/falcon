@@ -104,9 +104,9 @@ sub printJSON{
 	
 	print "{"."\n";
 	
-	print qq("ERROR" : "$in->{'error'}").","."\n";
-	print qq("MESSAGE" : "$in->{'message'}").","."\n";
-	print qq("DATA" : [)."\n";
+	print qq("status" : "$in->{'status'}").","."\n";
+	print qq("message" : "$in->{'message'}").","."\n";
+	print qq("data" : [)."\n";
 	
 	my $lines = $in->{'data'};
 	my $first=1;
