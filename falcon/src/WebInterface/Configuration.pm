@@ -81,37 +81,32 @@ sub getAutostart {
 	if ($self->isDisabled('autostart')) {return 0};
 	
 	my @rows = $self->_runExit('getAutostart');
-	
 	my $result = _getResult(\@rows);
-	
-	if ($result){
-		
-		if ($result->{'data'}){
-			
-			my $data =  $result->{'data'};
 
-			if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
+	if ($result->{'data'}){
 
-			 return 1;
-			}
-			if ((scalar @$data == 1) && ($$data[0]  =~ /^off+$/)){
+		my $data =  $result->{'data'};
 
-				 return 0;
-			}
-		} 
-		if ( $result->{'status'} && (! $result->{'status'} eq "ok")){
-		
-			$self->{error}=$result->{'status'};
+		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
+
+			return 1;
 		}
-		
-		$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
-		
-		if ( $result->{'message'}){
-		
-			$self->{error}=$result->{'message'};
+		if ((scalar @$data == 1) && ($$data[0]  =~ /^off+$/)){
+
+			return 0;
 		}
+	} 
+	if ( $result->{'status'}){
+
+		$self->{error}=$result->{'status'};
 	}
 
+	$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
+
+	if ( $result->{'message'}){
+
+		$self->{error}=$result->{'message'};
+	}
 	return undef;
 }
 sub setAutostart {
@@ -396,16 +391,25 @@ sub _runExit{
 	return @rows;
 }
 
-sub _getResult{
+sub _getExitResult{
 	my $self = shift;
 	my $in = shift;
 	
-	my $out=();
+	my @eData=();
+	my $err={};
+	$err->{'status'}='ERROR';
+	$err->{'message'}="Exit did not return a valid result";
+	$err->{'data'}=\@eData;
+	
+	my @data=();
+	my $out={};
+	$out->{'status'}='';
+	$out->{'message'}="";
+	$out->{'data'}=\@data;
 	
 	if (!$in){
-		return undef;
+		return $err;
 	}
-
 	my $result="";
 	
 	for my $line (@$in){
@@ -414,10 +418,10 @@ sub _getResult{
 	#print $result."\n";
 	
 	#validate json first and last char;
-	if (! $result || length($result)<3) {return undef;}
+	if (! $result || length($result)<3) {return $err;}
 	
-	if (! ((substr($result,0,1)) eq "{")){return undef;}
-	if (! ((substr($result,length($result)-1)) eq "}")){return undef;}
+	if (! ((substr($result,0,1)) eq "{")){return $err;}
+	if (! ((substr($result,length($result)-1)) eq "}")){return $err;}
 	
 	$result= substr($result,1);
 	$result= substr($result,0,length($result)-1)."\n";
@@ -434,7 +438,7 @@ sub _getResult{
 			my @keyVals= split ":", $el;
 			#Data::Dump::dump @keyVals;	
 
-			if (! scalar @keyVals == 2){return undef;}
+			if (! scalar @keyVals == 2){return $err;}
 			
 			$curKey = $utils->trim($keyVals[0]);
 			my $val = $utils->trim($keyVals[1]);
@@ -461,6 +465,14 @@ sub _getResult{
 			}
 		}
 	}
+	### minimal Sanity check
+	
+	if (!$out->{'status'} || (lc($out->{'status'}) eq "ok")) {
+	
+		$out->{'status'}="DONE";
+	}
+	$out->{'status'}=uc($out->{'status'});
+	
 	return $out;
 }
 
