@@ -513,21 +513,6 @@ sub _getExitResult{
 	
 	return $out;
 }
-	### minimal Sanity check
-
-	for my $k (keys %$out){
-	
-		print "key: ".$k." value: ".$out->{$k}."\n";
-	}
-	
-	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
-	
-		$out->{'status'}="DONE";
-	}
-	$out->{'status'}=uc($out->{'status'});
-	
-	return $out;
-}
 
 sub _initDefault {
        
