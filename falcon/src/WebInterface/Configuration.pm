@@ -87,7 +87,8 @@ sub getAutostart {
 	if ($result){
 		
 		if ($result->{data}){
-			$rows =  $result->{data};
+			
+			my $rows =  $result->{data};
 
 			if ((scalar @$rows == 1) && ($$rows[0]  =~ /^on+$/)){
 
