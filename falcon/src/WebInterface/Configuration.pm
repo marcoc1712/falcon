@@ -116,7 +116,7 @@ sub setAutostart {
 	
 	for my $k (keys %$result){
 	
-		print "key ".$k." - value ".$result->{$k};
+		print "key ".$k." - value ".$result->{$k}."\n";
 	}
 	
 	$log->info("setAutostart");
