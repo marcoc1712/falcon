@@ -429,6 +429,8 @@ sub _getExitResult{
 	
 	for my $el (@elements){
 		
+		if ($el = "") {next;}
+		
 		if (! $inArray){
 
 			my @keyVals= split ":", $el;
