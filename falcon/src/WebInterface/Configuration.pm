@@ -417,7 +417,7 @@ sub _getExitResult{
 	for my $line (@$in){
 		$result = $result.$utils->trim($line);
 	}
-	#print $result."\n";
+	print $result."\n";
 	
 	#validate json first and last char;
 	if (! $result || length($result)<3) {return $err;}
