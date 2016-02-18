@@ -117,6 +117,7 @@ $(document).ready(function() {
 		.always(function(data) {
 			console.log( "complete" );
 			alert(data);
+                        loadStatus(initErrorCallback);
 		});
 	};
 
@@ -131,6 +132,7 @@ $(document).ready(function() {
 		.always(function(data) {
 			console.log( "complete" );
 			alert(data);
+                        loadStatus(initErrorCallback);
 		});
 	};
 
@@ -145,6 +147,7 @@ $(document).ready(function() {
 		.always(function(data) {
 			console.log( "complete" );
 			alert(data);
+                        loadStatus(initErrorCallback);
 		});
 	};
 
@@ -185,32 +188,32 @@ $(document).ready(function() {
 
 window.onload = function() {
 
-	init(); //load data.
+    init(); //load data.
 };
 
 function initErrorCallback(){
     
-     document.getElementById("submitSettings").disabled = true;
-     document.getElementById("reloadSettings").disabled = true;
+    document.getElementById("submitSettings").disabled = true;
+    document.getElementById("reloadSettings").disabled = true;
     
 }
 function initOkCallback(){
     
-     document.getElementById("submitSettings").disabled = false;
-     document.getElementById("reloadSettings").disabled = false;
+    document.getElementById("submitSettings").disabled = false;
+    document.getElementById("reloadSettings").disabled = false;
     
 }
 function init() {
 
-	hide(document.getElementById('status'));
-        
-     loadAudioDevices(initErrorCallback);
-	loadSettings(initErrorCallback);
-	enableSettings(initErrorCallback);
-	loadStatus(initErrorCallback);
-      
-	initOkCallback();
-      return 1;
+    hide(document.getElementById('status'));
+
+    loadAudioDevices(initErrorCallback);
+    loadSettings(initErrorCallback);
+    enableSettings(initErrorCallback);
+    loadStatus(initErrorCallback);
+
+    initOkCallback();
+    return 1;
 }
 
 function enable(item,value) {
