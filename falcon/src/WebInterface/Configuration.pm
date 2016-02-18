@@ -410,6 +410,7 @@ sub _getExitResult{
 		$result = $result.", ".$utils->trim($line);
 	}
 	$result = substr($result,2); #remove the leading ", ".
+        print $result;
         
         $out = decode_json $result;
         
