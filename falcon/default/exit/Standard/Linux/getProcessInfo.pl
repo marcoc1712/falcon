@@ -90,7 +90,7 @@ sub inspectString{
     
     for (my $i=0; $i <length($string); $i++) {
         
-       if (ord substr($string,$i,1) < 255) {
+       if (ord substr($string,$i,1) < 127) {
        
             $out= $out.substr($string,$i,1);
         
