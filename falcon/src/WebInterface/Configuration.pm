@@ -271,9 +271,19 @@ sub testAudioDevice{
     if ($self->isDisabled('testAudioDevice')) {return undef};
 
 	my @rows = $self->_runExit('testAudioDevice', $audiodevice);
-    
-    return \@rows;
+    my $result = $self->_getExitResult(\@rows);
+	
+	if ( $result->{'status'} eq "DONE"){
+		
+		return $result->{'data'}
+	}
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: testAudioDevice. Message is: ";
 
+	if ( $result->{'message'}){
+
+		$self->{error}=$result->{'message'};
+	}
 }
 sub getProcessInfo{
     my $self = shift;

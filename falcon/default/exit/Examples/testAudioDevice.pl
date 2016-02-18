@@ -58,28 +58,125 @@ sub _getTestCommand{
 	}
 	return undef;
 }
+################################################################################
 
-##############################################################
+# the return MUST be in form of an hash with three elements:
 #
-# Or do whatever you like, but just remember to print the result.
+# 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
+# 'message' = status message displayed to the user, MUST be a valid UTF_8 string,
+#             please avoid special and control characters.
+# 'data'		= ARRAY of valid UTF_8 string containing the command result, 
+#             contents is validated only by the application.
 #
-##############################################################
+# any other element is discharged.
+#
+# here the PROTOTYPE:
 
-if (!scalar @ARGV == 1) {exit 0;}
+my @data=();
+my $out={};
+$out->{'status'}='ok';
+$out->{'message'}="";
+$out->{'data'}=\@data;
 
+#look for the command to be executed;
+
+if (!scalar @ARGV == 1) {
+
+	$out->{'status'}='ERROR';
+	$out->{'message'}="Missing audio device";
+	
+	printJSON($out);
+	exit 0;
+	
+}
 my $audiodevice = $ARGV[0];
-my @lines=();
 my $command = _getTestCommand($audiodevice);
 
 if (!$command) {
-	push @lines, "WARNING: Unable to find test command for: $audiodevice";
+	
+	$out->{'status'}='WARNING';
+	$out->{'message'}="Unable to find valid test command for: $audiodevice";
+	
+	#push @data, "WARNING: Unable to find test command for: $audiodevice";
+	
+	printJSON($out);
+	exit 0;
 
-} else{
-	@lines = `$command 2>&1`;
-}	
-for my $row (@lines){
+}
+#execute the command
+my @rows = `$command 2>&1`;
 
-	print $row;
+#result validation and return.
+validateResult(\@rows);
+
+sub validateResult{
+	my $result = shift;
+
+	if (! $result || (scalar @$result == 0)){
+		$out->{'status'}="WARNING";
+		$out->{'message'}="$command returned no info";
+			
+		printJSON($out);
+		exit 0;
+	}
+	for my $row (@$result){
+
+		push @data, trim($row);
+	}
+	
+	printJSON($out);
+	exit 1;
+}
+
+###############################################################################
+# This code should be in a library, please do not modify it.
+###############################################################################
+
+sub trim {
+	my ($val) = shift;
+
+  	if (defined $val) {
+
+    	$val =~ s/^\s+//; # strip white space from the beginning
+    	$val =~ s/\s+$//; # strip white space from the end
+    }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
+    
+    return $val;         
+}
+
+sub printJSON{
+	my $in = shift;
+	
+	print "{"."\n";
+	
+	print qq("status" : "$in->{'status'}").","."\n";
+	print qq("message" : "$in->{'message'}").","."\n";
+	print qq("data" : [)."\n";
+	
+	my $lines = $in->{'data'};
+	my $first=1;
+	for my $row (@$lines){
+		if (!$first) {
+			print","."\n";
+		} else {
+			print"\n";
+			$first=0;
+		}
+		print "            ".qq("$row");
+	}
+	print "\n";
+	print "         ]"."\n";
+	print "}"."\n";
 }
 1;
 
