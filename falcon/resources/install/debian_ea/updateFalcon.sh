@@ -44,4 +44,4 @@ chmod +x /var/www/falcon/exit/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/myOwn/*.pl
-chmod +x /var/www/falcon/falcon/default/exit/Example/*.pl
+chmod +x /var/www/falcon/falcon/default/exit/Examples/*.pl
