@@ -160,26 +160,20 @@ sub hwReboot {
 	
 	my @rows = $self->_runExit('reboot');
 	
-    #reboot reboots, so normaly it wil not pass trougth here.
+	#reboot reboots, so normaly it wil not pass trougth here.
+	my $result = $self->_getExitResult(\@rows);
 	
-	if (! @rows || (scalar @rows == 0)){
-	
+	if ( $result->{'status'} eq "DONE"){
+		
 		return 1;
 	}
-	
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-	
-		 return 1;
-	}
-	my $error="ERROR: from exit: reboot. Message is: ";
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: reboot. Message is: ";
 
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
+	if ( $result->{'message'}){
+
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
-	
-	$self->{error}=$error;
 	return undef;
 }
 sub hwShutdown {

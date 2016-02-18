@@ -34,16 +34,19 @@ function run_as_root() {
 ##############################################################################
 run_as_root	# run this first!
 
+# stash is used to avid errors due to local modifications as chmod on scripts
+# or erroneus modifictaion outside the exit folder.
+
 cd /var/www/falcon
 git stash
 git pull
 
-#corregge i privilegi di esecuzione agli script:
+#sets execution capability to all the scripts.
 chmod +x /var/www/falcon/cgi-bin/*.pl
 chmod +x /var/www/falcon/exit/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/myOwn/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Examples/*.pl
-#
+# 
 chmod +x /var/www/falcon/falcon/resources/install/debian_ea/*.sh
