@@ -88,9 +88,9 @@ function set_scripts_permissions(){
     chmod +x /var/www/falcon/falcon/resources/install/debian_ea/*.sh
 
 }
-function install_apache2{
+function install_apache2(){
 
-    apt-get install apache2
+     apt-get install apache2
 }
 function config_apache2(){
 
