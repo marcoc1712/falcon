@@ -409,7 +409,7 @@ sub _getExitResult{
 	}
 	$result = substr($result,1); #remove the leading " ".
         
-        $out = decode_json $result;
+        $out = $utils->decodeJson($result);
         
         ### minimal Sanity check
 	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {

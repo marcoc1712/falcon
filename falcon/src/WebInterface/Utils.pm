@@ -136,5 +136,10 @@ sub printHTML{
 	print qq(</body>\n);
 	print qq(</html>\n);
 }
-
+sub decodeJson{
+    my $class = shift;
+    my $in = shift;
+        
+    return $helper->decode($in);
+}
 1;
