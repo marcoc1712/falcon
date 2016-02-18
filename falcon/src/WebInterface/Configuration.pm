@@ -410,7 +410,6 @@ sub _getExitResult{
 		$result = $result." ".$utils->trim($line);
 	}
 	$result = substr($result,1); #remove the leading " ".
-        print $result;
         
         $out = decode_json $result;
         
@@ -423,126 +422,6 @@ sub _getExitResult{
 	
 	return $out;
 
-}
-sub _getExitResultOld {
-	my $ref= shift;
-	my $in = shift;
-	
-	my @eData=();
-	my $err={};
-	$err->{'status'}='ERROR';
-	$err->{'message'}="Exit did not return a valid result";
-	$err->{'data'}=\@eData;
-	
-	my @data=();
-	my $out={};
-	$out->{'status'}='';
-	$out->{'message'}="";
-	$out->{'data'}=\@data;
-	
-	if (!$in){
-		return $err;
-	}
-	my $result="";
-	
-	for my $line (@$in){
-		$result = $result.", ".$utils->trim($line);
-	}
-	$result = substr($result,2);
-	
-	#validate json first and last char;
-	if (! $result || length($result)<3) {return $err;}
-	
-	if (! ((substr($result,0,1)) eq "{")){return $err;}
-	if (! ((substr($result,length($result)-1)) eq "}")){return $err;}
-	
-	$result= substr($result,1);
-	$result= substr($result,0,length($result)-1)."\n";
-
-	my @elements= split ",", $result;
-	
-	my $inArray=0;
-	my $curKey;
-	
-	for my $el (@elements){
-		
-		$el = $utils->trim($el);
-		
-		if ($el eq "") {next;}
-		
-		if (! $inArray){
-
-			my @keyVals= split ":", $el, 2;
-			
-			if (! scalar @keyVals == 2){return $err;}
-			
-			$curKey = $utils->trimQuotes($keyVals[0]);
-			my $val = $utils->trimQuotes($keyVals[1]);
-						
-			if (substr($val,0,1) eq "[") {
-				
-				my @new=();
-				$out->{$curKey}=\@new;
-				
-				my $element;
-				
-				if (! (substr($val,1,) eq "]")){
-					
-					$element= substr($val,1);
-				
-					if (substr($element,0,length($element)-1) eq "]"){
-
-						$element= substr($element,length($element)-1);
-						$inArray =0;
-						
-					} else {
-					
-						$element= $element;
-						$inArray =1;
-						
-					}
-					
-				} else {
-
-					$inArray =0;
-				}
-				
-				my $ar =  $out->{$curKey};
-				push @$ar, $element;
-				
-			} else{
-				
-				$out->{$curKey}= $val;
-				$inArray =0;
-					
-			} 
-			
-		} else { # in array 
-			
-			my $element;
-			
-			if (substr($el,length($el)-1) eq "]") {
-				
-				$element = substr($el,0,length($el)-1);
-				$inArray =0;
-				
-			} else{
-			
-				$element = $el;
-				
-			}
-			my $ar =  $out->{$curKey};
-			push @$ar, $element;
-		}
-	}
-	### minimal Sanity check
-	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
-	
-		$out->{'status'}="DONE";
-	}
-	$out->{'status'}=uc($out->{'status'});
-	
-	return $out;
 }
 
 sub _initDefault {

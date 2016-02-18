@@ -23,6 +23,7 @@
 
 use strict;
 use warnings;
+use JSON::PP;
 
 # the return MUST be in form of an hash with three elements:
 #
@@ -50,7 +51,8 @@ my @rows = `$command 2>&1`;
 
 #result validation and return.
 validateResult(\@rows);
-printJSON($out);
+#printJSON($out);
+print  encode_json $perl_scalar;
 
 sub validateResult{
 	my $result = shift;
