@@ -43,6 +43,8 @@ function install_falcon(){
     # install git and then falcon.
     cd /var/www
     git clone https://github.com/marcoc1712/falcon.git
+    
+    wget https://github.com/marcoc1712/squeezelite-R2/releases/download/v1.8.2-(R2)/squeezelite-R2-deb-i386
 
     # create exit directory
     cd /var/www/falcon
@@ -157,7 +159,7 @@ function additional_settings(){
     if [ -e '/etc/default/squeezelite.wbak' ]; then
         rm /etc/sudoers.d/falcon
     fi
-    cp /var/www/falcon/falcon/resources/install/debian_ea/System/etc/sudoers.d/falcon /etc/sudoers.d/falcon
+    cp /var/www/falcon/falcon/resources/install/debian_ea/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
     chown root:root /etc/sudoers.d/falcon 
     chmod 440 /etc/sudoers.d/falcon
     

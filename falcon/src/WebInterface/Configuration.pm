@@ -26,6 +26,8 @@ use strict;
 use warnings;
 use utf8;
 
+use JSON::PP;
+
 use WebInterface::Utils;
 use WebInterface::DataStore;
 my $utils= WebInterface::Utils->new();
@@ -383,8 +385,45 @@ sub _runExit{
     my @rows = `$command`;	
 	return @rows;
 }
+sub _getExitResul{
+        my $self = shift;
+	my $in   = shift;
+	
+	my @eData=();
+	my $err={};
+	$err->{'status'}='ERROR';
+	$err->{'message'}="Exit did not return a valid result";
+	$err->{'data'}=\@eData;
+	
+	my @data=();
+	my $out={};
+	$out->{'status'}='';
+	$out->{'message'}="";
+	$out->{'data'}=\@data;
+	
+	if (!$in){
+		return $err;
+	}
+	my $result="";
+	
+	for my $line (@$in){
+		$result = $result.", ".$utils->trim($line);
+	}
+	$result = substr($result,2);
+        
+        my $out = decode_json $data;
+        
+        ### minimal Sanity check
+	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
+	
+		$out->{'status'}="DONE";
+	}
+	$out->{'status'}=uc($out->{'status'});
+	
+	return $out;
 
-sub _getExitResult{
+}
+sub _getExitResultOld {
 	my $ref= shift;
 	my $in = shift;
 	
