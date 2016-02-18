@@ -73,7 +73,8 @@ sub validateResult{
     
     for my $row (@$result){
         
-        push @data, asciiClean($row);
+        my $lne = "".asciiClean($row);
+        push @data, $lne;
         
     }
 
@@ -104,6 +105,16 @@ sub trim {
     	$val =~ s/^\s+//; # strip white space from the beginning
     	$val =~ s/\s+$//; # strip white space from the end
         }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
     
     return $val;         
 }
