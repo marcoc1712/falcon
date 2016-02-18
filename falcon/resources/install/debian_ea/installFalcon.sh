@@ -51,8 +51,8 @@ chmod +x /var/www/falcon/falcon/default/exit/Examples/*.pl
 cd /var/www/falcon
 mkdir exit
 # copy example scripts
-ln -s var/www/falcon/falcon/default/exit/Examples/setWakeOnLan.pl var/www/falcon/exit/setWakeOnLan.pl 
-ln -s var/www/falcon/falcon/default/exit/Examples/testAudioDevice.pl var/www/falcon/exit/testAudioDevice.pl 
+ln -s /var/www/falcon/falcon/default/exit/Examples/setWakeOnLan.pl var/www/falcon/exit/setWakeOnLan.pl 
+ln -s /var/www/falcon/falcon/default/exit/Examples/testAudioDevice.pl var/www/falcon/exit/testAudioDevice.pl 
 
 # create data directory
 cd /var/www/falcon
