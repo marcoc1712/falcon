@@ -407,9 +407,9 @@ sub _getExitResult{
 	my $result="";
 	
 	for my $line (@$in){
-		$result = $result.", ".$utils->trim($line);
+		$result = $result." ".$utils->trim($line);
 	}
-	$result = substr($result,2); #remove the leading ", ".
+	$result = substr($result,1); #remove the leading " ".
         print $result;
         
         $out = decode_json $result;
