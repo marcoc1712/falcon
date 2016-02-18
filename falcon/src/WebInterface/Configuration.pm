@@ -297,7 +297,7 @@ sub getProcessInfo{
     
     if ( $result->{'status'} eq "DONE"){
 
-        my $data = $result->{'data'}
+        my $data = $result->{'data'};
         my $info="";
         if ($pid && (scalar @$data > 0)){
 
