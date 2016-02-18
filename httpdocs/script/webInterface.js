@@ -32,9 +32,25 @@ $(document).ready(function() {
             console.log( "success" );
             
             console.log( response );
-            //console.log( status );
-            //console.log( xhr );
-            //console.log( jQform );
+            if (document.getElementById('restart').disabled) {
+                
+                 alert(response);
+                
+            } else {
+                
+                jQuery.get("/cgi-bin/serviceRestart.pl")
+		.done(function(data) {
+			console.log( "success" );
+		})
+		.fail(function(data) {
+			console.log( "error" );
+		})
+		.always(function(data) {
+			console.log( "complete" );
+			alert(data);
+                        loadStatus(initErrorCallback);
+		});
+            }
 
             alert(response);
             
