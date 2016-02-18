@@ -385,7 +385,7 @@ sub _runExit{
     my @rows = `$command`;	
 	return @rows;
 }
-sub _getExitResul{
+sub _getExitResult{
         my $self = shift;
 	my $in   = shift;
 	
@@ -411,7 +411,7 @@ sub _getExitResul{
 	}
 	$result = substr($result,2); #remove the leading ", ".
         
-        my $out = decode_json $result;
+        $out = decode_json $result;
         
         ### minimal Sanity check
 	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
