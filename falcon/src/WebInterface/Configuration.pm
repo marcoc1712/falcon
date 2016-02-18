@@ -179,27 +179,27 @@ sub hwReboot {
 sub hwShutdown {
     my $self = shift;
 
-	if ($self->isDisabled('shutdown')) {return undef};
-	if (! $self->get('allowShutdown')) {
-		$self->{error}="WARNING: shoutdown id disabled, check settings.";
-		return undef;
-	};
-	
-	my @rows = $self->_runExit('shutdown');
+    if ($self->isDisabled('shutdown')) {return undef};
+    if (! $self->get('allowShutdown')) {
+            $self->{error}="WARNING: shoutdown id disabled, check settings.";
+            return undef;
+    };
+
+    my @rows = $self->_runExit('shutdown');
     my $result = $self->_getExitResult(\@rows);
-	
-	if ( $result->{'status'} eq "DONE"){
-		
-		return 1;
-	}
-	$self->{error}=$result->{'status'};
-	$self->{error}= $self->{error}.": from exit: shutdown. Message is: ";
 
-	if ( $result->{'message'}){
+    if ( $result->{'status'} eq "DONE"){
 
-		$self->{error}=$self->{error}.$result->{'message'};
-	}
-	return undef;
+            return 1;
+    }
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: shutdown. Message is: ";
+
+    if ( $result->{'message'}){
+
+            $self->{error}=$self->{error}.$result->{'message'};
+    }
+    return undef;
 }
 sub serviceStart {
     my $self = shift;
@@ -212,15 +212,15 @@ sub serviceStart {
     if ( $result->{'status'} eq "DONE"){
 		
 		return 1;
-	}
-	$self->{error}=$result->{'status'};
-	$self->{error}= $self->{error}.": from exit: start. Message is: ";
+    }
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: start. Message is: ";
 
-	if ( $result->{'message'}){
+    if ( $result->{'message'}){
 
-		$self->{error}=$self->{error}.$result->{'message'};
-	}
-	return undef;
+            $self->{error}=$self->{error}.$result->{'message'};
+    }
+    return undef;
 }
 sub serviceStop {
     my $self = shift;
@@ -233,36 +233,36 @@ sub serviceStop {
     if ( $result->{'status'} eq "DONE"){
 		
 		return 1;
-	}
-	$self->{error}=$result->{'status'};
-	$self->{error}= $self->{error}.": from exit: stop. Message is: ";
+    }
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: stop. Message is: ";
 
-	if ( $result->{'message'}){
+    if ( $result->{'message'}){
 
-		$self->{error}=$self->{error}.$result->{'message'};
-	}
-	return undef;
+            $self->{error}=$self->{error}.$result->{'message'};
+    }
+    return undef;
 }
 sub serviceRestart {
     my $self = shift;
 
     if ($self->isDisabled('restart')) {return undef};
 	
-	my @rows = $self->_runExit('restart');
+    my @rows = $self->_runExit('restart');
     my $result = $self->_getExitResult(\@rows);
 	
     if ( $result->{'status'} eq "DONE"){
 		
 		return 1;
-	}
-	$self->{error}=$result->{'status'};
-	$self->{error}= $self->{error}.": from exit: restart. Message is: ";
+    }
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: restart. Message is: ";
 
-	if ( $result->{'message'}){
+    if ( $result->{'message'}){
 
-		$self->{error}=$self->{error}.$result->{'message'};
-	}
-	return undef;
+            $self->{error}=$self->{error}.$result->{'message'};
+    }
+    return undef;
 }
 sub testAudioDevice{
     my $self = shift;
@@ -270,20 +270,21 @@ sub testAudioDevice{
 
     if ($self->isDisabled('testAudioDevice')) {return undef};
 
-	my @rows = $self->_runExit('testAudioDevice', $audiodevice);
-        my $result = $self->_getExitResult(\@rows);
-	
-	if ( $result->{'status'} eq "DONE"){
-		#return \@rows;
-		return $result->{'data'}
-	}
-	$self->{error}=$result->{'status'};
-	$self->{error}= $self->{error}.": from exit: testAudioDevice. Message is: ";
+    my @rows = $self->_runExit('testAudioDevice', $audiodevice);
+    my $result = $self->_getExitResult(\@rows);
 
-	if ( $result->{'message'}){
+    if ( $result->{'status'} eq "DONE"){
 
-		$self->{error}=$result->{'message'};
-	}
+            return $result->{'data'}
+    }
+
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: testAudioDevice. Message is: ";
+
+    if ( $result->{'message'}){
+
+            $self->{error}=$result->{'message'};
+    }
 }
 sub getProcessInfo{
     my $self = shift;
@@ -291,19 +292,32 @@ sub getProcessInfo{
 
     if ($self->isDisabled('getProcessInfo')) {return undef};
 	
-	my @rows = $self->_runExit('getProcessInfo', $pid);
-   
-	my $info="";
-	if ($pid && (scalar @rows > 0)){
-		
-		$info = $pid." - ";
-	}
-	for my $row (@rows){
+    my @rows = $self->_runExit('getProcessInfo', $pid);
+    my $result = $self->_getExitResult(\@rows);
+    
+    if ( $result->{'status'} eq "DONE"){
 
-			$row = $utils->asciiClean($row);
-			$info = $info." ".$row;
-	}
-    return $info;
+        my $data = $result->{'data'}
+        my $info="";
+        if ($pid && (scalar @$data > 0)){
+
+            $info = $pid." - ";
+        }
+        for my $row (@$data){
+
+            $info = $info." ".$row;
+        }
+        return $info;
+    }
+
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: testAudioDevice. Message is: ";
+
+    if ( $result->{'message'}){
+
+            $self->{error}=$result->{'message'};
+    }
+    return undef;
 }
 sub writeCommandLine{
     my $self		= shift;
