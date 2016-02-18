@@ -1,0 +1,3 @@
+User_Alias WEB = www-data
+Cmnd_Alias SQUEEZELITE = /etc/init.d/squeezelite, /sbin/shutdown, /sbin/reboot, /usr/sbin/update-rc.d
+WEB ALL=NOPASSWD: SQUEEZELITE
