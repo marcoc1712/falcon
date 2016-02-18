@@ -95,7 +95,7 @@ function install_apache2(){
 function config_apache2(){
 
     # copia la configurazione del webserver Apache2
-    if [! -e '/etc/lighttpd/lighttpd-old.conf' ]; then
+    if [ ! -e '/etc/lighttpd/lighttpd-old.conf' ]; then
         mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default-old.conf
     
     else
@@ -111,7 +111,7 @@ function config_apache2(){
 function config_lighttpd(){
 
     # copia la configurazione del webserver lighttpd
-    if [! -e '/etc/lighttpd/lighttpd-old.conf' ]; then
+    if [ ! -e '/etc/lighttpd/lighttpd-old.conf' ]; then
         mv /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd-old.conf
     else
         rm /etc/lighttpd/lighttpd.conf
@@ -126,7 +126,7 @@ function additional_settings(){
     ### 
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     
-    if [! -e '/etc/default/squeezelite.wbak' ]; then
+    if [ ! -e '/etc/default/squeezelite.wbak' ]; then
         cp /etc/default/squeezelite /etc/default/squeezelite.wbak
     fi
 
@@ -136,7 +136,7 @@ function additional_settings(){
     ###
     ### accesso in scrittura al file di log ( ed eventualmente ai files di backup e rotazione,se la si vuole attivare).
     
-    if [! -d '/var/log/squeezelite-R2' ]; then
+    if [ ! -d '/var/log/squeezelite-R2' ]; then
         mkdir /var/log/squeezelite-R2
     fi
     chown www-data:www-data  /var/log/squeezelite-R2
