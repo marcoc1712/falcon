@@ -72,9 +72,10 @@ sub validateResult{
     my $result = shift;
     
     for my $row (@$result){
-        
-        my $lne = "".asciiClean($row);
-        push @data, $lne;
+
+        #my $line = "".asciiClean($row);
+        #push @data, $line;
+        push @data, $row;
         
     }
 
