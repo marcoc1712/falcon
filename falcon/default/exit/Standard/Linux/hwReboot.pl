@@ -53,7 +53,7 @@ sub validateResult{
 	my $result = shift;
 	
 	# just in case, but should die before.
-	if (! $result || (scalar @$resilt == 0)){
+	if (! $result || (scalar @$result == 0)){
 		$out->{'status'}="ok";
 		$out->{'message'}="";
 			
@@ -61,6 +61,7 @@ sub validateResult{
 		exit 1;
 	}
 	#if here something went wrong
+	my $message="";
 	for my $row (@$result){
 
 		if ($row  =~ /^ERROR/){
