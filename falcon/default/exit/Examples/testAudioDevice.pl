@@ -119,11 +119,7 @@ sub validateResult{
 		printJSON($out);
 		exit 0;
 	}
-	for my $row (@$result){
-
-		push @data, trim($row);
-	}
-	
+	$out->{'data'}=$result;
 	printJSON($out);
 	exit 1;
 }
