@@ -87,7 +87,7 @@ sub validateResult{
 			$message = $message." ".trim($row);
 		}
 	}
-	$out->{'status'}="WARNING";
+	$out->{'status'}="INFO";
 	$out->{'message'}=$message;
 	
 	printJSON($out);
