@@ -83,7 +83,6 @@ sub validateResult{
 }
 
 sub asciiClean {
-    my $class = shift;
     my ($val) = shift;
 
     if (defined $val) {

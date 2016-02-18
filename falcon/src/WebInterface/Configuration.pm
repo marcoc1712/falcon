@@ -293,7 +293,6 @@ sub getProcessInfo{
     if ($self->isDisabled('getProcessInfo')) {return undef};
 	
     my @rows = $self->_runExit('getProcessInfo', $pid);
-    die;
     my $result = $self->_getExitResult(\@rows);
     
     if ( $result->{'status'} eq "DONE"){
