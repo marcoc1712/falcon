@@ -27,6 +27,7 @@ package WebInterface::JSONhelper;
 use strict;
 use warnings;
 use utf8; 
+use JSON::PP;
 
 sub new {
     my $class = shift;
@@ -35,6 +36,28 @@ sub new {
     return $class;
 }
 sub encode{
+    my $class   = shift;
+    my $data    = shift;
+
+    if (! $data) {return undef;}
+    my $json_txt = encode_json $data;
+    
+    return $json_txt;
+}
+
+sub decode{
+    my $class       = shift;
+    my $json_txt    = shift;
+    
+    my $out;
+
+    if (! $json_txt) {return undef;}
+    my $data = decode_json $json_txt;
+    
+    return $data;
+}
+
+sub _encodeOLD{
     my $class= shift;
     my $data= shift;
     my $out="";
@@ -92,17 +115,5 @@ sub encode{
     $out = $out."\n}";
 
     return $out;
-}
-
-sub decode{
-    my $class= shift;
-    my $data= shift;
-    my $out="";
-
-    if (! $data) {return undef;}
-	
-	#simple one level implementation.
-	
-    return undef;
 }
 1;

@@ -26,8 +26,6 @@ use strict;
 use warnings;
 use utf8;
 
-use JSON::PP;
-
 use WebInterface::Utils;
 use WebInterface::DataStore;
 my $utils= WebInterface::Utils->new();
