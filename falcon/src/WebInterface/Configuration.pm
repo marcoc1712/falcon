@@ -186,23 +186,19 @@ sub hwShutdown {
 	};
 	
 	my @rows = $self->_runExit('shutdown');
-    	
-	$log->debug(@rows ? 'defined' : "undefined"); #undefined
-	$log->debug(scalar @rows); #0
+    my $result = $self->_getExitResult(\@rows);
 	
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-	
-		 return 1;
+	if ( $result->{'status'} eq "DONE"){
+		
+		return 1;
 	}
-	my $error="ERROR: from exit: shutdown. Message is: ";
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: shutdown. Message is: ";
 
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
+	if ( $result->{'message'}){
+
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
-	
-	$self->{error}=$error;
 	return undef;
 }
 sub serviceStart {
@@ -211,20 +207,19 @@ sub serviceStart {
     if ($self->isDisabled('start')) {return undef};
 
 	my @rows = $self->_runExit('start');
-    
-    if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+    my $result = $self->_getExitResult(\@rows);
 	
-		 return 1;
+    if ( $result->{'status'} eq "DONE"){
+		
+		return 1;
 	}
-	my $error="ERROR: from exit: start. Message is: ";
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: start. Message is: ";
 
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
+	if ( $result->{'message'}){
+
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
-	
-	$self->{error}=$error;
 	return undef;
 }
 sub serviceStop {
@@ -233,20 +228,19 @@ sub serviceStop {
     if ($self->isDisabled('stop')) {return undef};
 	
 	my @rows = $self->_runExit('stop');
+	my $result = $self->_getExitResult(\@rows);
 	
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
-	
-		 return 1;
+    if ( $result->{'status'} eq "DONE"){
+		
+		return 1;
 	}
-	my $error="ERROR: from exit: stop. Message is: ";
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: stop. Message is: ";
 
-	for my $r (@rows){
-		
-		$error = $error." ".$utils->trim($r);
-		
+	if ( $result->{'message'}){
+
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
-	
-	$self->{error}=$error;
 	return undef;
 }
 sub serviceRestart {
@@ -255,26 +249,19 @@ sub serviceRestart {
     if ($self->isDisabled('restart')) {return undef};
 	
 	my @rows = $self->_runExit('restart');
-    
-	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+    my $result = $self->_getExitResult(\@rows);
 	
-		 return 1;
-	}
-	my $error="ERROR: from exit: restart. Message is: ";
-	
-	#$log->debug(@rows ? 'defined' : "undefined"); #undefined
-	#$log->debug(scalar @rows); #0
-	
-	for my $r (@rows){
-		#$log->debug("error value BEFORE. ".$error);
-		#$log->debug("row value. ".$r);
-		$error = $error." ".$utils->trim($r);
-		#$log->debug("error value AFTER. ".$error);
-	}
-	#$log->debug("error value XXX. ".$error);
-	$self->{error}=$error;
-	#$log->debug("self error at the end: ".$self->{error});
+    if ( $result->{'status'} eq "DONE"){
 		
+		return 1;
+	}
+	$self->{error}=$result->{'status'};
+	$self->{error}= $self->{error}.": from exit: restart. Message is: ";
+
+	if ( $result->{'message'}){
+
+		$self->{error}=$self->{error}.$result->{'message'};
+	}
 	return undef;
 }
 sub testAudioDevice{
