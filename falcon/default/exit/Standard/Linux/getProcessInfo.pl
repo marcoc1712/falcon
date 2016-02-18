@@ -92,7 +92,8 @@ sub inspectString{
         
        if (ord substr($string,$i,1) < 127) {
        
-            $out= $out.substr($string,$i,1);
+           # $out= $out.substr($string,$i,1);
+           $out= $out.chr(127);
         
        } else{
        
