@@ -151,6 +151,21 @@ $(document).ready(function() {
 	document.getElementById('shutdown').onclick = function(){
 		jQuery.get("/cgi-bin/hwShutdown.pl")
 		.done(function(data) {
+			console.log( "success" );
+		})
+		.fail(function(data) {
+			console.log( "error" );
+			
+		})
+		.always(function(data) {
+			console.log( "complete" );
+			alert(data);
+		});
+	};
+
+	document.getElementById('reboot').onclick = function(){
+		jQuery.get("/cgi-bin/hwReboot.pl")
+		.done(function(data) {
 			console.log( "success but reboot filed..." );
 			// reboot failed
 			alert(data);
@@ -163,20 +178,6 @@ $(document).ready(function() {
 		})
 		.always(function(data) {
 			console.log( "complete" );
-		});
-	};
-
-	document.getElementById('reboot').onclick = function(){
-		jQuery.get("/cgi-bin/hwReboot.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
 		});
 	};
 
