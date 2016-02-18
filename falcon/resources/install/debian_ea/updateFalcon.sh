@@ -45,3 +45,5 @@ chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/myOwn/*.pl
 chmod +x /var/www/falcon/falcon/default/exit/Examples/*.pl
+#
+chmod +x /var/www/falcon/falcon/resources/install/debian_ea/*.sh
