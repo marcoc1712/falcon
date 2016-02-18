@@ -62,6 +62,7 @@ if ((! ($action eq "enable") ) && (! ($action eq "disable") )){
 	exit 0;
 
 }
+
 # You must first check if your system could handle wakeonLan, then
 # follow the instructions here: http://community.linuxmint.com/tutorial/view/1062
 # 

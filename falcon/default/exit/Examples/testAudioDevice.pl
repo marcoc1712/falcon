@@ -95,9 +95,9 @@ my $command = _getTestCommand($audiodevice);
 if (!$command) {
 	
 	$out->{'status'}='WARNING';
-	$out->{'message'}="Unable to find valid test command for: $audiodevice";
+	$out->{'message'}="Unable to find valid test command for device: $audiodevice";
 	
-	#push @data, "WARNING: Unable to find test command for: $audiodevice";
+	#push @data, "WARNING: Unable to find test command for device: $audiodevice";
 	
 	printJSON($out);
 	exit 0;
