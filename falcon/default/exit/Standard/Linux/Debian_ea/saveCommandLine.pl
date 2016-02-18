@@ -64,40 +64,66 @@ my @after = (
 # Please don't change anything beyond this line
 ################################################################################
 
+# the return MUST be in form of an hash with three elements:
+#
+# 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
+# 'message' = status message displayed to the user, MUST be a valid UTF_8 string,
+#             please avoid special and control characters.
+# 'data'		= ARRAY of valid UTF_8 string containing the command result, 
+#             contents is validated only by the application.
+#
+# any other element is discharged.
+#
+# here the PROTOTYPE:
+
+my @data=();
+my $out={};
+$out->{'status'}='ok';
+$out->{'message'}="";
+$out->{'data'}=\@data;
+
+#tobe converted in JSON format and printed out.
+
 my $backupLine="";
 
 my $FH;
 if (-e $pathname && !(-e $backup) && !(-e $faultback)){
 
-	if (! open($FH, "< $pathname")) {
-		print "ERROR: Failure opening '$pathname' for reading- $!";
-		exit 0;
-	}
-	
-	my @lines = <$FH>;
-	
-	close $FH;
-	
-	if (! open($FH, "> $backup")) {
+    if (! open($FH, "< $pathname")) {
 
-		if (! open($FH, "> $faultback")) {
-		
-			print "ERROR: Failure opening $backup and $faultback for writing - $!";
-			exit 0;
-		}
-		
-		$backupLine = "# Original file has been saved as $faultback.";
-		
-	} else{
+        $out->{'status'}='ERROR';
+        $out->{'message'}="Failure opening '$pathname' for reading- $!";   
+        printJSON($out);
+        exit 0;
+    }
 	
-		$backupLine = "# Original file has been saved as $backup.";
-	}
-	for my $line (@lines){
+    my @lines = <$FH>;
 
-		print $FH $line."\n";
+    close $FH;
+
+    if (! open($FH, "> $backup")) {
+
+            if (! open($FH, "> $faultback")) {
+
+                $out->{'status'}='ERROR';
+                $out->{'message'}="Failure opening $backup and $faultback for writing - $!";   
+                printJSON($out);
+                exit 0;
+            }
+
+            $backupLine = "# Original file has been saved as $faultback.";
+
+    } else{
+
+            $backupLine = "# Original file has been saved as $backup.";
+    }
+    
+    for my $line (@lines){
+
+        print $FH $line."\n";
     }
 
-	close $FH;
+    close $FH;
 }
 elsif (-e $backup){
 
@@ -110,7 +136,9 @@ elsif (-e $backup){
 
 if (! open($FH, "> $pathname")) {
 
-    print "ERROR: Failure opening '$pathname' for writing - $!\n";
+    $out->{'status'}='ERROR';
+    $out->{'message'}="Failure opening '$pathname' for writing - $!\n";  
+    printJSON($out);
     exit 0;
 }
 
@@ -195,31 +223,9 @@ if ($backupLine){
 }
 close $FH;
 
-print "ok"; #never remove this line! 
+printJSON($out); #never remove this line! 
 
 #########################################
-
-sub trim{
-	my ($val) = shift;
-
-  	if (defined $val) {
-
-    	$val =~ s/^\s+//; # strip white space from the beginning
-    	$val =~ s/\s+$//; # strip white space from the end
-    }
-	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
-	
-		$val =~ s/^\"+//; # strip "  from the beginning
-    	$val =~ s/\"+$//; # strip "  from the end 
-	}
-	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
-	
-		$val =~ s/^\'+//; # strip '  from the beginning
-    	$val =~ s/\'+$//; # strip '  from the end
-	}
-    
-    return $val;         
-}
 
 sub builsOptionsArray{
     my $elements = shift;
@@ -247,6 +253,36 @@ sub builsOptionsArray{
 
     return \@options;
 }
+###############################################################################
+# This code should be in a library, please do not modify it.
+###############################################################################
 
+sub trim {
+    my ($val) = shift;
+
+    if (defined $val) {
+
+    	$val =~ s/^\s+//; # strip white space from the beginning
+    	$val =~ s/\s+$//; # strip white space from the end
+    }
+    if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+        $val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+    }
+    if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+        $val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+    }
+    
+    return $val;         
+}
+
+sub printJSON{
+	my $in = shift;
+	print  encode_json $in;
+}
 1;
+
 

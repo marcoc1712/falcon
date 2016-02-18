@@ -275,7 +275,7 @@ sub testAudioDevice{
 
     if ( $result->{'status'} eq "DONE"){
 
-            return $result->{'data'}
+            return $result->{'data'};
     }
 
     $self->{error}=$result->{'status'};
@@ -311,7 +311,7 @@ sub getProcessInfo{
     }
 
     $self->{error}=$result->{'status'};
-    $self->{error}= $self->{error}.": from exit: testAudioDevice. Message is: ";
+    $self->{error}= $self->{error}.": from exit: getProcessInfo. Message is: ";
 
     if ( $result->{'message'}){
 
@@ -323,57 +323,49 @@ sub writeCommandLine{
     my $self		= shift;
     my $commandLine = shift;
 	
-	my @rows = $self->_runExit('saveCommandLine', $commandLine);
+    my @rows = $self->_runExit('saveCommandLine', $commandLine);
+    my $result = $self->_getExitResult(\@rows);
     
-    if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
+    if ( $result->{'status'} eq "DONE"){
 
-        return 1;
+            return 1;
     }
-    
-    #$log->debug("script. ".$script);
-    #$log->debug("command line. ".$commandLine);
-    
-    my $error="ERROR: from exit: saveCommandLine. Message is: ";
 
-   #$log->debug(@rows ? 'defined' : "undefined");
-   # $log->debug(scalar @rows);
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: saveCommandLine. Message is: ";
 
-    for my $r (@rows){
-        #$log->debug("error value BEFORE. ".$error);
-        #$log->debug("row value. ".$r);
-        $error = $error." ".$utils->trim($r);
-        #log->debug("error value AFTER. ".$error);
+    if ( $result->{'message'}){
+
+            $self->{error}=$result->{'message'};
     }
-    
-    #$log->debug("error value XXX. ".$error);
-    $self->{error}=$error;
-    #$log->debug("self error at the end: ".$self->{error});
-
     return undef;
 }
 sub readCommandLine{
     my $self = shift;
 
     my @rows = $self->_runExit('readCommandLine');
+    my $result = $self->_getExitResult(\@rows);
     
-	if (!@rows || (scalar @rows == 0)){
-		
-		my $error="WARNING: can't read command line";
-		return undef;
-	}
-    my $commandLine="";
-    
-    for my $row (@rows){
-		
-		if (($row  =~ /^ERROR/) || ($row  =~ /^WARNING/)){
-			my $error=$row;
-			return undef;
-		} 
-		
-        $commandLine = $commandLine." ".$row;
-    }
-    return $commandLine;
+    if ( $result->{'status'} eq "DONE"){
 
+        my $data = $result->{'data'};
+        my $info="";
+        
+        for my $row (@$data){
+
+            $info = $info." ".$row;
+        }
+        return $info;
+    }
+
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: saveCommandLine. Message is: ";
+
+    if ( $result->{'message'}){
+
+            $self->{error}=$result->{'message'};
+    }
+    return undef;
 }
 
 ####################################################################################################

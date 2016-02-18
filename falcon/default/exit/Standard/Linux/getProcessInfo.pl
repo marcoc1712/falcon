@@ -73,38 +73,13 @@ sub validateResult{
     
     for my $row (@$result){
 
-        #my $line = "".asciiClean($row);
-        #push @data, $line;
-        #push @data, inspectString($row);
-        
+        push @data, asciiClean($row);
+    
     }
 
     printJSON($out);
     exit 1;
-
 }
-
-sub inspectString{
-    my $string = shift;
-    my $out="";
-    
-    for (my $i=0; $i <length($string); $i++) {
-        
-       if (ord substr($string,$i,1) < 127) {
-       
-           # $out= $out.substr($string,$i,1);
-           $out= $out.chr(127);
-        
-       } else{
-       
-            $out= $out.chr(127);
-       }
-        
-    }
-    return $out;
-}
-
-
 sub asciiClean {
     my ($val) = shift;
 
@@ -146,4 +121,3 @@ sub printJSON{
 	print  encode_json $in;
 }
 1;
-

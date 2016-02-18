@@ -38,14 +38,42 @@ my $commandLine="";
 
 my $pathname = "/etc/default/squeezelite";
 
+
+# the return MUST be in form of an hash with three elements:
+#
+# 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
+# 'message' = status message displayed to the user, MUST be a valid UTF_8 string,
+#             please avoid special and control characters.
+# 'data'		= ARRAY of valid UTF_8 string containing the command result, 
+#             contents is validated only by the application.
+#
+# any other element is discharged.
+#
+# here the PROTOTYPE:
+
+my @data=();
+my $out={};
+$out->{'status'}='ok';
+$out->{'message'}="";
+$out->{'data'}=\@data;
+
+#tobe converted in JSON format and printed out.
+
 my $FH;
 if (! (-e $pathname)) {
-	print "WARNING: file does not exists $pathname";
-	exit 0;
+
+    $out->{'status'}='WARNING';
+    $out->{'message'}="file does not exists $pathname";   
+    printJSON($out);
+    exit 0;
+        
 }
 if (! open($FH, "< $pathname")) {
-	print "ERROR: Failure opening '$pathname' for reading- $!";
-	exit 0;
+
+    $out->{'status'}='ERROR';
+    $out->{'message'}="Failure opening '$pathname' for reading- $!";   
+    printJSON($out);
+    exit 0;
 }
 my @lines = <$FH>;
 
@@ -58,55 +86,55 @@ my $extra="";
 
 for my $row (@lines) {
 
-	$row = trim($row);
-	
-	#print $row."\n";
-	
-	if (substr($row,0,8) eq "SL_NAME="){
+    $row = trim($row);
 
-		$name= "-n ".trim(substr($row,8));
-		#sanity check on name.
-		if ($name =~ m/\s/) {
-		
-			$name = "-n squeezelite-R2";
-		}
-		#print "name is: ".$name."\n";
+    #print $row."\n";
 
-	} elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
+    if (substr($row,0,8) eq "SL_NAME="){
 
-		$card= "-o ".trim(substr($row,13));
-		#print "card is: ".$card."\n";
-		
-	} elsif (substr($row,0,13) eq "SB_SERVER_IP="){
+        $name= "-n ".trim(substr($row,8));
+        #sanity check on name.
+        if ($name =~ m/\s/) {
 
-		$server= "-s ".trim(substr($row,13));
-		#print "server is: ".$server."\n";
+                $name = "-n squeezelite-R2";
+        }
+        #print "name is: ".$name."\n";
 
-	} elsif (substr($row,0,14) eq "SB_EXTRA_ARGS="){
+    } elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
 
-		$extra= trim(substr($row,14));
-		#print "extra is: ".$extra."\n";
+        $card= "-o ".trim(substr($row,13));
+        #print "card is: ".$card."\n";
 
-	}elsif (substr($row,0,9) eq "SL_NAME ="){
+    } elsif (substr($row,0,13) eq "SB_SERVER_IP="){
 
-		$name= "-n ".trim(substr($row,9));
-		#print "name is: ".$name."\n";
-		
-	} elsif (substr($row,0,14) eq "SL_SOUNDCARD ="){
+        $server= "-s ".trim(substr($row,13));
+        #print "server is: ".$server."\n";
 
-		$card= "-o ".trim(substr($row,14));
-		#print "card is: ".$card."\n";
-		
-	} elsif (substr($row,0,14) eq "SB_SERVER_IP ="){
+    } elsif (substr($row,0,14) eq "SB_EXTRA_ARGS="){
 
-		$server= "-s ".trim(substr($row,14));
-		#print "server is: ".$server."\n";
-		
-	} elsif (substr($row,0,15) eq "SB_EXTRA_ARGS ="){
+        $extra= trim(substr($row,14));
+        #print "extra is: ".$extra."\n";
 
-		$extra= trim(substr($row,15));
-		#print "extra is: ".$extra."\n";
-	}
+    }elsif (substr($row,0,9) eq "SL_NAME ="){
+
+        $name= "-n ".trim(substr($row,9));
+        #print "name is: ".$name."\n";
+
+    } elsif (substr($row,0,14) eq "SL_SOUNDCARD ="){
+
+        $card= "-o ".trim(substr($row,14));
+        #print "card is: ".$card."\n";
+
+    } elsif (substr($row,0,14) eq "SB_SERVER_IP ="){
+
+        $server= "-s ".trim(substr($row,14));
+        #print "server is: ".$server."\n";
+
+    } elsif (substr($row,0,15) eq "SB_EXTRA_ARGS ="){
+
+        $extra= trim(substr($row,15));
+        #print "extra is: ".$extra."\n";
+    }
 }
 $commandLine=$name." ".$card." ".$server." ".$extra;
 
@@ -114,28 +142,37 @@ $commandLine=$name." ".$card." ".$server." ".$extra;
 # Please don't change anything beyond this line
 ################################################################################
 
-print $commandLine;
+push @data, $commandLine;
+printJSON($out);
 
-sub trim{
-	my ($val) = shift;
+###############################################################################
+# This code should be in a library, please do not modify it.
+###############################################################################
 
-  	if (defined $val) {
+sub trim {
+    my ($val) = shift;
+
+    if (defined $val) {
 
     	$val =~ s/^\s+//; # strip white space from the beginning
     	$val =~ s/\s+$//; # strip white space from the end
     }
-	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+    if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
 	
-		$val =~ s/^\"+//; # strip "  from the beginning
+        $val =~ s/^\"+//; # strip "  from the beginning
     	$val =~ s/\"+$//; # strip "  from the end 
-	}
-	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+    }
+    if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
 	
-		$val =~ s/^\'+//; # strip '  from the beginning
+        $val =~ s/^\'+//; # strip '  from the beginning
     	$val =~ s/\'+$//; # strip '  from the end
-	}
+    }
     
     return $val;         
 }
-1;
 
+sub printJSON{
+    my $in = shift;
+    print  encode_json $in;
+}
+1;
