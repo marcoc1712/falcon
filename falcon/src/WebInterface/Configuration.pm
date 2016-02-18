@@ -293,6 +293,7 @@ sub getProcessInfo{
     if ($self->isDisabled('getProcessInfo')) {return undef};
 	
     my @rows = $self->_runExit('getProcessInfo', $pid);
+    die;
     my $result = $self->_getExitResult(\@rows);
     
     if ( $result->{'status'} eq "DONE"){
@@ -421,7 +422,7 @@ sub _getExitResult{
 	for my $line (@$in){
 		$result = $result." ".$utils->trim($line);
 	}
-	$result = substr($result,1); #remove the leading " ".
+	print $result;
         
         $out = $utils->decodeJson($result);
         
