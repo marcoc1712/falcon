@@ -30,7 +30,7 @@ use utf8;
 use CGI qw(:standard);
 use WebInterface::JSONhelper;
 
-my $helper = WebInterface::JSONhelper->new();
+my $JSONhelper = WebInterface::JSONhelper->new();
 
 
 sub new{
@@ -93,7 +93,7 @@ sub printJSON{
     my $class = shift;
     my $data = shift;
     
-    my $jsonText = $helper->encode($data);
+    my $jsonText = $JSONhelper->encode($data);
 
     print header('application/json');
     print $jsonText;
@@ -140,6 +140,6 @@ sub decodeJson{
     my $class = shift;
     my $in = shift;
         
-    return $helper->decode($in);
+    return $JSONhelper->decode($in);
 }
 1;

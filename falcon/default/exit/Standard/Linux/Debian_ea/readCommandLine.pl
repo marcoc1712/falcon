@@ -20,8 +20,11 @@
 # GNU General Public License for more details.
 #
 ################################################################################
+binmode STDOUT, ':utf8';
 use strict;
 use warnings;
+
+use JSON::PP;
 
 my $commandLine="";
 

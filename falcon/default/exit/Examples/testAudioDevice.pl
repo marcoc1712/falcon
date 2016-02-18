@@ -24,6 +24,8 @@
 use strict;
 use warnings;
 
+use JSON::PP;
+
 my %commandHash=();
 my $cmd= \%commandHash;
 
@@ -78,8 +80,9 @@ $out->{'status'}='ok';
 $out->{'message'}="";
 $out->{'data'}=\@data;
 
-#look for the command to be executed;
+#tobe converted in JSON format and printed out.
 
+#look for the command to be executed;
 if (!scalar @ARGV == 1) {
 
 	$out->{'status'}='ERROR';
@@ -152,27 +155,7 @@ sub trim {
 
 sub printJSON{
 	my $in = shift;
-	
-	print "{"."\n";
-	
-	print qq("status" : "$in->{'status'}").","."\n";
-	print qq("message" : "$in->{'message'}").","."\n";
-	print qq("data" : [)."\n";
-	
-	my $lines = $in->{'data'};
-	my $first=1;
-	for my $row (@$lines){
-		if (!$first) {
-			print","."\n";
-		} else {
-			print"\n";
-			$first=0;
-		}
-		print "            ".qq("$row");
-	}
-	print "\n";
-	print "         ]"."\n";
-	print "}"."\n";
+	print  encode_json $in;
 }
 1;
 
