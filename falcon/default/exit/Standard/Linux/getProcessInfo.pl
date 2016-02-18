@@ -75,7 +75,7 @@ sub validateResult{
 
         #my $line = "".asciiClean($row);
         #push @data, $line;
-        push @data, $row;
+        push @data, inspectString($row);
         
     }
 
@@ -83,6 +83,26 @@ sub validateResult{
     exit 1;
 
 }
+
+sub inspectString{
+    my $string = shift;
+    my $out="";
+    
+    for (my $i=0; $i <length($string); $i++) {
+        
+       if (ord substr($string,$i,1) < 255) {
+       
+            $out= $out.substr($string,$i,1);
+        
+       } else{
+       
+            $out= $out.chr(127);
+       }
+        
+    }
+    return $out;
+}
+
 
 sub asciiClean {
     my ($val) = shift;
