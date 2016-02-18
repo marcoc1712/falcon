@@ -409,9 +409,9 @@ sub _getExitResul{
 	for my $line (@$in){
 		$result = $result.", ".$utils->trim($line);
 	}
-	$result = substr($result,2);
+	$result = substr($result,2); #remove the leading ", ".
         
-        my $out = decode_json $data;
+        my $out = decode_json $result;
         
         ### minimal Sanity check
 	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
