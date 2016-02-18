@@ -95,13 +95,14 @@ function install_apache2(){
 function config_apache2(){
 
     # copia la configurazione del webserver Apache2
-    if [ ! -e '/etc/lighttpd/lighttpd-old.conf' ]; then
+    if [ ! -e '/etc/apache2/sites-available/000-default-old.conf' ]; then
         mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default-old.conf
     
     else
         rm /etc/apache2/sites-available/000-default.conf
     fi 
     cp /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
+    ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
     #abilita le CGI
     ln -s /etc/apache2/mods-available/cgid.conf /etc/apache2/mods-enabled/cgid.conf
