@@ -50,9 +50,9 @@ my $command= "/sbin/chkconfig squeezelite";
 my @rows = `$command 2>&1`;
 
 #result validation and return.
-validateResult(\@rows);
+$out= validateResult(\@rows);
 #printJSON($out);
-print  encode_json $perl_scalar;
+print  encode_json $out;
 
 sub validateResult{
 	my $result = shift;
