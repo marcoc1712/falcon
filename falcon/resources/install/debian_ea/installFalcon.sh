@@ -186,11 +186,15 @@ set_scripts_permissions
 
 if [ -d '/etc/lighttpd' ]; then
     config_lighttpd
+    service lighttpd restart
+    
 elif [ -d '/etc/apache2' ]; then
     config_apache2
+    service apache2 restart
 else
     install_apache2
     config_apache2
+    service apache2 restart
 fi
 
 additional_settings
