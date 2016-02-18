@@ -151,16 +151,18 @@ $(document).ready(function() {
 	document.getElementById('shutdown').onclick = function(){
 		jQuery.get("/cgi-bin/hwShutdown.pl")
 		.done(function(data) {
-			console.log( "success" );
+			console.log( "success but reboot filed..." );
+			// reboot failed
+			alert(data);
 		})
 		.fail(function(data) {
-			console.log( "error" );
+			console.log( "error, but reboot succeded" );
+			// reboot succedeed...
+			alert("system is rebooting, please wait some time, then refresh the page");
+			
 		})
 		.always(function(data) {
 			console.log( "complete" );
-			if ($data ){
-				alert(data);
-			}
 		});
 	};
 
