@@ -44,8 +44,6 @@ function install_falcon(){
     cd /var/www
     git clone https://github.com/marcoc1712/falcon.git
     
-    wget https://github.com/marcoc1712/squeezelite-R2/releases/download/v1.8.2-(R2)/squeezelite-R2-deb-i386
-
     # create exit directory
     cd /var/www/falcon
     mkdir exit
