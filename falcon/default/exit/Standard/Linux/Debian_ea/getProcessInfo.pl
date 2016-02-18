@@ -27,27 +27,102 @@ use warnings;
 use utf8;
 use JSON::PP;
 
+# the return MUST be in form of an hash with three elements:
+#
+# 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
+# 'message' = status message displayed to the user, MUST be a valid UTF_8 string,
+#             please avoid special and control characters.
+# 'data'		= ARRAY of valid UTF_8 string containing the command result, 
+#             contents is validated only by the application.
+#
+# any other element is discharged.
+#
+# here the PROTOTYPE:
+
+my @data=();
+my $out={};
+$out->{'status'}='ok';
+$out->{'message'}="";
+$out->{'data'}=\@data;
+
+#tobe converted in JSON format and printed out.
+
 my $pid;
 
 if (scalar @ARGV == 1){
 
-	$pid = $ARGV[0];
+    $pid = $ARGV[0];
 }
+
 my $command;
 
 if ($pid){
 
-	$command= qq(ps -p $pid -o command=);
+    $command= qq(ps -p $pid -o command=);
 	
 } else {
 
-	$command = "service squeezelite status";
+    $command = "service squeezelite status";
 }
 
 my @rows = `$command 2>&1`;
 
-for my $row (@rows){
-	print $row;
-}	
+#result validation and return.
+validateResult(\@rows);
+
+sub validateResult{
+    my $result = shift;
+    
+    for my $row (@$result){
+
+        push @data, asciiClean($row);
+    
+    }
+
+    printJSON($out);
+    exit 1;
+}
+sub asciiClean {
+    my ($val) = shift;
+
+    if (defined $val) {
+
+        $val =~ s/[^[:ascii:]+]//g;
+
+    }
+    return trim($val);
+}
+###############################################################################
+# This code should be in a library, please do not modify it.
+###############################################################################
+
+sub trim {
+	my ($val) = shift;
+
+  	if (defined $val) {
+
+    	$val =~ s/^\s+//; # strip white space from the beginning
+    	$val =~ s/\s+$//; # strip white space from the end
+        }
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	
+		$val =~ s/^\"+//; # strip "  from the beginning
+    	$val =~ s/\"+$//; # strip "  from the end 
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	
+		$val =~ s/^\'+//; # strip '  from the beginning
+    	$val =~ s/\'+$//; # strip '  from the end
+	}
+    
+    return $val;         
+}
+
+sub printJSON{
+	my $in = shift;
+	print  encode_json $in;
+}
 1;
+
+
 

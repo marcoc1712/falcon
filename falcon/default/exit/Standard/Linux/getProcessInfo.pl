@@ -75,7 +75,7 @@ sub validateResult{
 
         #my $line = "".asciiClean($row);
         #push @data, $line;
-        push @data, inspectString($row);
+        #push @data, inspectString($row);
         
     }
 
