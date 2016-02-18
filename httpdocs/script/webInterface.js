@@ -30,7 +30,6 @@ $(document).ready(function() {
     $('#formSettings').ajaxForm({ 
         success: function(response, status, xhr, jQform) { 
             console.log( "success" );
-            
             console.log( response );
             if (document.getElementById('restart').disabled) {
                 
@@ -50,10 +49,7 @@ $(document).ready(function() {
 			alert(data);
                         loadStatus(initErrorCallback);
 		});
-            }
-
-            alert(response);
-            
+            }            
         },
         error: function() { 
            console.log( "error" );
