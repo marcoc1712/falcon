@@ -44,27 +44,8 @@ $(document).ready(function() {
            alert("something went wrong!");
         }
     }); 
-
-    //$("#formSettings").submit(function() {
-//
-//        $.ajax({
-//          type: "POST",
-//          url: "/cgi-bin/saveSettings.pl",
-//          data: $(this).serialize(),
-//          target: "hiddenIframe",
-//          success: function() {
-            // callback code here
-//           }
-//       })
-
-//    })
-});
-
-window.onload = function() {
-
-	init(); //load data.
 	
-	// set event listeners.
+    // set event listeners.
 
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
@@ -103,11 +84,11 @@ window.onload = function() {
 		loadSettings();
 	}
         
-        document.getElementById('testAudioDevice').onclick = function(){
+      document.getElementById('testAudioDevice').onclick = function(){
 		window.open('/htm/testAudioDevice.html');
 	};
         
-        document.getElementById('openLog').onclick = function(){
+      document.getElementById('openLog').onclick = function(){
 		window.open('/htm/openLog.html');
 	};
         
@@ -177,7 +158,9 @@ window.onload = function() {
 		})
 		.always(function(data) {
 			console.log( "complete" );
-			alert(data);
+			if ($data ){
+				alert(data);
+			}
 		});
 	};
 
@@ -195,7 +178,13 @@ window.onload = function() {
 		});
 	};
 
+});
+
+window.onload = function() {
+
+	init(); //load data.
 };
+
 function initErrorCallback(){
     
      document.getElementById("submitSettings").disabled = true;
