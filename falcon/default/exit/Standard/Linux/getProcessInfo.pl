@@ -87,7 +87,7 @@ sub asciiClean {
 
     if (defined $val) {
 
-    $val =~ s/[^[:ascii:]+]//g;
+        $val =~ s/[^[:ascii:]+]//g;
 
     }
     return trim($val);
@@ -103,17 +103,7 @@ sub trim {
 
     	$val =~ s/^\s+//; # strip white space from the beginning
     	$val =~ s/\s+$//; # strip white space from the end
-    }
-	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
-	
-		$val =~ s/^\"+//; # strip "  from the beginning
-    	$val =~ s/\"+$//; # strip "  from the end 
-	}
-	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
-	
-		$val =~ s/^\'+//; # strip '  from the beginning
-    	$val =~ s/\'+$//; # strip '  from the end
-	}
+        }
     
     return $val;         
 }
