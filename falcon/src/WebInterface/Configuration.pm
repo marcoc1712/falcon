@@ -159,7 +159,14 @@ sub hwReboot {
 	};
 	
 	my @rows = $self->_runExit('reboot');
-        
+	
+    #reboot reboots, so normaly it wil not pass trougth here.
+	
+	if (! @rows || (scalar @rows == 0)){
+	
+		return 1;
+	}
+	
 	if ((scalar @rows == 1) && ($rows[0]  =~ /^ok+$/)){
 	
 		 return 1;

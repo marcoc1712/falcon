@@ -1,35 +1,3 @@
-# aggiorna falcon.
-cd /var/www/falcon
-git pull
-
-# crea la cartella data
-cd /var/www/falcon
-mkdir data
-chown www-data:www-data data
-
-#imposta la configurazione di Falcon
-ln -s  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
-
-#corregge i privilegi di esecuzione agli script:
-chmod +x var/www/falcon/cgi-bin/*.pl
-chmod +x var/www/falcon/exit/*.pl
-chmod +x var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/*.pl
-chmod +x var/www/falcon/falcon/default/exit/Standard/Linux/*.pl
-chmod +x var/www/falcon/falcon/default/exit/myOwn/*.pl
-
-# crea la directory di log ed il file con gli opportuni permessi
-mkdir /var/log/falcon
-chown www-data:www-data /var/log/falcon
-touch /var/log/falcon/falcon.log
-chown www-data:www-data falcon.log
-chmod g=rw falcon.log
-
-### adesso carica i settings, ma non salva.
-
-### QUANTO SEGUE E' UN ELENCO DI PROBLEMI E WORK AROUND APPLICATI
-### VA CERCATA ED APPLICATA UNA SOLUZIONE MIGLIORE IN FASE DI 
-### INSTALLAZIONE CON EASETUP, se mai ci sarà.
-
 ### aggiunge www-data al gruppo audio, così da vedere tutti i dispositivi.
 adduser www-data audio
 ### 
@@ -47,7 +15,7 @@ chown www-data:www-data /var/log/squeezelite-R2/squeezelite-R2.log
 chmod g=rw /var/log/squeezelite-R2/squeezelite-R2.log
 ###
 ###
-### Installa chkconfig
+### Installa chkconfig per l'autostart.
 apt-get install chkconfig
 
 ### Shutdown, bisogna essere root.									-> visudo
