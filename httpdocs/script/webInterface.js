@@ -47,8 +47,8 @@ $(document).ready(function() {
 			.always(function(data) {
 				console.log( "complete" );
 				alert(data);
-				loadSettings(initErrorCallback);
 				enableSettings(initErrorCallback);
+				loadSettings(initErrorCallback);
 				loadStatus(initErrorCallback);
 			});
             }            
@@ -231,8 +231,8 @@ function init() {
     hide(document.getElementById('status'));
 
     loadAudioDevices(initErrorCallback);
-    loadSettings(initErrorCallback);
     enableSettings(initErrorCallback);
+    loadSettings(initErrorCallback);
     loadStatus(initErrorCallback);
 
     initOkCallback();
