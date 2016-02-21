@@ -244,7 +244,7 @@ function enable(item,value) {
 	var element = document.getElementById(item);
 	if (! element) {return false;}	
 	
-	if (value == 1) {
+	if (value === 1) {
 		element.disabled=false;
 	}	else {
 		element.disabled=true;
@@ -256,24 +256,24 @@ function load(item,value) {
 	var element = document.getElementById(item);
 	if (! element) {return false;}
 
-	if (element.type == 'checkbox'){
+	if (element.type === 'checkbox'){
 			
-			if (value ==1) {
+			if (value === 1) {
 				element.checked = true;
 			}	else {
 				element.checked = false;
 			}
 
-	} else if ((element.type == 'text') || 
-						 (element.type == 'textarea')){
+	} else if ((element.type === 'text') || 
+			   (element.type ==='textarea')){
 		
 		element.value = value;
 
-	} else if (element.type == 'number'){
+	} else if (element.type === 'number'){
 
 		element.value = (value ? value : 0);
 
-	} else if (element.type == 'select-one'){
+	} else if (element.type === 'select-one'){
 		
 		var values = $.map(element, function(e) { return e.value; });
 
@@ -283,7 +283,7 @@ function load(item,value) {
 
 		}
 			
-	} else if (element.type == 'radio'){
+	} else if (element.type === 'radio'){
 
 		//tobe handled.
 	
@@ -321,7 +321,7 @@ function loadSettings(errorCallback) {
         $.each( data, function( key, val ) {
                 console.log( key + " - " + val);
 
-                if (key == "audioDevice"){
+                if (key === "audioDevice"){
 
                                 // special case, options could not be already retrieved .
                                 // store a global variable, used whe deferred load will end.
@@ -364,11 +364,11 @@ function loadStatus(errorCallback) {
             $.each( data, function( key, val ) {
                 console.log( key + " - " + val);
 
-                if (key == "isR2version")	{
+                if (key === "isR2version")	{
 
                                 isR2version=1;	
 
-                }	else if (key == "isPathnameValid")	{
+                }	else if (key === "isPathnameValid")	{
 
                                 isPathnameValid=1;
 
@@ -384,7 +384,7 @@ function loadStatus(errorCallback) {
                 document.getElementById("pathname").style.color="red";
 
                 if (!document.getElementById("pathname").value ||
-                     document.getElementById("pathname").value == ""){
+                     document.getElementById("pathname").value === ""){
 
                     document.getElementById("pathname").value="unknow";
                 }		
@@ -395,7 +395,7 @@ function loadStatus(errorCallback) {
                 document.getElementById("version").style.color="red";
 
                 if (!document.getElementById("version").value ||
-                     document.getElementById("version").value == ""){
+                     document.getElementById("version").value === ""){
 
                     document.getElementById("version").value="unknow (not R2)";
                     document.getElementById("lmsDownsampling").checked;
@@ -453,12 +453,12 @@ function enableSettings(errorCallback) {
 		global_shutdown = document.getElementById("shutdown").value;
 
 		if ((! document.getElementById("allowReboot").value)|| 
-			( document.getElementById("allowReboot").value == 0)) {
+			( document.getElementById("allowReboot").value === 0)) {
 		
 			document.getElementById("reboot").disabled = true;
 		}
 		if ((! document.getElementById("allowShutdown").value)|| 
-			( document.getElementById("allowShutdown").value == 0)) {
+			( document.getElementById("allowShutdown").value === 0)) {
 		
 			document.getElementById("shutdown").disabled = true;
 		}
