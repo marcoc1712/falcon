@@ -77,8 +77,7 @@ $(document).ready(function() {
 	};
 	document.getElementById('allowReboot').onchange = function(){
 		
-		if ((! document.getElementById("allowReboot").value) || 
-			( document.getElementById("allowShutdown").value == 0)){
+		if (! document.getElementById("allowReboot").checked){
 			
 			enable("reboot",0);
 			
@@ -91,13 +90,12 @@ $(document).ready(function() {
 	
 	document.getElementById('allowShutdown').onchange = function(){
 		
-		if ((! document.getElementById("allowShutdown").value) ||
-		     ( document.getElementById("allowShutdown").value == 0)){
-			alert ("disabling allowShutdown is "+ document.getElementById("allowShutdown").checked)
+		if (! document.getElementById("allowShutdown").checked) {
+			
 			enable("shutdown",0);
 			
 		} else{
-			alert ("enabling allowShutdown is "+ document.getElementById("allowShutdown").checked);
+			
 			enable("shutdown",global_reboot);
 		}
 	};
