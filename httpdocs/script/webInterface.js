@@ -83,7 +83,7 @@ $(document).ready(function() {
 			
 		} else{
 			
-			enable("reboot",global_shutdown);
+			enable("reboot",!global_shutdown);
 		}
 		
 	};
@@ -96,7 +96,7 @@ $(document).ready(function() {
 			
 		} else{
 			
-			enable("shutdown",global_reboot);
+			enable("shutdown",!global_reboot);
 		}
 	};
 	
@@ -447,8 +447,8 @@ function enableSettings(errorCallback) {
 
 		});
 		// save configuration settings :	
-		global_reboot = document.getElementById("reboot").value;
-		global_shutdown = document.getElementById("shutdown").value;
+		global_reboot = document.getElementById("reboot").disabled;
+		global_shutdown = document.getElementById("shutdown").disabled;
 		
 	})
 	.fail(function() {
