@@ -38,17 +38,19 @@ $(document).ready(function() {
             } else {
                 
                 jQuery.get("/cgi-bin/serviceRestart.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
-                        loadStatus(initErrorCallback);
-		});
+			.done(function(data) {
+				console.log( "success" );
+			})
+			.fail(function(data) {
+				console.log( "error" );
+			})
+			.always(function(data) {
+				console.log( "complete" );
+				alert(data);
+				loadSettings(initErrorCallback);
+				enableSettings(initErrorCallback);
+				loadStatus(initErrorCallback);
+			});
             }            
         },
         error: function() { 
