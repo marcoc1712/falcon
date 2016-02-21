@@ -77,9 +77,13 @@ $(document).ready(function() {
 	};
 	document.getElementById('allowReboot').onchange = function(){
 		
-		if (! document.getElementById("allowReboot").value) {
+		if ((! document.getElementById("allowReboot").value) || 
+			( document.getElementById("allowShutdown").value == 0)){
+			
 			enable("reboot",0);
+			
 		} else{
+			
 			enable("reboot",global_shutdown);
 		}
 		
@@ -87,9 +91,14 @@ $(document).ready(function() {
 	
 	document.getElementById('allowShutdown').onchange = function(){
 		
-		if (! document.getElementById("allowShutdown").value) {
+		if ((! document.getElementById("allowShutdown").value) ||
+			( document.getElementById("allowShutdown").value == 0)){
+		
+		
 			enable("shutdown",0);
+			
 		} else{
+			
 			enable("shutdown",global_reboot);
 		}
 	};
@@ -443,10 +452,14 @@ function enableSettings(errorCallback) {
 		global_reboot = document.getElementById("reboot").value;
 		global_shutdown = document.getElementById("shutdown").value;
 
-		if (! document.getElementById("allowReboot").value) {
+		if ((! document.getElementById("allowReboot").value)|| 
+			( document.getElementById("allowReboot").value == 0)) {
+		
 			document.getElementById("reboot").disabled = true;
 		}
-		if (! document.getElementById("allowShutdown").value) {
+		if ((! document.getElementById("allowShutdown").value)|| 
+			( document.getElementById("allowShutdown").value == 0)) {
+		
 			document.getElementById("shutdown").disabled = true;
 		}
 		
