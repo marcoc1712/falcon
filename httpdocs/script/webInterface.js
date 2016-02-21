@@ -258,11 +258,11 @@ function load(item,value) {
 
 	if (element.type === 'checkbox'){
 			
-			if (value === 1) {
-				element.checked = true;
-			}	else {
-				element.checked = false;
-			}
+		if (value == 1) {
+			element.checked = true;
+		}	else {
+			element.checked = false;
+		}
 
 	} else if ((element.type === 'text') || 
 			   (element.type ==='textarea')){
@@ -437,6 +437,7 @@ function enableSettings(errorCallback) {
 		document.getElementById("testAudioDevice").disabled = false;
 		document.getElementById("openLog").disabled = false;
 		document.getElementById("clearLog").disabled = false;
+		//
 		document.getElementById("autostart").disabled = false;
 		document.getElementById("allowReboot").disabled = false;
 		document.getElementById("allowShutdown").disabled = false;
@@ -448,20 +449,9 @@ function enableSettings(errorCallback) {
 			enable(key, (val ? 0 : 1));// we get only disabled.
 
 		});
-		// safety checks here:	
+		// save configuration settings :	
 		global_reboot = document.getElementById("reboot").value;
 		global_shutdown = document.getElementById("shutdown").value;
-
-		if ((! document.getElementById("allowReboot").value)|| 
-			( document.getElementById("allowReboot").value === 0)) {
-		
-			document.getElementById("reboot").disabled = true;
-		}
-		if ((! document.getElementById("allowShutdown").value)|| 
-			( document.getElementById("allowShutdown").value === 0)) {
-		
-			document.getElementById("shutdown").disabled = true;
-		}
 		
 	})
 	.fail(function() {
