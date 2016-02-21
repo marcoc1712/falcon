@@ -83,7 +83,7 @@ $(document).ready(function() {
 			
 		} else{
 			
-			enable("reboot",!global_shutdown);
+			enable("reboot",!global_reboot);
 		}
 		
 	};
@@ -96,7 +96,7 @@ $(document).ready(function() {
 			
 		} else{
 			
-			enable("shutdown",!global_reboot);
+			enable("shutdown",!global_shutdown);
 		}
 	};
 	
