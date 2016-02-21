@@ -92,13 +92,12 @@ $(document).ready(function() {
 	document.getElementById('allowShutdown').onchange = function(){
 		
 		if ((! document.getElementById("allowShutdown").value) ||
-			( document.getElementById("allowShutdown").value == 0)){
-		
-		
+		     ( document.getElementById("allowShutdown").value == 0)){
+			alert ("disabling allowShutdown is "+ document.getElementById("allowShutdown").value)
 			enable("shutdown",0);
 			
 		} else{
-			
+			alert ("enablimg allowShutdown is "+ document.getElementById("allowShutdown").value);
 			enable("shutdown",global_reboot);
 		}
 	};
