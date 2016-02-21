@@ -43,7 +43,7 @@ function install_falcon(){
     # install git and then falcon.
     cd /var/www
     git clone https://github.com/marcoc1712/falcon.git
-    
+
     # create exit directory
     cd /var/www/falcon
     mkdir exit

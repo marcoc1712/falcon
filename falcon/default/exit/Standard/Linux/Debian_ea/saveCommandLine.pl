@@ -162,8 +162,8 @@ for my $line (@before){
 }
 
 my $datestring = localtime();
-print $FH "created at $datestring\n";
-print $FH "input commandline is: ".$commandLine."\n";
+print $FH "# created at $datestring\n";
+print $FH "# input commandline is: ".$commandLine."\n";
 print $FH " "."\n";
 print $FH "#########################################################################"."\n";
 print $FH " "."\n";
