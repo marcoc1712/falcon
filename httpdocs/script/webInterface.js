@@ -330,7 +330,12 @@ function loadSettings(errorCallback) {
                                         document.getElementById('audioDevice').value = global_audiodevice;				  		
                                 }
                 } 
+			if (key === "allowReboot"){
 
+			}
+			if (key === "allowShutdown"){
+				
+			}
                 load(key,val);
         });
         return 1;   
@@ -449,6 +454,14 @@ function enableSettings(errorCallback) {
 		// save configuration settings :	
 		global_reboot = document.getElementById("reboot").disabled;
 		global_shutdown = document.getElementById("shutdown").disabled;
+		
+		if (! document.getElementById("allowReboot").checked){
+			document.getElementById("reboot").disabled = true;
+		}
+	
+		if (! document.getElementById("allowShutdown").checked){
+			document.getElementById("reboot").disabled = true;
+		}
 		
 	})
 	.fail(function() {
