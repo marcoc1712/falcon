@@ -460,7 +460,7 @@ function enableSettings(errorCallback) {
 		}
 	
 		if (! document.getElementById("allowShutdown").checked){
-			document.getElementById("reboot").disabled = true;
+			document.getElementById("shutdown").disabled = true;
 		}
 		
 	})
