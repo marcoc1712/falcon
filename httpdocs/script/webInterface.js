@@ -330,12 +330,7 @@ function loadSettings(errorCallback) {
                                         document.getElementById('audioDevice').value = global_audiodevice;				  		
                                 }
                 } 
-			if (key === "allowReboot"){
 
-			}
-			if (key === "allowShutdown"){
-				
-			}
                 load(key,val);
         });
         return 1;   
