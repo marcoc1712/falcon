@@ -305,12 +305,12 @@ sub getProcessInfo{
         }
         for my $row (@$data){
 			while (length($row) > 80 ){
-				
-				$info = $info."\n".substr($row,0,80);
+				my $join = $info eq "" ? "" : "\n";
+				$info = $info.$join.substr($row,0,80);
 				$row = substr($row,80);
 			}
-			
-            $info = $info."\n".$row;
+            my $join = $info eq "" ? "" : "\n";
+			$info = $info.$join.$row;
         }
         return $info;
     }

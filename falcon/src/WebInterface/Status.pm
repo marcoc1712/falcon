@@ -309,10 +309,12 @@ sub _checkExecutable{
         }
 		while (length($row) > 80 ){
 				
-				$self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n".substr($row,0,80);
+				my $join = $self->getStatus()->{'copyrigth'} eq "" ? "" : "\n";
+				$self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}.$join.substr($row,0,80);
 				$row = substr($row,80);
 		}
-        $self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n".$row;
+		my $join = $self->getStatus()->{'copyrigth'} eq "" ? "" : "\n";
+		$self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}.$join.$row;
 
     }
     my @help = `$squeezelitePath -?`;
