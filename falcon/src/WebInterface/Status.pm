@@ -308,7 +308,7 @@ sub _checkExecutable{
 
         }
 
-         $self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n\r".$row;
+         $self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n".$row;
 
     }
     my @help = `$squeezelitePath -?`;
