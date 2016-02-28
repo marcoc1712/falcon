@@ -307,8 +307,12 @@ sub _checkExecutable{
              $self->getStatus()->{'isR2version'}=1;
 
         }
-
-         $self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n".$row;
+		while (length($row) > 80 ){
+				
+				$self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n".substr($row,0,80);
+				$row = substr($row,80);
+		}
+        $self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}."\n".$row;
 
     }
     my @help = `$squeezelitePath -?`;
