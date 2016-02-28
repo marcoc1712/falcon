@@ -217,13 +217,13 @@ sub _getProcesInfo{
 		 
 	} elsif ($self->getError()){
         
-                $self->getStatus()->{'running'} ="Unknown (Exit Error)";
-                $self->getStatus()->{'process'}= $self->getError();
+		$self->getStatus()->{'running'} ="Unknown (Exit Error)";
+		$self->getStatus()->{'process'}= $self->getError();
         
-        } else {
+	} else {
         
-                $self->getStatus()->{'running'} ="Probably stopped";
-                $self->getStatus()->{'process'}= "Warning: Invalid PID";
+		$self->getStatus()->{'running'} ="Probably stopped";
+		$self->getStatus()->{'process'}= "Warning: Invalid PID";
 	}
 	return  1;
 }
