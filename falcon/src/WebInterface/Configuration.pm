@@ -304,7 +304,12 @@ sub getProcessInfo{
             $info = $pid." - ";
         }
         for my $row (@$data){
-
+			while (length($row) > 80 ){
+				
+				$info = $info."\n".substr($row,0,80);
+				$row = substr($row,80);
+			}
+			
             $info = $info."\n".$row;
         }
         return $info;
