@@ -126,7 +126,8 @@ pre {
     // margin: 1em 0;
 } 
 .testo{
-  //width: 260px;
+  min-width: 260px;
+  max-width: 430px;
   width: 70%;
 }
 
@@ -135,7 +136,8 @@ pre {
 }
 
 .select{
-  //width: 260px;
+  min-width: 260px;
+  max-width: 430px;
   width: 70%;
 }
 
