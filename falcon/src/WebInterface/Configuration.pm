@@ -305,7 +305,7 @@ sub getProcessInfo{
         }
         for my $row (@$data){
 
-            $info = $info." ".$row;
+            $info = $info."\n".$row;
         }
         return $info;
     }
