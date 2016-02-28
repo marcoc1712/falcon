@@ -395,7 +395,7 @@ sub _runExit{
 	return @rows;
 }
 sub _getExitResult{
-        my $self = shift;
+    my $self = shift;
 	my $in   = shift;
 	
 	my @eData=();
@@ -418,11 +418,11 @@ sub _getExitResult{
 	for my $line (@$in){
 		$result = $result." ".$utils->trim($line);
 	}
-	print $result;
+	#print $result;
         
-        $out = $utils->decodeJson($result);
+    $out = $utils->decodeJson($result);
         
-        ### minimal Sanity check
+    ### minimal Sanity check
 	if (! $out->{'status'} || (lc($out->{'status'}) eq "ok")) {
 	
 		$out->{'status'}="DONE";
@@ -468,10 +468,10 @@ sub _initDefault {
 	$default->{DISABLED}->{'restart'} 	= 1;
 	$default->{'restart'} = "/var/www/falcon/exit/ServiceRestart.pl";
 
-	#$default->{DISABLED}->{'getProcessInfo'} 	= 1;
+	$default->{DISABLED}->{'getProcessInfo'} 	= 1;
 	$default->{'getProcessInfo'} = "/var/www/falcon/exit/getProcessInfo.pl";
 
-	#$default->{DISABLED}->{'testAudioDevice'} = 1;
+	$default->{DISABLED}->{'testAudioDevice'} = 1;
 	$default->{'testAudioDevice'} = "/var/www/falcon/exit/testAudioDevice.pl";
         
 	$default->{'saveCommandLine'} = "/var/www/falcon/exit/saveCommandLine.pl";
