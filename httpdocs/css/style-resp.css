@@ -126,7 +126,8 @@ pre {
     // margin: 1em 0;
 } 
 .testo{
-  width: 260px;
+  min-width: 260px;
+  width: auto;
 }
 
 .numero{
@@ -134,7 +135,8 @@ pre {
 }
 
 .select{
-  width: 260px;
+  min-width: 260px;
+  width: auto;
 }
 
 
