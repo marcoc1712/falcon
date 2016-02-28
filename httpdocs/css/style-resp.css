@@ -127,7 +127,7 @@ pre {
 } 
 .testo{
   min-width: 260px;
-  width: 420px;
+  max-width: 420px;
 }
 
 .numero{
@@ -136,7 +136,7 @@ pre {
 
 .select{
   min-width: 260px;
-  width: 420px;
+  max-width: 420px;
 }
 
 
@@ -179,9 +179,6 @@ pre {
 }
 
 [class*="colonna-"] + [class*="colonna-"]:last-child {float: right;}
-
-
-
 
 /* Micro-clearfix */
 .riga:before,
