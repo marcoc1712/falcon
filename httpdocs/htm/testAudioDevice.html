@@ -6,14 +6,13 @@
         <title>Test Audio Device</title>
         <meta description="Squeeezelite- execute audio device test" />
         <meta author="Marco Curti" />
-        <script src="script/jquery.min.js"></script>
-        <script src="script/ios-orientationchange-fix.js"></script>
+        <script src="/script/jquery.min.js"></script>
+        <script src="/script/ios-orientationchange-fix.js"></script>
         <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <script src="script/selectivizr-min.js"></script>
         <script src="script/respond.min.js"></script>
         <![endif]-->
-        <script src="webInterface.js"></script>
         <script>
             $(document).ready(function(){
                     $("#output").load("/cgi-bin/testAudioDevice.pl", function(){
