@@ -55,8 +55,8 @@ print "Content-type: text/html\n\n";
 if ($error ){$return = $error;}
 print $return;
 
-sub read_input
-{
+
+sub read_input {
     my ($buffer, @pairs, $pair, $name, $value);
 	
     my  %FORM = ();
@@ -83,6 +83,14 @@ sub read_input
 	$value =~ s/%(..)/pack("C", hex($1))/eg;
 	$FORM{$name} = $value;
     }
-   return  %FORM;
+	# replace "none" with "" in fields from selects.
+	for my $item (keys %FORM){
+	
+		if ($form{$item} && ($form{$item} eq "none")){
+		
+			$form{$item}="";
+		} 
+	}
+    return  %FORM;
 }
 1;

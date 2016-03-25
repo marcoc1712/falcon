@@ -274,10 +274,10 @@ function load(item,value) {
 		
 		var values = $.map(element, function(e) { return e.value; });
 
-		if (values.length > 0 ){
-
-	  	element.value=value;
-
+		if (values.length > 0 && values.length !== "none"){
+			element.value=value;
+		} else {
+			element.value="none";
 		}
 			
 	} else if (element.type === 'radio'){
