@@ -57,6 +57,7 @@ print $return;
 
 
 sub read_input {
+
     my ($buffer, @pairs, $pair, $name, $value);
 	
     my  %FORM = ();
@@ -76,21 +77,13 @@ sub read_input {
 
     # Split information into name/value pairs
     @pairs = split(/&/, $buffer);
-    foreach $pair (@pairs)
-    {
-	($name, $value) = split(/=/, $pair);
-	$value =~ tr/+/ /;
-	$value =~ s/%(..)/pack("C", hex($1))/eg;
-	$FORM{$name} = $value;
-    }
-	# replace "none" with "" in fields from selects.
-	for my $item, (keys %FORM){
+    foreach $pair (@pairs) {
 	
-		if ($form{$item} && ($form{$item} eq "none")){
-		
-			$form{$item}="";
-		} 
-	}
-    return  %FORM;
+		($name, $value) = split(/=/, $pair);
+		$value =~ tr/+/ /;
+		$value =~ s/%(..)/pack("C", hex($1))/eg;
+		$FORM{$name} = $value;
+    }
+	return  %FORM;
 }
 1;
