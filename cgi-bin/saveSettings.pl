@@ -82,6 +82,11 @@ sub read_input {
 		($name, $value) = split(/=/, $pair);
 		$value =~ tr/+/ /;
 		$value =~ s/%(..)/pack("C", hex($1))/eg;
+		
+		if ($value eq "none"){
+			$value = "";
+		}
+		
 		$FORM{$name} = $value;
     }
 	return  %FORM;
