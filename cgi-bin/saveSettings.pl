@@ -84,7 +84,7 @@ sub read_input {
 	$FORM{$name} = $value;
     }
 	# replace "none" with "" in fields from selects.
-	for my $item (keys %FORM){
+	for my $item, (keys %FORM){
 	
 		if ($form{$item} && ($form{$item} eq "none")){
 		
