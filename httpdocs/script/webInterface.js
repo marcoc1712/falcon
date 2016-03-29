@@ -332,24 +332,24 @@ function loadSettings(errorCallback) {
 				
 			if (key === "allowReboot"){
 				
-				if (! document.getElementById("allowReboot").checked){
+				if (val === 1){
 			
-					enable("reboot",0);
+					enable("reboot",!global_reboot);
 			
 				} else{
 
-					enable("reboot",!global_reboot);
+					enable("reboot",0);
 				}
 			}
 			else if (key === "allowShutdown"){
 	
-				if (! document.getElementById("allowShutdown").checked){
-			
-					enable("shutdown",0);
+				if (val === 1){
+					
+					enable("reboot",!global_shutdown);
 			
 				} else{
 
-					enable("reboot",!global_shutdown);
+					enable("shutdown",0);
 				}
 			}
         });
