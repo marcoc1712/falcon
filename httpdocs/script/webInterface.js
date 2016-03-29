@@ -241,7 +241,7 @@ function enable(item,value) {
 	var element = document.getElementById(item);
 	if (! element) {return false;}	
 	
-	if (value == 1) {
+	if (value === 1) {
 		element.disabled=false;
 	}	else {
 		element.disabled=true;
@@ -255,7 +255,7 @@ function load(item,value) {
 
 	if (element.type === 'checkbox'){
 			
-		if (value == 1) {
+		if (value === 1) {
 			element.checked = true;
 		}	else {
 			element.checked = false;
@@ -320,18 +320,38 @@ function loadSettings(errorCallback) {
 
                 if (key === "audioDevice"){
 
-                                // special case, options could not be already retrieved .
-                                // store a global variable, used whe deferred load will end.
+				global_audiodevice= val;
 
-                                global_audiodevice= val;
+				if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
 
-                                if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
-
-                                        document.getElementById('audioDevice').value = global_audiodevice;				  		
-                                }
+						document.getElementById('audioDevice').value = global_audiodevice;				  		
+				}
                 } 
 
                 load(key,val);
+				
+			if (key === "allowReboot"){
+				
+				if (! document.getElementById("allowReboot").checked){
+			
+					enable("reboot",0);
+			
+				} else{
+
+					enable("reboot",!global_reboot);
+				}
+			}
+			else if (key === "allowShutdown"){
+	
+				if (! document.getElementById("allowShutdown").checked){
+			
+					enable("shutdown",0);
+			
+				} else{
+
+					enable("reboot",!global_shutdown);
+				}
+			}
         });
         return 1;   
     })
@@ -363,11 +383,11 @@ function loadStatus(errorCallback) {
 
                 if (key === "isR2version")	{
 
-                                isR2version=1;	
+				isR2version=1;	
 
                 }	else if (key === "isPathnameValid")	{
 
-                                isPathnameValid=1;
+				isPathnameValid=1;
 
                 }	else {
 
