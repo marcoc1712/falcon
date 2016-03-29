@@ -332,7 +332,7 @@ function loadSettings(errorCallback) {
 				
 			if (key === "allowReboot"){
 				
-				if (val === 1){
+				if (val == 1){
 			
 					enable("reboot",!global_reboot);
 			
@@ -343,7 +343,7 @@ function loadSettings(errorCallback) {
 			}
 			else if (key === "allowShutdown"){
 	
-				if (val === 1){
+				if (val == 1){
 					
 					enable("reboot",!global_shutdown);
 			
