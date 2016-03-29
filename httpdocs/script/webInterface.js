@@ -241,7 +241,7 @@ function enable(item,value) {
 	var element = document.getElementById(item);
 	if (! element) {return false;}	
 	
-	if (value === 1) {
+	if (value == 1) {
 		element.disabled=false;
 	}	else {
 		element.disabled=true;
@@ -255,7 +255,7 @@ function load(item,value) {
 
 	if (element.type === 'checkbox'){
 			
-		if (value === 1) {
+		if (value == 1) {
 			element.checked = true;
 		}	else {
 			element.checked = false;
