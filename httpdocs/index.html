@@ -109,6 +109,12 @@ WEB INTERFACE and Controll application for an headless squeezelite
                             <input type="text" id="serverIP" name="serverIP" class="testo" 
                                    pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\:[1-9][0-9][0-9][0-9])?$" title="IP address i.e 192.168.1.103 or 192.168.1.103:9000" placeholder="___.___.___.___:____">  <br>
 
+                            <br>
+
+                            <label for="serverIP">player ID (mac address):</label>
+                            <input type="text" id="playerId" name="playerId" class="testo" 
+                                   pattern="/^(?:[[:xdigit:]]{2}([-:]))(?:[[:xdigit:]]{2}\1){4}[[:xdigit:]]{2}$/" title="player Id (mac address) i.e. 00:e0:4c:68:ce:77" placeholder="__:__:__:__:__">  <br>
+
                         </fieldset>
 
                         <br>	<br>	
