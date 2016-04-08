@@ -432,6 +432,16 @@ sub _handleOption{
              $self->_setError("WARNING: $value is invalid for key $key");
         }
     
+    }  elsif  ($key eq "m"){ #player ID (mac address)
+    
+        if ($value && ($value  =~ /^([a-fA-F0-9]{2}\:){5}[a-fA-F0-9]{2}?$/ )){
+
+             $preferences->setItem('playerId',$value );
+             
+        } else{
+             $self->_setError("WARNING: $value is invalid for key $key");
+        }
+    
     } elsif  ($key eq "r"){ #rates
     
         if ($value){
