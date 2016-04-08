@@ -645,8 +645,8 @@ sub _handleOption{
       elsif  ($key eq "p"){ #priority
         $self->_setError("WARNING: unsupported option $key");
     
-    } elsif  ($key eq "m"){ #mac address
-        $self->_setError("WARNING: unsupported option $key");
+    #} elsif  ($key eq "m"){ #mac address
+    #    $self->_setError("WARNING: unsupported option $key");
     
     } elsif  ($key eq "R"){ #Resample
         $self->_setError("WARNING: unsupported option $key"); 
