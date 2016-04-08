@@ -345,7 +345,7 @@ function loadSettings(errorCallback) {
 	
 				if (val == 1){
 					
-					enable("reboot",!global_shutdown);
+					enable("shutdown",!global_shutdown);
 			
 				} else{
 

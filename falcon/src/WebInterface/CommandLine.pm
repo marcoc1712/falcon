@@ -120,7 +120,7 @@ sub _buildCommandLineFromPreferences{
     if (! $conf->getPathname() || ($conf->getPathname() eq "") ) {return ""};
 
     $commandLine=  $conf->getPathname();
-
+    
     if ($preferences->getItem('playerName')){
 
             $commandLine = $commandLine." -n ".$preferences->getItem('playerName');
@@ -164,7 +164,11 @@ sub _buildCommandLineFromPreferences{
             $commandLine = $commandLine." -s ".$preferences->getItem('serverIP');
     }
     $log->debug("AFTER serverIP: ".$commandLine);
-    
+    if ($preferences->getItem('playerId')){
+
+            $commandLine = $commandLine." -m ".$preferences->getItem('playerId');
+    }
+    $log->debug("AFTER playerId: ".$commandLine);
     my $rateString=  _checkSampleRates($preferences->getPrefs());
 
     if ($rateString && ! ($rateString eq "")){
