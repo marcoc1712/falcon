@@ -195,9 +195,9 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         <fieldset>
                             <legend>Buffer size </legend>
                             <label for="inBuffer">Input:</label>							
-                            <input type="number" id="inBuffer" name="inBuffer" min="0" step="4096" value="0" required class="numero"> Kb  <br>
+                            <input type="number" id="inBuffer" name="inBuffer" min="0" step="1" value="0" required class="numero"> Kb  <br>
                             <label for="outBuffer">Output:</label>		
-                            <input type="number" id="outBuffer" name="outBuffer" min="0" step="4096" value="0" required class="numero"> Kb <br>
+                            <input type="number" id="outBuffer" name="outBuffer" min="0" step="1" value="0" required class="numero"> Kb <br>
                         </fieldset>
 
                         <br><br>
@@ -205,9 +205,9 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         <fieldset>
                             <legend>ALSA parameters </legend>
                             <label for="bufferSize">Buffer size:</label>									
-                            <input type="number" id="bufferSize" name="bufferSize" min="10" max="1000" step="1" value="100" required class="numero"> ms  <br>
+                            <input type="number" id="bufferSize" name="bufferSize" min="1" max="499" step="1" value="40" required class="numero"> ms  <br>
                             <label for="periodCount">Period count:</label>		
-                            <input type="number" id="periodCount" name="periodCount" min="1" max="9" step="1" value="3" required class="numero">  <br>
+                            <input type="number" id="periodCount" name="periodCount" min="1" max="49" step="1" value="3" required class="numero">  <br>
                             <label for="sampleFormat">Sample format:</label>		
 							<select 
 								id="sampleFormat" 
