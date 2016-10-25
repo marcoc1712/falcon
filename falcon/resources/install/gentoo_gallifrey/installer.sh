@@ -87,7 +87,7 @@ function additional_settings(){
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     
     if [ ! -e '/etc/conf.d/squeezelite-R2.wbak' ]; then
-        cp /etc/conf.d/squeezelite-R2 /etc/dconf.d/squeezelite-R2.wbak
+        cp /etc/conf.d/squeezelite-R2 /etc/conf.d/squeezelite-R2.wbak
     fi
 
     chown www-data:www-data /etc/conf.d/squeezelite-R2
