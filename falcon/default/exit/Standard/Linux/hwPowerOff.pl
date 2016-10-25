@@ -46,7 +46,7 @@ $out->{'data'}=\@data;
 #tobe converted in JSON format and printed out.
 
 #here the command to be executed;
-my $command= "sudo shutdown -t 1 now -h -H";
+my $command= "sudo shutdown -t 1 now -h -P";
 
 my @rows = `$command 2>&1`;
 
