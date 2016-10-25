@@ -165,6 +165,7 @@ sub _init{
 		
 		return $self->getStatus();
 	}
+	return $self->getStatus();
 }
 sub _checkProcess{
     my $self = shift;
