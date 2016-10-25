@@ -82,7 +82,7 @@ function set_scripts_permissions(){
 function additional_settings(){
 
     ## aggiunge www-data al gruppo audio, così da vedere tutti i dispositivi.
-    adduser www-data audio
+    usermod -G audio www-data
     ### 
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     
