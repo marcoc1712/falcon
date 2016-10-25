@@ -109,16 +109,20 @@ function additional_settings(){
     ### Installa chkconfig per l'autostart.
     #apt-get install chkconfig
 
+
+    # installa sudo
+    emerge -n app-admin/sudo
+
     ### Shutdown, bisogna essere root.                              -> visudo
     ### Reboot, bisogna essere root (?)                             -> visudo
     ### Service xqueezelite (start,stop,restart) accesso negato.    -> visudo
     ### update-rc.d (autostart) accesso negato                      -> visudo
-    #if [ -e '/etc/sudoers.d/falcon' ]; then
-    #   rm /etc/sudoers.d/falcon
-    #fi
-    #cp /var/www/falcon/falcon/resources/install/debian_ea/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
-    #chown root:root /etc/sudoers.d/falcon 
-    #chmod 440 /etc/sudoers.d/falcon
+    if [ -e '/etc/sudoers.d/falcon' ]; then
+       rm /etc/sudoers.d/falcon
+    fi
+    cp /var/www/falcon/falcon/resources/install/gentoo_gallifrey/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
+    chown root:root /etc/sudoers.d/falcon 
+    chmod 440 /etc/sudoers.d/falcon
 
 }
 function install_lighttpd(){
