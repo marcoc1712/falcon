@@ -52,7 +52,7 @@ function install_falcon(){
 		chown www-data:www-data data
 
 		#set Falcon configuraton to DebianI386 default
-		ln -s  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
+		ln -s  /var/www/falcon/falcon/default/conf/gentoox86.conf  /var/www/falcon/data/falcon.conf
 	fi
 
 	if [ ! -d '/var/log/falcon' ]; then
@@ -86,12 +86,12 @@ function additional_settings(){
     ### 
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     
-    if [ ! -e '/etc/default/squeezelite.wbak' ]; then
-        cp /etc/default/squeezelite /etc/default/squeezelite.wbak
+    if [ ! -e '/etc/conf.d/squeezelite-R2.wbak' ]; then
+        cp /etc/conf.d/squeezelite-R2 /etc/dconf.d/squeezelite-R2.wbak
     fi
 
-    chown www-data:www-data /etc/default/squeezelite
-    chmod g=rw /etc/default/squeezelite
+    chown www-data:www-data /etc/conf.d/squeezelite-R2
+    chmod g=rw /etc/conf.d/squeezelite-R2
 
     ###
     ### accesso in scrittura al file di log ( ed eventualmente ai files di backup e rotazione,se la si vuole attivare).
