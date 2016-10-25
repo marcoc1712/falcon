@@ -24,6 +24,7 @@
 var global_audiodevice=null;
 var global_reboot=0;
 var global_shutdown=0;
+var global_poweroff=0;
 
 $(document).ready(function() {
     
@@ -100,6 +101,18 @@ $(document).ready(function() {
 		}
 	};
 	
+	document.getElementById('allowPoweroff').onchange = function(){
+		
+		if (! document.getElementById("allowPoweroff").checked) {
+			
+			enable("powerOff",0);
+			
+		} else{
+			
+			enable("powerOff",!global_poweroff);
+		}
+	};
+	
 	document.getElementById('reloadSettings').onclick = function(){
 		loadSettings();
 	}
@@ -170,7 +183,20 @@ $(document).ready(function() {
                         loadStatus(initErrorCallback);
 		});
 	};
-
+	document.getElementById('poweroff').onclick = function(){
+		jQuery.get("/cgi-bin/hwPoweroff.pl")
+		.done(function(data) {
+			console.log( "success" );
+		})
+		.fail(function(data) {
+			console.log( "error" );
+			
+		})
+		.always(function(data) {
+			console.log( "complete" );
+			alert(data);
+		});
+	};
 	document.getElementById('shutdown').onclick = function(){
 		jQuery.get("/cgi-bin/hwShutdown.pl")
 		.done(function(data) {
@@ -352,6 +378,17 @@ function loadSettings(errorCallback) {
 					enable("shutdown",0);
 				}
 			}
+			else if (key === "allowPoweroff"){
+	
+				if (val == 1){
+					
+					enable("poweroff",!global_poweroff);
+			
+				} else{
+
+					enable("poweroff",0);
+				}
+			}
         });
         return 1;   
     })
@@ -447,6 +484,7 @@ function enableSettings(errorCallback) {
 		// we need to enable all in order to see changes.
 			
 		document.getElementById("shutdown").disabled = false;
+		document.getElementById("poweroff").disabled = false;
 		document.getElementById("reboot").disabled = false;
 		document.getElementById("start").disabled = false;
 		document.getElementById("stop").disabled = false;
@@ -458,6 +496,7 @@ function enableSettings(errorCallback) {
 		document.getElementById("autostart").disabled = false;
 		document.getElementById("allowReboot").disabled = false;
 		document.getElementById("allowShutdown").disabled = false;
+		document.getElementById("allowPoweroff").disabled = false;
 		document.getElementById("allowWakeOnLan").disabled = false;
 
 		$.each( data, function( key, val ) {
@@ -469,13 +508,16 @@ function enableSettings(errorCallback) {
 		// save configuration settings :	
 		global_reboot = document.getElementById("reboot").disabled;
 		global_shutdown = document.getElementById("shutdown").disabled;
+		global_poweroff = document.getElementById("poweroff").disabled;
 		
 		if (! document.getElementById("allowReboot").checked){
 			document.getElementById("reboot").disabled = true;
 		}
-	
 		if (! document.getElementById("allowShutdown").checked){
 			document.getElementById("shutdown").disabled = true;
+		}
+		if (! document.getElementById("allowPoweroff").checked){
+			document.getElementById("poweroff").disabled = true;
 		}
 		
 	})
