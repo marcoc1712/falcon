@@ -137,6 +137,7 @@ function config_lighttpd(){
         rm /etc/lighttpd/lighttpd.conf
     fi 
     cp /var/www/falcon/falcon/resources/install/WebServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
+    chown www-data:root /etc/lighttpd/lighttpd.conf 
 }
 ##############################################################################
 ## MAIN
