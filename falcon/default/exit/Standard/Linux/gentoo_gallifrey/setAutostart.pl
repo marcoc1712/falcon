@@ -37,6 +37,7 @@ use JSON::PP;
 # any other element is discharged.
 #
 # here the PROTOTYPE:
+
 my @data=();
 my $out={};
 $out->{'status'}='ok';
@@ -45,29 +46,59 @@ $out->{'data'}=\@data;
 
 #tobe converted in JSON format and printed out.
 
-#here the command to be executed;
-my $command= qq(sudo /etc/init.d/squeezelite-R2 restart);
+if (! scalar @ARGV == 1){
+	
+	$out->{'status'}="WARNING";
+	$out->{'message'}="Missing action";
+	
+	printJSON($out);
+	exit 0;
+	
+} 
 
-my @rows = `$command 2>&1`;
+my $action = $ARGV[0];
+my $command="";
 
-#result validation and return.
-validateResult(\@rows);
+if ($action eq "enable"){
+	
+	$command="rc-update add squeezelite-R2 default";
+	my @rows = `$command 2>&1`;
+
+	#result validation and return.
+	validateResult(\@rows);
+	
+} elsif ($action eq "disable"){
+	
+	$command="rc-update del squeezelite-R2";
+	my @rows = `$command 2>&1`;
+
+	#result validation and return.
+	validateResult(\@rows);
+}
+else {
+
+	$out->{'status'}="WARNING";
+	$out->{'message'}="Invalid action";
+	
+	printJSON($out);
+	exit 0;
+}
 
 sub validateResult{
 	my $result = shift;
-
-	if (! $result || (scalar @$result == 0)){
-		$out->{'status'}="ok";
-		$out->{'message'}="";
-			
-		printJSON($out);
-		exit 1;
-	}
-	#if here something went wrong
 	my $message="";
+	
 	for my $row (@$result){
 
-		if ($row  =~ /^ERROR/){
+		if ($row  =~ /^Failed/){
+		
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim($row,5);
+			
+			printJSON($out);
+			exit 0;
+			
+		}elsif ($row  =~ /^ERROR/){
 		
 			$out->{'status'}="ERROR";
 			$out->{'message'}=trim(substr($row,5));
@@ -88,13 +119,12 @@ sub validateResult{
 			$message = $message." ".trim($row);
 		}
 	}
-	$out->{'status'}="INFO";
+	$out->{'status'}="ok";
 	$out->{'message'}=$message;
 	
 	printJSON($out);
 	exit 1;
 }
-
 ###############################################################################
 # This code should be in a library, please do not modify it.
 ###############################################################################
