@@ -148,6 +148,7 @@ set_scripts_permissions
 additional_settings
 
 if [ -d '/etc/lighttpd' ]; then  
+    config_lighttpd
 else
     install_lighttpd
 fi
