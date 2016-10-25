@@ -147,13 +147,11 @@ install_falcon
 set_scripts_permissions
 additional_settings
 
-if [ -d '/etc/lighttpd' ]; then
-   
+if [ -d '/etc/lighttpd' ]; then  
 else
     install_lighttpd
-   
 fi
- config_lighttpd
- service lighttpd restart
+config_lighttpd
+service lighttpd restart
 
 # END #########################################################################
