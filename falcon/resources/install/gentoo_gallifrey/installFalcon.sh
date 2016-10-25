@@ -46,7 +46,7 @@ function pull_falcon(){
 
     cd /var/www/falcon
     git stash
-    git pull origin gentoo #to be changed
+    git pull
 
 }
 run_as_root	# run this first!
