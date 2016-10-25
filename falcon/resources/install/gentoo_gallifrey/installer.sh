@@ -136,7 +136,7 @@ function config_lighttpd(){
     else
         rm /etc/lighttpd/lighttpd.conf
     fi 
-    mv /var/www/falcon/falcon/resources/install/WebServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
+    cp /var/www/falcon/falcon/resources/install/WebServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
 }
 ##############################################################################
 ## MAIN
