@@ -107,18 +107,18 @@ function additional_settings(){
 
     ###
     ### Installa chkconfig per l'autostart.
-    apt-get install chkconfig
+    #apt-get install chkconfig
 
     ### Shutdown, bisogna essere root.                              -> visudo
     ### Reboot, bisogna essere root (?)                             -> visudo
     ### Service xqueezelite (start,stop,restart) accesso negato.    -> visudo
     ### update-rc.d (autostart) accesso negato                      -> visudo
-    if [ -e '/etc/sudoers.d/falcon' ]; then
-        rm /etc/sudoers.d/falcon
-    fi
-    cp /var/www/falcon/falcon/resources/install/debian_ea/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
-    chown root:root /etc/sudoers.d/falcon 
-    chmod 440 /etc/sudoers.d/falcon
+    #if [ -e '/etc/sudoers.d/falcon' ]; then
+    #   rm /etc/sudoers.d/falcon
+    #fi
+    #cp /var/www/falcon/falcon/resources/install/debian_ea/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
+    #chown root:root /etc/sudoers.d/falcon 
+    #chmod 440 /etc/sudoers.d/falcon
 
 }
 function install_lighttpd(){
@@ -127,22 +127,6 @@ function install_lighttpd(){
      mkdir /var/log/lighttpd
      chown www-data:root /var/log/lighttpd
 
-}
-function config_apache2(){
-
-    # copia la configurazione del webserver Apache2
-    if [ ! -e '/etc/apache2/sites-available/000-default-old.conf' ]; then
-        mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default-old.conf
-    
-    else
-        rm /etc/apache2/sites-available/000-default.conf
-    fi 
-    cp /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-    ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-
-    #abilita le CGI
-    ln -s /etc/apache2/mods-available/cgid.conf /etc/apache2/mods-enabled/cgid.conf
-    ln -s /etc/apache2/mods-available/cgid.load /etc/apache2/mods-enabled/cgid.load
 }
 function config_lighttpd(){
 
@@ -163,15 +147,10 @@ install_falcon
 set_scripts_permissions
 additional_settings
 
-if [ -d '/etc/lighttpd' ]; then
-    config_lighttpd
-    service lighttpd restart
-elif [ -d '/etc/apache2' ]; then
-    config_apache2
-    service apache2 restart
-else
+if [! -d '/etc/lighttpd' ]; then
     install_lighttpd
+fi
     config_lighttpd
     service lighttpd restart
-fi
+
 # END #########################################################################
