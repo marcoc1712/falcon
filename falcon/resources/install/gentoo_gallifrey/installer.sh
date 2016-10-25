@@ -151,8 +151,8 @@ if [ -d '/etc/lighttpd' ]; then
     config_lighttpd
 else
     install_lighttpd
+    config_lighttpd
 fi
-config_lighttpd
 service lighttpd restart
 
 # END #########################################################################
