@@ -62,7 +62,7 @@ if ($pid){
 	
 } else {
 
-    $command = "service squeezelite-R2 status";
+    $command = "/etc/init.d/squeezelite-R2 status";
 }
 
 my @rows = `$command 2>&1`;
