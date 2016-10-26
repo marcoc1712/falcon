@@ -103,9 +103,11 @@ function additional_settings(){
     chmod g=rw /etc/conf.d/squeezelite-R2
     chmod o=r /etc/conf.d/squeezelite-R2
 
+    ### Attenzione, init.d si riprende sempre possesso eslclusivo di 
     ###
     ### accesso in scrittura al file di log ( ed eventualmente ai files di backup e rotazione,se la si vuole attivare).
-    
+    ### 
+
     #if [ ! -d '/var/log/squeezelite-R2' ]; then
     #    mkdir /var/log/squeezelite-R2
     #fi
