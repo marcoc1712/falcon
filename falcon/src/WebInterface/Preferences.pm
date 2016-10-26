@@ -53,7 +53,7 @@ sub getPrefs {
 }
 sub setPrefs{
     my $self 		= shift;
-    my $in              = shift;
+    my $in          = shift;
     
     # The post method olways pass ONLY the thrue booleans, no matter if they 
     # changed or not, so we need to set all them to false before.
@@ -95,6 +95,7 @@ sub setPrefs{
     $self->setItem('logDecode',0);
     $self->setItem('logOutput',0);
     $self->setItem('allowWakeOnLan',0);
+	$self->setItem('allowPoweroff',0);
     $self->setItem('allowShutdown',0);
     $self->setItem('allowReboot',0);
     
@@ -183,7 +184,8 @@ sub _initDefault{
     $default->{"logLevel"}="info";
     $default->{"logFile"}="";
     $default->{"allowWakeOnLan"}=0;
-    $default->{"allowShutdown"}=0;
+    $default->{"allowPoweroff"}=0;
+	$default->{"allowShutdown"}=0;
     $default->{"allowReboot"}=0;
 
     return $default;

@@ -201,6 +201,31 @@ sub hwShutdown {
     }
     return undef;
 }
+sub hwPoweroff {
+    my $self = shift;
+
+    if ($self->isDisabled('poweroff')) {return undef};
+    if (! $self->get('allowPoweroff')) {
+            $self->{error}="WARNING: power off is disabled, check settings.";
+            return undef;
+    };
+
+    my @rows = $self->_runExit('poweroff');
+    my $result = $self->_getExitResult(\@rows);
+
+    if ( $result->{'status'} eq "DONE"){
+
+            return 1;
+    }
+    $self->{error}=$result->{'status'};
+    $self->{error}= $self->{error}.": from exit: power off. Message is: ";
+
+    if ( $result->{'message'}){
+
+            $self->{error}=$self->{error}.$result->{'message'};
+    }
+    return undef;
+}
 sub serviceStart {
     my $self = shift;
 
@@ -459,6 +484,10 @@ sub _initDefault {
 	$default->{DISABLED}->{'shutdown'} 	= 1;
 	$default->{'shutdown'} = "/var/www/falcon/exit/hwShutdown.pl";
 
+	$default->{DISABLED}->{'allowPoweroff'} 	= 1;
+	$default->{DISABLED}->{'poweroff'} 	= 1;
+	$default->{'shutdown'} = "/var/www/falcon/exit/hwPoweroff.pl";
+	
 	$default->{DISABLED}->{'start'} 	= 1;
 	$default->{'start'} = "/var/www/falcon/exit/ServiceStart.pl";
 
