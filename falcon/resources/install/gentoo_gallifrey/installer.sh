@@ -81,19 +81,17 @@ function set_scripts_permissions(){
 }
 function additional_settings(){
 
-    ## aggiunge squeezelite al gruppo squeezelite, per i servizi.
-    useradd squeezelite
-    usermod -G squeezelite squeezelite
+    ## aggiunge squeezelite al gruppo audio, cosi da vedere tutti i dispositivi ed
+    ## al gruppo realtime per usufruirne.
 
-    ## aggiunge www-data e squeezelite al gruppo audio, cosi da vedere tutti i dispositivi.
+    usermod -g squeezelite -aG audio,realtime squeezelite
 
-    usermod -G audio www-data
-    usermod -G audio squeezelite
-
-    ## aggiunge www-data al gruppo squeezelite, cosi da poter accedere ai files di log ed altri
+    ## aggiunge www-data  al gruppo audio, cosi da vedere tutti i dispositivi ed al
+    ## gruppo squeezelite, cosi da poter accedere ai files di log ed altri
     ## creati da squeezelite.
 
-    usermod -G squeezelite www-data
+    usermod g www-data -aG audio,squeezelite www-data
+    
     ### 
     ### accesso in scrittura a etc/conf.d/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     
