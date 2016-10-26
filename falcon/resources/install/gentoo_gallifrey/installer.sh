@@ -86,18 +86,24 @@ function additional_settings(){
     usermod -G squeezelite squeezelite
 
     ## aggiunge www-data e squeezelite al gruppo audio, cosi da vedere tutti i dispositivi.
+
     usermod -G audio www-data
     usermod -G audio squeezelite
 
+    ## aggiunge www-data al gruppo squeezelite, cosi da poter accedere ai files di log ed altri
+    ## creati da squeezelite.
+
+    usermod -G squeezelite www-data
     ### 
-    ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
+    ### accesso in scrittura a etc/conf.d/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     
     if [ ! -e '/etc/conf.d/squeezelite-R2.wbak' ]; then
         cp /etc/conf.d/squeezelite-R2 /etc/conf.d/squeezelite-R2.wbak
     fi
 
-    chown www-data:www-data /etc/conf.d/squeezelite-R2
+    chown root:www-data /etc/conf.d/squeezelite-R2
     chmod g=rw /etc/conf.d/squeezelite-R2
+    chmod o=r /etc/conf.d/squeezelite-R2
 
     ###
     ### accesso in scrittura al file di log ( ed eventualmente ai files di backup e rotazione,se la si vuole attivare).
@@ -105,9 +111,9 @@ function additional_settings(){
     if [ ! -d '/var/log/squeezelite-R2' ]; then
         mkdir /var/log/squeezelite-R2
     fi
-    chown www-data:www-data  /var/log/squeezelite-R2
+    chown root:squeezelite  /var/log/squeezelite-R2
     touch  /var/log/squeezelite-R2/squeezelite-R2.log
-    chown www-data:www-data /var/log/squeezelite-R2/squeezelite-R2.log
+    chown root:squeezelite /var/log/squeezelite-R2/squeezelite-R2.log
     chmod g=rw /var/log/squeezelite-R2/squeezelite-R2.log
     ### TODO: Attivare la rotazione dei files di log.
 
