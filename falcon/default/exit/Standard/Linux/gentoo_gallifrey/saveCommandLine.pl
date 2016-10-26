@@ -151,10 +151,7 @@ my @elements= split " ", $commandLine;
 my $options= builsOptionsArray(\@elements);
 
 my $executable;
-my $name;
-my $card;
-my $server;
-my $extra="";
+my $slOpts="";
 	
 for my $line (@before){
 
@@ -173,44 +170,13 @@ for my $opt (@$options){
 	if (!(substr ($opt,0,1) eq "-")){
 		$executable= $opt;
 	
-	} elsif (substr ($opt,0,2) eq "-n"){
-	
-		$name = trim(substr($opt,3));
-	
-	} elsif (substr ($opt,0,2) eq "-o"){
-	
-		$card = trim(substr($opt,3));
-	
-	} elsif (substr ($opt,0,2) eq "-s"){
-		
-		$server = trim(substr($opt,3));
-		
 	} else {
 	
-		$extra=$extra." ".$opt;
+		$slOpts=$slOpts." ".$opt;
 	}
 }
 
-if ($name && ! ($name eq "") ){
-
-	print $FH qq(SL_NAME="$name")."\n";
-	
-} 
-
-if ($card && ! ($card eq "") ){
-
-	print $FH qq(SL_SOUNDCARD="$card")."\n";
-}
-
-if ($server && ! ($server eq "") ){
-
-	print $FH qq(SB_SERVER_IP="$server")."\n";
-}
-
-if ($extra && ! ($extra eq "") ){
-
-	print $FH qq(SB_EXTRA_ARGS="$extra")."\n";
-}
+print $FH qq(SL_OPTS="$slOpts")."\n";
 
 for my $line (@after){
 
