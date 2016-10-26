@@ -90,7 +90,7 @@ function additional_settings(){
     ## gruppo squeezelite, cosi da poter accedere ai files di log ed altri
     ## creati da squeezelite.
 
-    usermod g www-data -aG audio,squeezelite www-data
+    usermod -g www-data -aG audio,squeezelite www-data
     
     ### 
     ### accesso in scrittura a etc/conf.d/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
