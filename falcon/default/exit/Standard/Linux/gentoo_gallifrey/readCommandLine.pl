@@ -90,52 +90,14 @@ for my $row (@lines) {
 
     #print $row."\n";
 
-    if (substr($row,0,8) eq "SL_NAME="){
+   if (substr($row,0,8) eq "SL_OPTS="){
 
-        #$name= "-n ".trim(substr($row,8));
-		$name= trim(substr($row,8));
-		
-        #sanity check on name.
-        if ($name =~ m/\s/) {
-
-                $name = "squeezelite-R2";
-        }
-        #print "name is: ".$name."\n";
-		$name= "-n ".$name;
-		
-    } elsif (substr($row,0,13) eq "SL_SOUNDCARD="){
-
-        $card= "-o ".trim(substr($row,13));
-        #print "card is: ".$card."\n";
-
-    } elsif (substr($row,0,13) eq "SB_SERVER_IP="){
-
-        $server= "-s ".trim(substr($row,13));
-        #print "server is: ".$server."\n";
-
-    } elsif (substr($row,0,14) eq "SB_EXTRA_ARGS="){
-
-        $extra= trim(substr($row,14));
+        $extra= trim(substr($row,8));
         #print "extra is: ".$extra."\n";
 
-    }elsif (substr($row,0,9) eq "SL_NAME ="){
+    } elsif (substr($row,0,9) eq "SL_OPTS ="){
 
-        $name= "-n ".trim(substr($row,9));
-        #print "name is: ".$name."\n";
-
-    } elsif (substr($row,0,14) eq "SL_SOUNDCARD ="){
-
-        $card= "-o ".trim(substr($row,14));
-        #print "card is: ".$card."\n";
-
-    } elsif (substr($row,0,14) eq "SB_SERVER_IP ="){
-
-        $server= "-s ".trim(substr($row,14));
-        #print "server is: ".$server."\n";
-
-    } elsif (substr($row,0,15) eq "SB_EXTRA_ARGS ="){
-
-        $extra= trim(substr($row,15));
+        $extra= trim(substr($row,9));
         #print "extra is: ".$extra."\n";
     }
 }
