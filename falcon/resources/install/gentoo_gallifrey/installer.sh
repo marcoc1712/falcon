@@ -106,20 +106,16 @@ function additional_settings(){
     ###
     ### accesso in scrittura al file di log ( ed eventualmente ai files di backup e rotazione,se la si vuole attivare).
     
-    if [ ! -d '/var/log/squeezelite-R2' ]; then
-        mkdir /var/log/squeezelite-R2
-    fi
-    chown root:squeezelite  /var/log/squeezelite-R2
-    touch  /var/log/squeezelite-R2/squeezelite-R2.log
-    chown root:squeezelite /var/log/squeezelite-R2/squeezelite-R2.log
-    chmod g=rw /var/log/squeezelite-R2/squeezelite-R2.log
+    #if [ ! -d '/var/log/squeezelite-R2' ]; then
+    #    mkdir /var/log/squeezelite-R2
+    #fi
+    #chown root:squeezelite  /var/log/squeezelite-R2
     ### TODO: Attivare la rotazione dei files di log.
 
-    ###
-    ### Installa chkconfig per l'autostart.
-    #apt-get install chkconfig
-
-
+    touch  /var/log/squeezelite-R2.log
+    chown root:squeezelite /var/log/squeezelite-R2.log
+    chmod g=rw /var/log/squeezelite-R2.log
+   
     # installa sudo
     emerge -n app-admin/sudo
 
