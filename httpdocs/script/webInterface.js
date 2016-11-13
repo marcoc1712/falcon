@@ -22,7 +22,7 @@
 */
 
 var global_audiodevice=null;
-var global_presets=null;
+var global_preset=null;
 var global_reboot=0;
 var global_shutdown=0;
 
@@ -67,6 +67,7 @@ $(document).ready(function() {
 	};
 	document.getElementById('presets').onchange = function(){
 		global_preset= document.getElementById('presets').value;
+                document.getElementById('preset').value = global_preset;
 	};
 	document.getElementById('logFile').onchange = function(){
 					
@@ -309,9 +310,9 @@ function loadPresets(errorCallback) {
     
 	$("#presets").load('/cgi-bin/loadPresets.pl', function(){
 	
-		if( ($('#presets').has('option').length > 0 ) && (global_presets)){
+		if( ($('#presets').has('option').length > 0 ) && (global_preset)){
 			 
-			document.getElementById('presets').value = global_presets;
+			document.getElementById('presets').value = global_preset;
 		} 
 	});
     
@@ -339,6 +340,14 @@ function loadSettings(errorCallback) {
 				if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
 
 						document.getElementById('audioDevice').value = global_audiodevice;				  		
+				}
+                } if (key === "presets"){
+
+				global_preset= val;
+
+				if( ($('#presets').has('option').length > 0 ) && (global_preset)){
+
+						document.getElementById('presets').value = global_preset;				  		
 				}
                 } 
 
