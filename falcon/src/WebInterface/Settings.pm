@@ -274,7 +274,7 @@ sub listHTML{
     my @files = $self->list();
     
     my @html;
-    push @html, qq (<option value=  </option>)."\n";
+    push @html, qq (<option value= "">  </option>)."\n";
      
     my ($key, $desc);
     my $id=1;
@@ -284,7 +284,7 @@ sub listHTML{
 	$key="".$id;
         $desc=$f;
 
-        push @html, qq (<option value=$desc </option>)."\n";
+        push @html, qq (<option value= "$desc"> $desc </option>)."\n";
         $id=$id+1;
 
     }
