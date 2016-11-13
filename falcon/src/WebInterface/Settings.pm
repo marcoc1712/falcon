@@ -240,7 +240,7 @@ sub load{
     return 1;
 }
 
-sub list{
+sub list {
     my $self = shift;
     
     my @files;
@@ -257,7 +257,6 @@ sub list{
             my $filename = fileparse($p);
             push @files, $filename;
         }
-    }
 
     } else {
     
