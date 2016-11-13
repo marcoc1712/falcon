@@ -51,8 +51,9 @@ sub new {
     my $self=$class->SUPER::new("../data/falcon.conf", 
                        "Squeezelite-R2 web interface configuration file", 
                        _initDefault());
-
-    bless $self, $class;   
+    
+    bless $self, $class;  
+    $self->_upgrade(); # handle changes.
     return $self;
 }
 sub getPathname{
