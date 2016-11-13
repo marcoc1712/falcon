@@ -250,12 +250,14 @@ sub list {
         my $dir = $self->conf()->getPrefFolder();
     
         opendir(DIR, $dir) || die "Can't open directory $dir: $!";
-        my @pathnames = grep { (!/^\./) && -f "$dir/$_.set" } readdir(DIR);
+        my @pathnames = grep { (!/^\./) && -f "$dir/$_" } readdir(DIR);
         closedir DIR;
         
         foreach my $p (@pathnames) {
-            my $filename = fileparse($p);
-            push @files, $filename;
+            my ($filename,$path,$suffix) = fileparse($p, ".set");
+            if ($suffix eq ".set"){
+                push @files, $filename;
+            }
         }
 
     } else {
