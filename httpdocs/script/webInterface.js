@@ -307,7 +307,7 @@ function loadAudioDevices(errorCallback) {
 }
 function loadPresets(errorCallback) {
     
-	$("#presets").load('/cgi-bin/loadAPresetss.pl', function(){
+	$("#presets").load('/cgi-bin/loadPresets.pl', function(){
 	
 		if( ($('#presets').has('option').length > 0 ) && (global_presets)){
 			 
