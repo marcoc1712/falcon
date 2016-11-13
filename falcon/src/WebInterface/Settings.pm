@@ -247,7 +247,7 @@ sub list{
     
     if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
      
-        my $dir = (self->conf()->getPrefFolder();
+        my $dir = $self->conf()->getPrefFolder();
     
         opendir(DIR, $dir) || die "Can't open directory $dir: $!";
         my @pathnames = grep { (!/^\./) && -f "$dir/$_.set" } readdir(DIR);
@@ -255,7 +255,7 @@ sub list{
         
         foreach my $p (@pathnames) {
             my $filename = fileparse($p);
-            push @files $filename;
+            push @files, $filename;
         }
     }
 
