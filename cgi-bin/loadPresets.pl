@@ -49,7 +49,7 @@ print "Content-type: text/html\n\n";
 
 if (! $return ){
 
-    my $error= $controller->getError();
+    my $error= $controller->getError() || "";
     print $error."\n";
     exit 0;
     
