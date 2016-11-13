@@ -65,6 +65,16 @@ $(document).ready(function() {
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
 	};
+	document.getElementById('presets').onchange = function(){
+		global_preset= document.getElementById('presets').value;
+                document.getElementById('preset').value = global_preset;
+                presetChanged();
+    
+	};
+        document.getElementById('preset').onchange = function(){
+		
+                presetChanged();			  
+	};
         document.getElementById('preset').oninput = function() {
                 presetChanged();
         };
