@@ -243,6 +243,7 @@ function init() {
     enable("savePreset",0);
     enable("loadPreset",0);
     enable("deletePreset",0);
+    document.getElementById('preset').value = global_preset;
                     
     loadAudioDevices(initErrorCallback);
     enableSettings(initErrorCallback);
