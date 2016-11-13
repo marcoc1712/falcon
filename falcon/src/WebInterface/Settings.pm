@@ -230,7 +230,7 @@ sub load{
     if (-e $path && -r $path){
     
         $self->prefs = WebInterface::Preferences->new($path);
-        $self->commandline = WebInterface::CommandLine->new($prefs);
+        $self->commandline = WebInterface::CommandLine->new( $self->prefs());
 
     } else {
         $self->{error} = "unable to load settings from file";
@@ -245,9 +245,9 @@ sub list{
     
     my @files;
     
-    if ($conf->getPrefFolder() &&  -d $conf->getPrefFolder()&& -r $conf->getPrefFolder()){
+    if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
      
-        my $dir = $conf->getPrefFolder();
+        my $dir = (self->conf()->getPrefFolder();
     
         opendir(DIR, $dir) || die "Can't open directory $dir: $!";
         my @pathnames = grep { (!/^\./) && -f "$dir/$_.set" } readdir(DIR);
