@@ -134,6 +134,8 @@ sub listPresetsHTML {
    
     my $return = $self->settings()->listHTML();
     $self->{error}= $self->settings()->getError();
+    
+    return $return;
 }
 sub removePreset {
     my $self = shift;
