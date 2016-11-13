@@ -562,7 +562,7 @@ function showStatus () {
 }
 // Polling for real time changes, before leaving the input.
 // Choose relevant input elements
-var inputs = $('preset, presets')
+var inputs = $('input,select')
   // Bind a new event to the inputs
   .bind("newInput", function(){
     // Abbreviate
