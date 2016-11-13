@@ -418,7 +418,7 @@ sub _upgrade{
     my $self = shift;
     
     # upgrade from pref file to pref folder and file.
-    if (!getPrefFolder() && getPrefFile()){
+    if (!$self->getPrefFolder() && $self->getPrefFile()){
         
         my $file = $self->getPrefFile();
         my ($filename, $folder) = fileparse($file);
