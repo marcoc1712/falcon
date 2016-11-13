@@ -305,7 +305,7 @@ function loadAudioDevices(errorCallback) {
 	});
     
 }
-function loadAPresets(errorCallback) {
+function loadPresets(errorCallback) {
     
 	$("#presets").load('/cgi-bin/loadAPresetss.pl', function(){
 	
