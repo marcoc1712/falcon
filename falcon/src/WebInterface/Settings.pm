@@ -27,6 +27,9 @@ use strict;
 use warnings;
 use utf8;
 
+use File::Basename;
+use File::Spec;
+
 use WebInterface::Configuration;
 use WebInterface::Preferences;
 use WebInterface::CommandLine;
@@ -41,7 +44,7 @@ sub new {
     my $conf = WebInterface::Configuration->new();
     my $prefs;
     my $commandLine;
-	my $error;
+    my $error;
 	
     if ($conf->getPrefFile() && -e $conf->getPrefFile() && -r $conf->getPrefFile()){
     
@@ -142,9 +145,7 @@ sub getItem{
      
     $self->{error} = $self->prefs()->getError();
     return $self->prefs()->getItem($item);
-     
-    
-    return undef;
+
 }
 sub setItem {
     my $self 		= shift;
@@ -173,28 +174,170 @@ sub save{
     $self->{error} =undef;
 
     if (! ($self->commandLine()->setPreferences($self->prefs()))) {
-		$self->{error} =$self->commandLine()->getError();
-	}
-	$log->info("after command line: ".($self->{error} ? $self->{error} : ""));
+        $self->{error} =$self->commandLine()->getError();
+    }
+    $log->info("after command line: ".($self->{error} ? $self->{error} : ""));
 	
     if (! $self->{error} && ! $self->conf()->setAutostart($self->getItem('autostart'))) {
         $self->{error} =  $self->conf()->getError();
     }
-	$log->info("after autostart : ".($self->{error} ? $self->{error} : ""));
+    $log->info("after autostart : ".($self->{error} ? $self->{error} : ""));
 	
     if (! $self->{error} && ! $self->conf()->setWakeOnLan($self->getItem('allowWakeOnLan'))) {
         $self->{error} =  $self->conf()->getError();
     }
-	$log->info("after wakeOnLan : ".($self->{error} ? $self->{error} : ""));
+    $log->info("after wakeOnLan : ".($self->{error} ? $self->{error} : ""));
     
-	if (! $self->{error} && ! $self->prefs()->save()) {
+    if (! $self->{error} && ! $self->prefs()->save()) {
         $self->{error} = $self->prefs()->getError();
     }
-	$log->info("after prefs : ".($self->{error} ? $self->{error} : ""));
+    $log->info("after prefs : ".($self->{error} ? $self->{error} : ""));
     
-	if (! $self->{error}) {return "DONE. Please restart.";};
+    if (! $self->{error}) {return "DONE. Please restart.";};
 
     return undef; 
 	
 }
+
+sub saveAs{
+    my $self = shift;
+    my $file = shift;
+    my $in = shift;
+    
+    my $path =  $self->_getSetPathname($file);
+    
+    if (!$path) {return undef}
+    
+    my $saved = WebInterface::Preferences->new($path);
+    
+    if (!$saved) {return undef}
+    
+    if (!$saved->setPrefs($in)){
+        $self->{error} = $saved->getError();
+        return 0;
+    }  
+    $self->{error}=undef;
+    return 1;
+}
+
+sub load{
+    my $self = shift;
+    my $file = shift;
+    
+    my $path =  $self->_getSetPathname($file);   
+    if (!$path) {return undef}
+    
+    if (-e $path && -r $path){
+    
+        $prefs = WebInterface::Preferences->new($path);
+        $commandLine = WebInterface::CommandLine->new($prefs);
+
+    } else {
+        $self->{error} = "unable to load settings from file";
+        return 0;
+    }
+    $self->{error}=undef;
+    return 1;
+}
+
+sub list{
+    my $self = shift;
+    
+    my @files;
+    
+    if ($conf->getPrefFolder() &&  -d $conf->getPrefFolder()&& -r $conf->getPrefFolder()){
+     
+        my $dir = $conf->getPrefFolder();
+    
+        opendir(DIR, $dir) || die "Can't open directory $dir: $!";
+        my @pathnames = grep { (!/^\./) && -f "$dir/$_.set" } readdir(DIR);
+        closedir DIR;
+        
+        foreach my $p (@pathnames) {
+            my $filename = fileparse($p);
+            push @files $filename;
+        }
+    }
+
+    } else {
+    
+        $self->{error} = "unable to read from preference directory";
+        return 0;
+    }
+
+    $self->{error}=undef;
+    return @files;
+}
+sub listHTML{
+    my $self = shift;
+    my @files = $self->list();
+    
+    my @html;
+    push @html, qq (<option value= "0"> "" </option>)."\n";
+     
+    my ($key, $desc);
+    my $id=1;
+   
+    for my $f (@files){
+	
+	$key="".$id;
+        $desc=$f;
+
+        push @html, qq (<option value= "$key"> "$desc" </option>)."\n";
+        $id=$id+1;
+
+    }
+    return \@html;
+
+}
+sub remove{
+    my $self = shift;
+    my $file = shift;
+    
+    my $path =  $self->_getSetPathname($file);   
+    if (!$path) {return undef}
+    
+    if (!($conf->getPrefFolder() &&  -d $conf->getPrefFolder()&& -w $conf->getPrefFolder())){
+
+        $self->{error} = "can't write to preference directory";
+        return 0;
+    }
+    
+    if (-e $path && -w $path){
+        
+        unlink $path;
+        
+    } elsif (-e $path){
+        
+        $self->{error} = "can't delete $file";
+        return 0;
+    }
+    
+    $self->{error}=undef;
+    return 1;
+}
+####################################################################################################
+
+sub _getSetPathname{
+    my $self     = shift;
+    my $file     = shift;
+    
+    my $pathname="";
+    
+    if ($conf->getPrefFolder() &&  -d $conf->getPrefFolder()&& -r $conf->getPrefFolder()){
+     
+       my $filename = $file.".set";
+       my $dir = $conf->getPrefFolder();
+       $pathname =  File::Spec->catfile( $dir, $filename );
+      
+    } else{
+    
+        $self->{error} = "unable to read from preference directory";
+        return 0;
+    }
+   
+    $self->{error}=undef;
+    return $pathname;
+}
+
 1;

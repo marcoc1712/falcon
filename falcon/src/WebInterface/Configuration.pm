@@ -25,6 +25,7 @@ package WebInterface::Configuration;
 use strict;
 use warnings;
 use utf8;
+use File::Spec;
 
 use WebInterface::Utils;
 use WebInterface::DataStore;
@@ -55,9 +56,19 @@ sub getPathname{
     my $self = shift;
     return $self->get()->{'pathname'};
 }
+
+}sub getPrefFolder{
+    my $self = shift;
+    return $self->get()->{'prefFolder'};
+}
 sub getPrefFile{
     my $self = shift;
-    return $self->get()->{'prefFile'};
+    
+    my $folder = $self->getPrefFolder();
+    my $filename =  $self->get()->{'prefFile'};
+    
+    return File::Spec->catfile( $folder, $filename );
+   
 }
 sub getPIDFile{
     my $self = shift;
@@ -465,7 +476,8 @@ sub _initDefault {
 	
 	$default->{'isDefault'} = 1;
 	$default->{'pathname'} = "/usr/bin/squeezelite-R2";
-	$default->{'prefFile'} = "/var/www/falcon/data/squeezelite-R2.pref";
+        $default->{'prefFolder'} = "/var/www/falcon/data";
+        $default->{'prefFile'} = "squeezelite-R2.pref";
 	$default->{'PIDFile'} = "/run/squeezelite-R2.pid";
 
 	# disabled settings and  local installation scripts;

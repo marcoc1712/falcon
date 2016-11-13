@@ -88,7 +88,6 @@ sub getSettings {
     return $return;
    
 }
-
 sub setSetting{
     my $self 		= shift;
     my $item		= shift;
@@ -113,14 +112,41 @@ sub saveSettings{
     
     return $return;
 }
+sub saveAsPreset{
+    my $self = shift;
+    my $file = shift;
+    my $in = shift;
+    
+    my $return = $self->settings()->saveAs($file,$in);
+    $self->{error}= $self->settings()->getError();
+}
+sub loadPreset{
+    my $self = shift;
+    my $file = shift;
+    
+    my $return = $self->settings()->load($file);
+    $self->{error}= $self->settings()->getError();
+}
+sub listPresetsHTML {
+    my $self = shift;
+   
+    my $return = $self->settings()->listHTML();
+    $self->{error}= $self->settings()->getError();
+}
+sub removePreset {
+    my $self = shift;
+    my $file = shift;
+    
+    my $return = $self->settings()->remove($file);
+    $self->{error}= $self->settings()->getError();
+}
 sub getStatus {
     my $self = shift;
     
     my $return = $self->status()->getStatus();
     $self->{error}= $self->status()->getError();
 
-    return $return;
-   
+    return $return; 
 }
 sub getAudioCardsHTML{
     my $self = shift;

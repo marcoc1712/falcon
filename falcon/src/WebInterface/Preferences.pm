@@ -95,7 +95,7 @@ sub setPrefs{
     $self->setItem('logDecode',0);
     $self->setItem('logOutput',0);
     $self->setItem('allowWakeOnLan',0);
-	$self->setItem('allowPoweroff',0);
+    $self->setItem('allowPoweroff',0);
     $self->setItem('allowShutdown',0);
     $self->setItem('allowReboot',0);
     
