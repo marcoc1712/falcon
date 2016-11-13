@@ -47,9 +47,9 @@ my $return=$controller->listPresetsHTML();
 
 print "Content-type: text/html\n\n";
 
-if (! $return ){
+if (!$return ){
 
-    my $error= $controller->getError() || "";
+    my $error= $controller->getError();
     print $error."\n";
     exit 0;
     

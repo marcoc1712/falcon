@@ -126,6 +126,8 @@ sub loadPreset{
     
     my $return = $self->settings()->load($file);
     $self->{error}= $self->settings()->getError();
+    
+    return $return;
 }
 sub listPresetsHTML {
     my $self = shift;
