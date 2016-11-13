@@ -68,7 +68,10 @@ $(document).ready(function() {
 	document.getElementById('presets').onchange = function(){
 		global_preset= document.getElementById('presets').value;
                 document.getElementById('preset').value = global_preset;
-                
+    
+	};
+        document.getElementById('preset').onchange = function(){
+		
                 if (document.getElementById("preset").value === ""){
                     enable("savePreset",0);
                     enable("loadPreset",0);
