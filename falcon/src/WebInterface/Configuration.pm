@@ -25,10 +25,13 @@ package WebInterface::Configuration;
 use strict;
 use warnings;
 use utf8;
+
 use File::Spec;
+use File::Basename;
 
 use WebInterface::Utils;
 use WebInterface::DataStore;
+
 my $utils= WebInterface::Utils->new();
 
 #use constant DISABLED      => "DISABLED";
@@ -410,7 +413,23 @@ sub readCommandLine{
 }
 
 ####################################################################################################
+sub _upgrade{
+    my $self = shift;
+    
+    # upgrade from pref file to pref folder and file.
+    if (!getPrefFolder() && getPrefFile()){
+        
+        my $file = getPrefFile();
+        my ($filename, $folder) = fileparse($p);
+             
+        $self->get()->{'prefFolder'}=$folder;
+        $self->get()->{'prefFile'}=$filename;
+        $self->write();
+        
+    }
+    return 1;
 
+}
 sub _runExit{
 	my $self = shift;
 	my $exit = shift;
