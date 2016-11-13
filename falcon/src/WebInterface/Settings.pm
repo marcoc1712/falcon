@@ -296,7 +296,7 @@ sub remove{
     my $path =  $self->_getSetPathname($file);   
     if (!$path) {return undef}
     
-    if (!($conf->getPrefFolder() &&  -d $conf->getPrefFolder()&& -w $conf->getPrefFolder())){
+    if (!($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -w $self->conf()->getPrefFolder())){
 
         $self->{error} = "can't write to preference directory";
         return 0;
@@ -323,7 +323,7 @@ sub _getSetPathname{
     
     my $pathname="";
     
-    if ($conf->getPrefFolder() &&  -d $conf->getPrefFolder()&& -r $conf->getPrefFolder()){
+    if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
      
        my $filename = $file.".set";
        my $dir = $conf->getPrefFolder();
