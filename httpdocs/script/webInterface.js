@@ -240,7 +240,10 @@ function initOkCallback(){
 function init() {
 
     hide(document.getElementById('status'));
-
+    enable("savePreset",0);
+    enable("loadPreset",0);
+    enable("deletePreset",0);
+                    
     loadAudioDevices(initErrorCallback);
     enableSettings(initErrorCallback);
     loadSettings(initErrorCallback);
