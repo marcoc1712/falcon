@@ -57,7 +57,7 @@ sub getPathname{
     return $self->get()->{'pathname'};
 }
 
-}sub getPrefFolder{
+sub getPrefFolder{
     my $self = shift;
     return $self->get()->{'prefFolder'};
 }
