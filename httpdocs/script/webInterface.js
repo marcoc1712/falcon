@@ -76,6 +76,11 @@ $(document).ready(function() {
                 presetChanged();			
                 
 	};
+        
+        document.getElementById('preset').on('input propertychange paste', function() {
+                presetChanged();
+        });
+        
 	document.getElementById('logFile').onchange = function(){
 					
 		if (!document.getElementById("logFile").value){
@@ -560,30 +565,3 @@ function showStatus () {
 		hide(document.getElementById('settings'));
 		show(document.getElementById('status'));
 }
-// Polling for real time changes, before leaving the input.
-// Choose relevant input elements
-var inputs = $('input,select')
-  // Bind a new event to the inputs
-  .bind("newInput", function(){
-    // Abbreviate
-    var $t = $(this);
-    // Log the results
-    $('#logPreset')
-    .text( $t.attr('id') +': '+ $t.val() );
-  });
-
-(function scan(){
-
-  inputs.each(function() {
-    $t = $(this);
-    if ($t.attr('type') == 'checkbox')
-      $t.val($t.is(':checked'));
-    if ( $t.data('oldVal') !== $t.val() ) {
-      $t.trigger('newInput');
-      $t.data('oldVal',$t.val());
-    }
-  });
-
-  setTimeout(scan,100);
-
-})();
