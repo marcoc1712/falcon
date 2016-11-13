@@ -119,6 +119,9 @@ sub saveAsPreset{
     
     my $return = $self->settings()->saveAs($file,$in);
     $self->{error}= $self->settings()->getError();
+    
+    return $return;
+    
 }
 sub loadPreset{
     my $self = shift;
@@ -143,6 +146,8 @@ sub removePreset {
     
     my $return = $self->settings()->remove($file);
     $self->{error}= $self->settings()->getError();
+    
+    return $return;
 }
 sub getStatus {
     my $self = shift;
