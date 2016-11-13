@@ -68,6 +68,17 @@ $(document).ready(function() {
 	document.getElementById('presets').onchange = function(){
 		global_preset= document.getElementById('presets').value;
                 document.getElementById('preset').value = global_preset;
+                
+                if (document.getElementById("preset").value === ""){
+                    enable("savePreset",0);
+                    enable("loadPreset",0);
+                    enable("deletePreset",0);
+		} else{
+                    enable("savePreset",1);
+                    enable("loadPreset",1);
+                    enable("deletePreset",1);
+		}				
+                
 	};
 	document.getElementById('logFile').onchange = function(){
 					
@@ -108,11 +119,11 @@ $(document).ready(function() {
 		loadSettings();
 	}
         
-      document.getElementById('testAudioDevice').onclick = function(){
+        document.getElementById('testAudioDevice').onclick = function(){
 		window.open('/htm/testAudioDevice.html');
 	};
         
-      document.getElementById('openLog').onclick = function(){
+        document.getElementById('openLog').onclick = function(){
 		window.open('/htm/openLog.html');
 	};
         
