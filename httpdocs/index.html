@@ -71,7 +71,7 @@ WEB INTERFACE and Controll application for an headless squeezelite
                     <FORM name="formSettings" id="formSettings" action="/cgi-bin/saveSettings.pl" method="POST" target="hiddenIframe">
                         <!-- <FORM name="formSettings" id="formSettings" target="hiddenIframe">-->
                         <fieldset>
-                            <legend>Basic</legend>
+                            <legend>Basic </legend>
 
                             <label for="playerName">Player name:</label>
                             <input type="text" id="playerName" name="playerName" class="testo" >  <br>	<br>
@@ -120,7 +120,7 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         <br>	<br>	
 
                         <fieldset>
-                            <legend>Sample Rates</legend>
+                            <legend>Sample Rates </legend>
                             <table style="width:100%">
                                 <tr>
                                     <td> <input type="checkbox" id="rate008000" name="rate008000" value="1"> 8000 </td>
@@ -157,7 +157,7 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         <br><br>
 
                         <fieldset>
-                            <legend>Input formats</legend>
+                            <legend>Input formats </legend>
                             <table style="width:100%">
                                 <tr>
                                     <td> <input type="checkbox" id="codecMp3" name="codecMp3" value="1"> mp3 </td>
@@ -258,7 +258,7 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         <br><br>
 
                         <fieldset>
-                            <legend>Remote operations</legend>
+                            <legend>Remote operations </legend>
 
                             <label for="allowWakeOnLan">Wake on lan:</label>							
                             <input type="checkbox" id="allowWakeOnLan" name="allowWakeOnLan" value="1"> <br>
@@ -276,20 +276,27 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         </fieldset>
 
                         <br><br>
+                        
+                        <fieldset>
+                            <legend>Presets </legend>
+                            <label for="presets">presets:</label>
+                            <select id="presets" 
+                                name="presets" 
+                                class="select">
+                                <option value="none">Select</option>
+                            </select> 
+                            <input id="loadPreset" name="loadPreset" type="button" value="Load">
+                            <input id="savePreset" name="savePreset" type="button" value="Save As">
+                            <input id="deletPreset" name="deletPreset" type="button" value="Delete">
 
+                        </fieldset>
+                        
+                        <br><br>
+                        
                         <input id="submitSettings" name="submitSettings" type="submit" value="Submit">
                         <input id="reloadSettings" name="reloadSettings" type="button" value="Clear">
                         <br>
-                        <label for="presets">presets:</label>
-                        <select id="presets" 
-                            name="presets" 
-                            class="select">
-                            <option value="none">Select</option>
-                        </select> 
-                        <input id="loadPreset" name="loadPreset" type="button" value="Load">
-                        <input id="savePreset" name="savePreset" type="button" value="Save As">
-                        <input id="deletPreset" name="deletPreset" type="button" value="Delete">
-                        <br>
+                       
                         <iframe src="" name="hiddenIframe" width="200" height="30" ></iframe>
 
                         <br>
