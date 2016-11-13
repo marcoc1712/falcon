@@ -77,9 +77,16 @@ $(document).ready(function() {
                 
 	};
         
-        document.getElementById('preset').on('input propertychange paste', function() {
+        //document.getElementById('preset').on('input propertychange paste', function() {
+        document.getElementById('preset').oninput = function() {
                 presetChanged();
-        });
+        };
+        document.getElementById('preset').onpropertychange = function() {
+                presetChanged();
+        };
+        document.getElementById('preset').paste = function() {
+                presetChanged();
+        };
         
 	document.getElementById('logFile').onchange = function(){
 					
