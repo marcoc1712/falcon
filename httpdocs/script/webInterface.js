@@ -68,19 +68,12 @@ $(document).ready(function() {
 	document.getElementById('presets').onchange = function(){
 		global_preset= document.getElementById('presets').value;
                 document.getElementById('preset').value = global_preset;
+                presetChanged();
     
 	};
         document.getElementById('preset').onchange = function(){
 		
-                if (!document.getElementById("logFile").value || document.getElementById("preset").value === ""){
-                    enable("savePreset",0);
-                    enable("loadPreset",0);
-                    enable("deletePreset",0);
-		} else{
-                    enable("savePreset",1);
-                    enable("loadPreset",1);
-                    enable("deletePreset",1);
-		}				
+                presetChanged();			
                 
 	};
 	document.getElementById('logFile').onchange = function(){
@@ -256,6 +249,19 @@ function init() {
 
     initOkCallback();
     return 1;
+}
+function presetChanged(){
+    
+    if (!document.getElementById("logFile").value || document.getElementById("preset").value === ""){
+        enable("savePreset",0);
+        enable("loadPreset",0);
+        enable("deletePreset",0);
+    } else{
+        enable("savePreset",1);
+        enable("loadPreset",1);
+        enable("deletePreset",1);
+    }
+    
 }
 
 function enable(item,value) {
@@ -554,3 +560,30 @@ function showStatus () {
 		hide(document.getElementById('settings'));
 		show(document.getElementById('status'));
 }
+// Polling for real time changes, before leaving the input.
+// Choose relevant input elements
+var inputs = $('input,select,textarea')
+  // Bind a new event to the inputs
+  .bind("newInput", function(){
+    // Abbreviate
+    var $t = $(this);
+    // Log the results
+    $('#logPreset')
+    .text( $t.attr('id') +': '+ $t.val() );
+  });
+
+(function scan(){
+
+  inputs.each(function() {
+    $t = $(this);
+    if ($t.attr('type') == 'checkbox')
+      $t.val($t.is(':checked'));
+    if ( $t.data('oldVal') !== $t.val() ) {
+      $t.trigger('newInput');
+      $t.data('oldVal',$t.val());
+    }
+  });
+
+  setTimeout(scan,100);
+
+})();
