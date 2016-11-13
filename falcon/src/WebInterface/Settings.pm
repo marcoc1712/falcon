@@ -326,7 +326,7 @@ sub _getSetPathname{
     if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
      
        my $filename = $file.".set";
-       my $dir = $conf->getPrefFolder();
+       my $dir = $self->conf()->getPrefFolder();
        $pathname =  File::Spec->catfile( $dir, $filename );
       
     } else{
