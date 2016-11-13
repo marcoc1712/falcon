@@ -284,7 +284,7 @@ sub listHTML{
 	$key="".$id;
         $desc=$f;
 
-        push @html, qq (<option value= "$key"> $desc </option>)."\n";
+        push @html, qq (<option value=$desc </option>)."\n";
         $id=$id+1;
 
     }
