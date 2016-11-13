@@ -420,7 +420,7 @@ sub _upgrade{
     if (!getPrefFolder() && getPrefFile()){
         
         my $file = getPrefFile();
-        my ($filename, $folder) = fileparse($p);
+        my ($filename, $folder) = fileparse($file);
              
         $self->get()->{'prefFolder'}=$folder;
         $self->get()->{'prefFile'}=$filename;
