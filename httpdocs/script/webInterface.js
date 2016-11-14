@@ -58,7 +58,11 @@ $(document).ready(function() {
                }
                global_needRestart = 0;
             } else{
-                loadPreset(response);
+                if (response.preset){
+                    
+                    loadPreset(response);
+                }
+                
                 loadPresets(initErrorCallback);
             }   
         },
@@ -393,16 +397,16 @@ function loadPresets(errorCallback) {
 	});
     
 }
-function loadPreset(errorCallback, data){
+function loadPreset(data){
     
-    return loadSettingsData(errorCallback, data);
+    return loadSettingsData(data);
 }
 
 function loadSettings(errorCallback) {
     jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
     .done(function(data) {
 
-       return loadSettingsData(errorCallback, data);
+       return loadSettingsData(data);
 
     })
     .fail(function() {
