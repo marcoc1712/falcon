@@ -61,7 +61,10 @@ $(document).ready(function() {
     }); 
 	
     // set event listeners.
-
+        document.getElementById('audioDevice') .submit(function( event ) {
+            alert( "Handler for .submit() called." );
+            event.preventDefault();
+        });
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
 	};
@@ -119,7 +122,16 @@ $(document).ready(function() {
 			enable("shutdown",!global_shutdown);
 		}
 	};
-	
+	document.getElementById('savePreset').onclick = function(){
+		savePreset();
+	}
+        document.getElementById('loadPreset').onclick = function(){
+		loadPreset();
+	}
+        document.getElementById('deletePreset').onclick = function(){
+		deletePreset();
+	}
+        
 	document.getElementById('reloadSettings').onclick = function(){
 		loadSettings();
 	}
@@ -208,7 +220,7 @@ $(document).ready(function() {
 	document.getElementById('reboot').onclick = function(){
 		jQuery.get("/cgi-bin/hwReboot.pl")
 		.done(function(data) {
-			console.log( "success but reboot filed..." );
+			console.log( "success but reboot failed..." );
 			// reboot failed
 			alert(data);
 		})
@@ -292,30 +304,30 @@ function load(item,value) {
 
 	if (element.type === 'checkbox'){
 			
-		if (value == 1) {
-			element.checked = true;
-		}	else {
-			element.checked = false;
-		}
+            if (value == 1) {
+                    element.checked = true;
+            }	else {
+                    element.checked = false;
+            }
 
 	} else if ((element.type === 'text') || 
-			   (element.type ==='textarea')){
+                   (element.type ==='textarea')){
 		
-		element.value = value;
+            element.value = value;
 
 	} else if (element.type === 'number'){
 
-		element.value = (value ? value : 0);
+            element.value = (value ? value : 0);
 
 	} else if (element.type === 'select-one'){
 		
-		var values = $.map(element, function(e) { return e.value; });
+            var values = $.map(element, function(e) { return e.value; });
 
-		if (values.length > 0 && values.length !== "none"){
-			element.value=value;
-		} else {
-			element.value="none";
-		}
+            if (values.length > 0 && values.length !== "none"){
+                    element.value=value;
+            } else {
+                    element.value="none";
+            }
 			
 	} else if (element.type === 'radio'){
 
@@ -323,7 +335,7 @@ function load(item,value) {
 	
 	} else { //labels
 		
-		element.innerHTML = value;
+            element.innerHTML = value;
 
 	}
 		
@@ -374,7 +386,7 @@ function loadSettings(errorCallback) {
 
 						document.getElementById('audioDevice').value = global_audiodevice;				  		
 				}
-                } if (key === "presets"){
+                } else if (key === "presets"){
 
 				global_preset= val;
 
@@ -386,28 +398,28 @@ function loadSettings(errorCallback) {
 
                 load(key,val);
 				
-			if (key === "allowReboot"){
-				
-				if (val == 1){
-			
-					enable("reboot",!global_reboot);
-			
-				} else{
+                if (key === "allowReboot"){
 
-					enable("reboot",0);
-				}
-			}
-			else if (key === "allowShutdown"){
-	
-				if (val == 1){
-					
-					enable("shutdown",!global_shutdown);
-			
-				} else{
+                    if (val == 1){
 
-					enable("shutdown",0);
-				}
-			}
+                            enable("reboot",!global_reboot);
+
+                    } else{
+
+                            enable("reboot",0);
+                    }
+                }
+                else if (key === "allowShutdown"){
+
+                    if (val == 1){
+
+                            enable("shutdown",!global_shutdown);
+
+                    } else{
+
+                            enable("shutdown",0);
+                    }
+                }
         });
         return 1;   
     })
