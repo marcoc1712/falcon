@@ -301,10 +301,12 @@ sub listHTML{
 }
 sub remove{
     my $self = shift;
-    my $file = shift;
-    
-    my $path =  $self->_getSetPathname($file);   
-    if (!$path) {return undef}
+    my $path = shift;
+
+    if (!$path) {
+        $self->{error} = "invalid file name";
+        return 0;
+    }
     
     if (!($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -w $self->conf()->getPrefFolder())){
 
