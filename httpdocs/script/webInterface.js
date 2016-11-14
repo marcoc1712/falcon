@@ -61,7 +61,7 @@ $(document).ready(function() {
     }); 
 	
     // set event listeners.
-        document.getElementById('audioDevice') .submit(function( event ) {
+        document.getElementById('formSettings').onsubmit(function( event ) {
             alert( "Handler for .submit() called." );
             event.preventDefault();
         });
