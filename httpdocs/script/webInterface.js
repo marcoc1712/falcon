@@ -64,10 +64,9 @@ $(document).ready(function() {
         document.getElementById("formSettings").onsubmit = function(event){ 
 
             alert( "Handler for .onsubmit() called." );
-            document.formSettings.action="/cgi-bin/saveSettings.pl";
+            //document.formSettings.action="/cgi-bin/saveSettings.pl";
             document.formSettings.submit();
-            //event.preventDefault();
-
+            
         };
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
