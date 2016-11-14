@@ -58,7 +58,7 @@ $(document).ready(function() {
                }
                global_needRestart = 0;
             } else{
-                
+                loadPreset(response);
                 loadPresets(initErrorCallback);
             }   
         },
@@ -96,72 +96,8 @@ $(document).ready(function() {
         document.getElementById('loadPreset').onclick = function(){
 		//alert( "load preset button pressed." );
                 document.formSettings.action="/cgi-bin/loadPreset.pl";
-                global_needRestart=1;
-                document.formSettings.submit()
-                    .done(function(data) {
-
-                        if (data.error) { 
-
-                            console.log( data.error );
-                            alert(data.error);
-                            errorCallback();
-                            return 0;
-                        }
-                        console.log( "load settings succeded" );
-
-                        $.each( data, function( key, val ) {
-                                console.log( key + " - " + val);
-
-                                if (key === "audioDevice"){
-
-                                                global_audiodevice= val;
-
-                                                if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
-
-                                                                document.getElementById('audioDevice').value = global_audiodevice;				  		
-                                                }
-                                } else if (key === "presets"){
-
-                                                global_preset= val;
-
-                                                if( ($('#presets').has('option').length > 0 ) && (global_preset)){
-
-                                                                document.getElementById('presets').value = global_preset;	
-                                                }
-                                } 
-
-                                load(key,val);
-                                if (key === "preset"){
-                                    presetChanged();
-
-                                } else if (key === "allowReboot"){
-
-                                    if (val == 1){
-
-                                            enable("reboot",!global_reboot);
-
-                                    } else{
-
-                                            enable("reboot",0);
-                                    }
-                                } else if (key === "allowShutdown"){
-
-                                    if (val == 1){
-
-                                            enable("shutdown",!global_shutdown);
-
-                                    } else{
-
-                                            enable("shutdown",0);
-                                    }
-                                }
-                        });
-                        return 1;   
-                    })
-                    .fail(function() {
-                            console.log( "error" );
-                            return 0;
-                    });
+                global_needRestart=0;
+                document.formSettings.submit();
 	}
         document.getElementById('deletePreset').onclick = function(){
 		//alert( "save preset button pressed." );
@@ -457,7 +393,66 @@ function loadPresets(errorCallback) {
 	});
     
 }
+function loadPreset(data){
+    
+    if (data.error) { 
 
+        console.log( data.error );
+        alert(data.error);
+        errorCallback();
+        return 0;
+    }
+    console.log( "load settings succeded" );
+
+    $.each( data, function( key, val ) {
+        
+        console.log( key + " - " + val);
+
+        if (key === "audioDevice"){
+
+            global_audiodevice= val;
+
+            if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
+
+                            document.getElementById('audioDevice').value = global_audiodevice;				  		
+            }
+        } else if (key === "presets"){
+
+            global_preset= val;
+
+            if( ($('#presets').has('option').length > 0 ) && (global_preset)){
+
+                            document.getElementById('presets').value = global_preset;	
+            }
+        } 
+
+        load(key,val);
+        if (key === "preset"){
+            presetChanged();
+
+        } else if (key === "allowReboot"){
+
+            if (val == 1){
+
+                    enable("reboot",!global_reboot);
+
+            } else{
+
+                    enable("reboot",0);
+            }
+        } else if (key === "allowShutdown"){
+
+            if (val == 1){
+
+                    enable("shutdown",!global_shutdown);
+
+            } else{
+
+                    enable("shutdown",0);
+            }
+        }
+    }
+}
 function loadSettings(errorCallback) {
     jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
     .done(function(data) {
