@@ -299,18 +299,19 @@ sub _getPresetPathname {
 
           my $filename = $in->{'preset'}.".set";
           my $dir = $self->conf()->getPrefFolder();
+          
           $pathname =  File::Spec->catfile( $dir, $filename );
 
        } else{
 
            $self->{error} = "unable to read from preference directory";
-           return 0;
+           return 11;
        }
     
     } else{
     
         $self->{error} ='missing preset name';
-        return undef;
+        return 12;
     }
 
     $self->{error}=undef;
