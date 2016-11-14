@@ -410,7 +410,7 @@ function loadSettings(errorCallback) {
             return 0;
     });
 }
-function loadSettingsData(errorCallback, data){
+function loadSettingsData(data){
     
     if (data.error) { 
 
