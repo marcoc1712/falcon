@@ -116,6 +116,9 @@ sub saveAsPreset{
     my $self = shift;
     my $in = shift;
     
+    dump $in;
+    die;
+    
     my $path = _getPresetPathname($in);
     
     if (!$path) {
