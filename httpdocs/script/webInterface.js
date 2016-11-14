@@ -66,14 +66,14 @@ $(document).ready(function() {
     }); 
 	
     // set event listeners.
-        document.getElementById("formSettings").onsubmit = function(event){ 
+       /* document.getElementById("formSettings").onsubmit = function(event){ 
 
             //alert( "Handler for .onsubmit() called." );
-            global_needRestart=0;
+            //global_needRestart=0;
             //document.formSettings.action="/cgi-bin/saveSettings.pl";
             //document.formSettings.submit();
             
-        };
+        };*/
         document.getElementById('submitSettings').onclick = function(){
             
                 //alert( "submit button pressed." );
