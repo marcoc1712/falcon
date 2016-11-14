@@ -153,7 +153,7 @@ sub listPresetsHTML {
     
     return $return;
 }
-sub removePreset {
+sub deletePreset {
     my $self = shift;
     my $in   = shift;
     
