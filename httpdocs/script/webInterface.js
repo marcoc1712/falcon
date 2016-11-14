@@ -25,6 +25,7 @@ var global_audiodevice=null;
 var global_preset=null;
 var global_reboot=0;
 var global_shutdown=0;
+var global_needRestart=0;
 
 $(document).ready(function() {
     
@@ -32,27 +33,31 @@ $(document).ready(function() {
         success: function(response, status, xhr, jQform) { 
             console.log( "success" );
             console.log( response );
-            if (document.getElementById('restart').disabled) {
+            if (global_needRestart == 1){
+                 
+                if (document.getElementById('restart').disabled) {
                 
-                 alert(response);
-                
-            } else {
-                
-                jQuery.get("/cgi-bin/serviceRestart.pl")
-			.done(function(data) {
-				console.log( "success" );
-			})
-			.fail(function(data) {
-				console.log( "error" );
-			})
-			.always(function(data) {
-				console.log( "complete" );
-				alert(data);
-				enableSettings(initErrorCallback);
-				loadSettings(initErrorCallback);
-				loadStatus(initErrorCallback);
-			});
-            }            
+                    alert(response);
+
+                } else {
+
+                   jQuery.get("/cgi-bin/serviceRestart.pl")
+                           .done(function(data) {
+                                   console.log( "success" );
+                           })
+                           .fail(function(data) {
+                                   console.log( "error" );
+                           })
+                           .always(function(data) {
+                                   console.log( "complete" );
+                                   alert(data);
+                                   enableSettings(initErrorCallback);
+                                   loadSettings(initErrorCallback);
+                                   loadStatus(initErrorCallback);
+                           });
+               }
+               global_needRestart =0;
+            }   
         },
         error: function() { 
            console.log( "error" );
@@ -64,10 +69,27 @@ $(document).ready(function() {
         document.getElementById("formSettings").onsubmit = function(event){ 
 
             alert( "Handler for .onsubmit() called." );
+            global_needRestart=0;
             //document.formSettings.action="/cgi-bin/saveSettings.pl";
-            document.formSettings.submit();
+            //document.formSettings.submit();
             
         };
+        document.getElementById('submitSettings').onclick = function(){
+            
+                alert( "submit button pressed." );
+                document.formSettings.action="/cgi-bin/saveSettings.pl";
+                global_needRestart =1;
+                document.formSettings.submit();;
+	}
+        
+	document.getElementById('savePreset').onclick = function(){
+		
+                alert( "save preset button pressed." );
+                document.formSettings.action="/cgi-bin/savePreset.pl";
+                global_needRestart=0;
+                document.formSettings.submit();;
+	}
+        
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
 	};
@@ -123,17 +145,7 @@ $(document).ready(function() {
 			enable("shutdown",!global_shutdown);
 		}
 	};
-        document.getElementById('submitSettings').onclick = function(){
-            
-                alert( "submit button pressed." );
-                document.formSettings.action="/cgi-bin/saveSettings.pl";
-                document.formSettings.submit();;
-	}
-	document.getElementById('savePreset').onclick = function(){
-		alert( "submit button pressed." );
-                document.formSettings.action="/cgi-bin/savePreset.pl";
-                document.formSettings.submit();;
-	}
+                
         document.getElementById('loadPreset').onclick = function(){
 		loadPreset();
 	}
