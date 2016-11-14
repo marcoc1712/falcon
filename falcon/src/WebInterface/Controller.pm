@@ -102,6 +102,10 @@ sub saveSettings{
     my $self = shift;
     my $in = shift;
     
+    print $in->{'preset'};
+    die;
+    
+    
     if ($in){
     
         $self->settings()->setSettings($in);
