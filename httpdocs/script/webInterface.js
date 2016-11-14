@@ -451,7 +451,7 @@ function loadPreset(data){
                     enable("shutdown",0);
             }
         }
-    }
+    })
 }
 function loadSettings(errorCallback) {
     jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
