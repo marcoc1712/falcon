@@ -228,8 +228,8 @@ sub saveAs{
     
     if (!$saved->setPrefs($in)){
         $self->{error} = $saved->getError();
-        return 0;
-    }  
+        return undef;
+    } 
     $self->{error}=undef;
     return "saved as $path";
 }
