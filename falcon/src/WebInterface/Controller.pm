@@ -117,8 +117,6 @@ sub saveAsPreset{
     my $in = shift;
     
     print $in->{'preset'};
-    print "\n";
-    print $in{'preset'};
     die;
     
     my $path = _getPresetPathname($in);
