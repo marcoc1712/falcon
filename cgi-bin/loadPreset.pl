@@ -55,7 +55,7 @@ my $in = \%incoming;
 #if ($error ){$return = $error;}
 #print $return;
 
-my $result= $controller->getSettings();
+my $result= $controller->loadPreset($in);
 my $error = $controller->getError();
 
 if ($error){ $result->{'error'} = $error; }
