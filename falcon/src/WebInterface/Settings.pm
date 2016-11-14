@@ -231,8 +231,14 @@ sub load{
     
     if (-e $path && -r $path){
     
-        $self->{prefs} = WebInterface::Preferences->new($path);
-        $self->{commandline} = WebInterface::CommandLine->new( $self->prefs());
+        #$self->{prefs} = WebInterface::Preferences->new($path);
+        #$self->{commandline} = WebInterface::CommandLine->new( $self->prefs());
+        
+        my $retPref= WebInterface::Preferences->new($path);
+        
+        $self->{error} = $retPref->getError();
+        return $retPref->getPrefs();
+        
 
     } else {
         $self->{error} = "unable to load settings from $path";
