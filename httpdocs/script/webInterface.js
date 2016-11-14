@@ -87,8 +87,20 @@ $(document).ready(function() {
         
 	document.getElementById('savePreset').onclick = function(){
 		
-                alert( "save preset button pressed." );
+                //alert( "save preset button pressed." );
                 document.formSettings.action="/cgi-bin/savePreset.pl";
+                global_needRestart=0;
+                document.formSettings.submit();;
+	}
+        document.getElementById('loadPreset').onclick = function(){
+		//alert( "save preset button pressed." );
+                document.formSettings.action="/cgi-bin/loadPreset.pl";
+                global_needRestart=1;
+                document.formSettings.submit();;
+	}
+        document.getElementById('deletePreset').onclick = function(){
+		//alert( "save preset button pressed." );
+                document.formSettings.action="/cgi-bin/deletePreset.pl";
                 global_needRestart=0;
                 document.formSettings.submit();;
 	}
@@ -149,13 +161,6 @@ $(document).ready(function() {
 		}
 	};
                 
-        document.getElementById('loadPreset').onclick = function(){
-		loadPreset();
-	}
-        document.getElementById('deletePreset').onclick = function(){
-		deletePreset();
-	}
-        
 	document.getElementById('reloadSettings').onclick = function(){
 		loadSettings();
 	}

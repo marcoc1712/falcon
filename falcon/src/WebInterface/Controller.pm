@@ -116,7 +116,14 @@ sub saveAsPreset{
     my $self = shift;
     my $in = shift;
     
-    my $return = $self->settings()->saveAs($in);
+    my $path = _getPresetPathname($in);
+    
+    if (!$path) {
+        $self->{error} ='invalid preset filename: $path';
+        return undef;
+    }
+    
+    my $return = $self->settings()->saveAs($path, $in);
     $self->{error}= $self->settings()->getError();
     
     return $return;
@@ -124,9 +131,16 @@ sub saveAsPreset{
 }
 sub loadPreset{
     my $self = shift;
-    my $file = shift;
+    my $in = shift;
     
-    my $return = $self->settings()->load($file);
+    my $path = _getPresetPathname($in);
+    
+    if (!$path) {
+        $self->{error} ='invalid preset filename: $path';
+        return undef;
+    }
+        
+    my $return = $self->settings()->load($path);
     $self->{error}= $self->settings()->getError();
     
     return $return;
@@ -141,9 +155,16 @@ sub listPresetsHTML {
 }
 sub removePreset {
     my $self = shift;
-    my $file = shift;
+    my $in   = shift;
     
-    my $return = $self->settings()->remove($file);
+    my $path = _getPresetPathname($in);
+    
+    if (!$path) {
+        $self->{error} ='invalid preset filename: $path';
+        return undef;
+    }
+    
+    my $return = $self->settings()->remove($path);
     $self->{error}= $self->settings()->getError();
     
     return $return;
@@ -266,5 +287,38 @@ sub serviceRestart {
 }
 
 ####################################################################################################
+sub _getPresetPathname {
+    my $self   = shift;
+    my $in     = shift;
+
+    my $presetName;
+    
+    if ($in->{'preset'}){
+        
+         $file =  $self->_getSetPathname($in->{'preset'});
+    
+    } else{
+        $self->{error} ='missing preset name';
+        return undef;
+    }
+    
+    my $pathname="";
+    
+    if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
+     
+       my $filename = $presetName.".set";
+       my $dir = $self->conf()->getPrefFolder();
+       $pathname =  File::Spec->catfile( $dir, $filename );
+      
+    } else{
+    
+        $self->{error} = "unable to read from preference directory";
+        return 0;
+    }
+   
+    $self->{error}=undef;
+    return $pathname;
+    
+}
 
 1;

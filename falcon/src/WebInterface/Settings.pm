@@ -201,24 +201,9 @@ sub save{
 
 sub saveAs{
     my $self = shift;
-    my $in = shift;
-    
-    my $path;
-    
-    if ($in->{'preset'}){
+    my $path = shift;
+    my $in   = shift;
         
-         $path =  $self->_getSetPathname($in->{'preset'});
-    
-    } else{
-        $self->{error} ='missing preset name';
-        return undef;
-    }
-
-    if (!$path) {
-        $self->{error} ='invalid preset name: $path';
-        return undef;
-    }
-    
     my $saved = WebInterface::Preferences->new($path);
     
     if (!$saved) {
@@ -240,9 +225,8 @@ sub saveAs{
 
 sub load{
     my $self = shift;
-    my $file = shift;
-    
-    my $path =  $self->_getSetPathname($file);   
+    my $path = shift;
+
     if (!$path) {return undef}
     
     if (-e $path && -r $path){
@@ -251,7 +235,7 @@ sub load{
         $self->commandline = WebInterface::CommandLine->new( $self->prefs());
 
     } else {
-        $self->{error} = "unable to load settings from file";
+        $self->{error} = "unable to load settings from $path";
         return 0;
     }
     $self->{error}=undef;
@@ -337,26 +321,6 @@ sub remove{
 }
 ####################################################################################################
 
-sub _getSetPathname{
-    my $self     = shift;
-    my $file     = shift;
-    
-    my $pathname="";
-    
-    if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
-     
-       my $filename = $file.".set";
-       my $dir = $self->conf()->getPrefFolder();
-       $pathname =  File::Spec->catfile( $dir, $filename );
-      
-    } else{
-    
-        $self->{error} = "unable to read from preference directory";
-        return 0;
-    }
-   
-    $self->{error}=undef;
-    return $pathname;
-}
+
 
 1;
