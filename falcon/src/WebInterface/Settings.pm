@@ -230,6 +230,10 @@ sub saveAs{
         $self->{error} = $saved->getError();
         return undef;
     } 
+    if (!$saved->save()) {
+        $self->{error} = $saved->getError();
+        return undef;
+    }
     $self->{error}=undef;
     return "saved as $path";
 }
