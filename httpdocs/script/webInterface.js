@@ -94,7 +94,7 @@ $(document).ready(function() {
 		global_audiodevice= document.getElementById('audioDevice').value;
 	};
 	document.getElementById('presets').onchange = function(){
-		global_preset= document.getElementById('presets').value;
+                global_preset= document.getElementById('presets').value;
                 document.getElementById('preset').value = global_preset;
                 presetChanged();
 	};
@@ -292,6 +292,7 @@ function init() {
     initOkCallback();
     return 1;
 }
+
 function presetChanged(){
     
     if (!document.getElementById("preset").value || document.getElementById("preset").value === ""){
@@ -412,14 +413,16 @@ function loadSettings(errorCallback) {
 				global_preset= val;
 
 				if( ($('#presets').has('option').length > 0 ) && (global_preset)){
-
+                                    
 						document.getElementById('presets').value = global_preset;	
 				}
                 } 
 
                 load(key,val);
-				
-                if (key === "allowReboot"){
+		if (key === "preset"){
+                    presetChanged();
+                    
+                } else if (key === "allowReboot"){
 
                     if (val == 1){
 
@@ -429,8 +432,7 @@ function loadSettings(errorCallback) {
 
                             enable("reboot",0);
                     }
-                }
-                else if (key === "allowShutdown"){
+                } else if (key === "allowShutdown"){
 
                     if (val == 1){
 
