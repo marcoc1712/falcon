@@ -292,8 +292,7 @@ sub _getPresetPathname {
     my $in     = shift;
 
     my $pathname="";
-    return $in->{'preset'};
-    
+   
     if ($in->{'preset'}){
         
        if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
@@ -306,13 +305,13 @@ sub _getPresetPathname {
        } else{
 
            $self->{error} = "unable to read from preference directory";
-           return 11;
+           return undef;
        }
     
     } else{
     
         $self->{error} ='missing preset name';
-        return 12;
+        return undef;
     }
 
     $self->{error}=undef;
