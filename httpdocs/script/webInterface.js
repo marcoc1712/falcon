@@ -64,7 +64,8 @@ $(document).ready(function() {
         document.getElementById("formSettings").onsubmit = function(event){ 
 
             alert( "Handler for .onsubmit() called." );
-            event.preventDefault();
+            jQuery.get('/cgi-bin/saveSettings.pl');
+            //event.preventDefault();
 
         };
 	document.getElementById('audioDevice').onchange = function(){
