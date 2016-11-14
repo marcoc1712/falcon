@@ -291,14 +291,13 @@ sub _getPresetPathname {
     my $self   = shift;
     my $in     = shift;
 
-    my $presetName;
     my $pathname="";
     
     if ($in->{'preset'}){
         
        if ($self->conf()->getPrefFolder() &&  -d $self->conf()->getPrefFolder()&& -r $self->conf()->getPrefFolder()){
 
-          my $filename = $presetName.".set";
+          my $filename = $in->{'preset'}.".set";
           my $dir = $self->conf()->getPrefFolder();
           $pathname =  File::Spec->catfile( $dir, $filename );
 
