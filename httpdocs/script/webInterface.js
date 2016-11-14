@@ -93,10 +93,10 @@ $(document).ready(function() {
                 document.formSettings.submit();;
 	}
         document.getElementById('loadPreset').onclick = function(){
-		//alert( "save preset button pressed." );
+		//alert( "load preset button pressed." );
                 document.formSettings.action="/cgi-bin/loadPreset.pl";
                 global_needRestart=1;
-                document.formSettings.submit();;
+                document.formSettings.submit();
 	}
         document.getElementById('deletePreset').onclick = function(){
 		//alert( "save preset button pressed." );
@@ -392,6 +392,7 @@ function loadPresets(errorCallback) {
 	});
     
 }
+
 function loadSettings(errorCallback) {
     jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
     .done(function(data) {

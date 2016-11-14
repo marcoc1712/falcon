@@ -47,13 +47,20 @@ my $controller= WebInterface::Controller->new();
 my %incoming = read_input();
 my $in = \%incoming;
 
-my $return= $controller->loadPreset($in);
-my $error = $controller->getError();
+#my $return= $controller->loadPreset($in);
+#my $error = $controller->getError();
 
 # TEXT is required.
-print "Content-type: text/html\n\n";
-if ($error ){$return = $error;}
-print $return;
+#print "Content-type: text/html\n\n";
+#if ($error ){$return = $error;}
+#print $return;
+
+my $result= $controller->getSettings();
+my $error = $controller->getError();
+
+if ($error){ $result->{'error'} = $error; }
+
+$utils->printJSON($result);
 
 
 sub read_input {
