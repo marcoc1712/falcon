@@ -47,8 +47,6 @@ my $controller= WebInterface::Controller->new();
 my %incoming = read_input();
 my $in = \%incoming;
 
-return $in->{'preset'};
-
 my $return= $controller->saveAsPreset($in);
 my $error = $controller->getError();
 
