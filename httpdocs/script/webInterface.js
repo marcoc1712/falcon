@@ -123,8 +123,16 @@ $(document).ready(function() {
 			enable("shutdown",!global_shutdown);
 		}
 	};
+        document.getElementById('submitSettings').onclick = function(){
+            
+                alert( "submit button pressed." );
+                document.formSettings.action="/cgi-bin/saveSettings.pl";
+                document.formSettings.submit();;
+	}
 	document.getElementById('savePreset').onclick = function(){
-		savePreset();
+		alert( "submit button pressed." );
+                document.formSettings.action="/cgi-bin/savePreset.pl";
+                document.formSettings.submit();;
 	}
         document.getElementById('loadPreset').onclick = function(){
 		loadPreset();
