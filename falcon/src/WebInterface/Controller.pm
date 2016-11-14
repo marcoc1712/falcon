@@ -292,6 +292,7 @@ sub _getPresetPathname {
     my $in     = shift;
 
     my $pathname="";
+    return $in->{'preset'};
     
     if ($in->{'preset'}){
         
