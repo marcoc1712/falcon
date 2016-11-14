@@ -61,10 +61,10 @@ $(document).ready(function() {
     }); 
 	
     // set event listeners.
-        document.getElementById("formSettings").onsubmit = function(){ 
+        document.getElementById("formSettings").onsubmit = function(event){ 
 
             alert( "Handler for .onsubmit() called." );
-            return false;
+            event.preventDefault();
 
         };
 	document.getElementById('audioDevice').onchange = function(){
