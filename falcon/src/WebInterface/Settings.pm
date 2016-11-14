@@ -320,7 +320,7 @@ sub remove{
         
     } elsif (-e $path){
         
-        $self->{error} = "can't delete $file";
+        $self->{error} = "can't delete $path";
         return 0;
     }
     
