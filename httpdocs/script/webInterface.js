@@ -61,10 +61,10 @@ $(document).ready(function() {
     }); 
 	
     // set event listeners.
-        document.getElementById('formSettings').onsubmit(function( event ) {
+        document.getElementById("formSettings").onsubmit = function(){ 
             alert( "Handler for .submit() called." );
-            event.preventDefault();
-        });
+            //event.preventDefault();
+        };
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
 	};
@@ -84,7 +84,7 @@ $(document).ready(function() {
         document.getElementById('preset').onpropertychange = function() {
                 presetChanged();
         };
-        document.getElementById('preset').paste = function() {
+        document.getElementById('preset').onpaste = function() {
                 presetChanged();
         };
         
