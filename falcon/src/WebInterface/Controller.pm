@@ -160,7 +160,7 @@ sub deletePreset {
     my $path = _getPresetPathname($in);
     
     if (!$path) {
-        $self->{error} ='invalid preset filename: $path';
+        $self->{error} ="invalid preset filename: $path";
         return undef;
     }
     
