@@ -379,6 +379,7 @@ function loadPresets(errorCallback) {
 		if( ($('#presets').has('option').length > 0 ) && (global_preset)){
 			 
 			document.getElementById('presets').value = global_preset;
+                        presetChanged();
 		} 
 	});
     
@@ -413,7 +414,8 @@ function loadSettings(errorCallback) {
 
 				if( ($('#presets').has('option').length > 0 ) && (global_preset)){
 
-						document.getElementById('presets').value = global_preset;				  		
+						document.getElementById('presets').value = global_preset;	
+                                                presetChanged();
 				}
                 } 
 
