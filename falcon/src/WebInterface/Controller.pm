@@ -102,9 +102,7 @@ sub saveSettings{
     my $self = shift;
     my $in = shift;
     
-    print $in->{'preset'};
-    die;
-    
+    return  $in->{'preset'}; 
     
     if ($in){
     
