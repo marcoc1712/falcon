@@ -115,9 +115,7 @@ sub saveSettings{
 sub saveAsPreset{
     my $self = shift;
     my $in = shift;
-    
-    return  $in->{'preset'};
-    
+
     my $path = _getPresetPathname($in);
     
     if (!$path) {
@@ -294,6 +292,9 @@ sub _getPresetPathname {
     my $in     = shift;
 
     my $pathname="";
+     
+    return  $in->{'preset'};
+    
    
     if ($in->{'preset'}){
         
