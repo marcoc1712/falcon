@@ -215,13 +215,16 @@ sub saveAs{
     }
 
     if (!$path) {
-        $self->{error} ='invalid preset name';
+        $self->{error} ='invalid preset name: $path';
         return undef;
     }
     
     my $saved = WebInterface::Preferences->new($path);
     
-    if (!$saved) {return undef}
+    if (!$saved) {
+        $self->{error} ='unable to save preset: $path';
+        return undef;
+    }
     
     if (!$saved->setPrefs($in)){
         $self->{error} = $saved->getError();
