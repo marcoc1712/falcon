@@ -33,7 +33,7 @@ $(document).ready(function() {
         success: function(response, status, xhr, jQform) { 
             console.log( "success" );
             console.log( response );
-            if (global_needRestart == 1){
+            if (global_needRestart === 1){
                  
                 if (document.getElementById('restart').disabled) {
                 
@@ -56,7 +56,7 @@ $(document).ready(function() {
                                    loadStatus(initErrorCallback);
                            });
                }
-               global_needRestart =0;
+               global_needRestart = 0;
             }   
         },
         error: function() { 
@@ -68,7 +68,7 @@ $(document).ready(function() {
     // set event listeners.
         document.getElementById("formSettings").onsubmit = function(event){ 
 
-            alert( "Handler for .onsubmit() called." );
+            //alert( "Handler for .onsubmit() called." );
             global_needRestart=0;
             //document.formSettings.action="/cgi-bin/saveSettings.pl";
             //document.formSettings.submit();
@@ -76,7 +76,7 @@ $(document).ready(function() {
         };
         document.getElementById('submitSettings').onclick = function(){
             
-                alert( "submit button pressed." );
+                //alert( "submit button pressed." );
                 document.formSettings.action="/cgi-bin/saveSettings.pl";
                 global_needRestart =1;
                 document.formSettings.submit();;
