@@ -103,6 +103,7 @@ sub setPrefs{
 
         $self->setItem($name, $in->{$name});
     }
+    return 1;
 }
 sub getItem {
     my $self 		= shift;
