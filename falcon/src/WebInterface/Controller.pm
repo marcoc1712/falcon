@@ -116,7 +116,7 @@ sub saveAsPreset{
     my $self = shift;
     my $in = shift;
 
-    my $path = _getPresetPathname($in);
+    my $path =$self-> _getPresetPathname($in);
     
     if (!$path) {
         # $self->{error} ="invalid preset filename: $path";
@@ -133,7 +133,7 @@ sub loadPreset{
     my $self = shift;
     my $in = shift;
     
-    my $path = _getPresetPathname($in);
+    my $path =$self-> _getPresetPathname($in);
     
     if (!$path) {
         $self->{error} ="invalid preset filename: $path";
@@ -157,7 +157,7 @@ sub deletePreset {
     my $self = shift;
     my $in   = shift;
     
-    my $path = _getPresetPathname($in);
+    my $path =$self-> _getPresetPathname($in);
     
     if (!$path) {
         $self->{error} ="invalid preset filename: $path";
@@ -292,9 +292,6 @@ sub _getPresetPathname {
     my $in     = shift;
 
     my $pathname="";
-     
-    return  $in->{'preset'};
-    
    
     if ($in->{'preset'}){
         
