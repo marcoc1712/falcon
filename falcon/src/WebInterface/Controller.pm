@@ -114,10 +114,9 @@ sub saveSettings{
 }
 sub saveAsPreset{
     my $self = shift;
-    my $file = shift;
     my $in = shift;
     
-    my $return = $self->settings()->saveAs($file,$in);
+    my $return = $self->settings()->saveAs($in);
     $self->{error}= $self->settings()->getError();
     
     return $return;

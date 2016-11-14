@@ -201,12 +201,23 @@ sub save{
 
 sub saveAs{
     my $self = shift;
-    my $file = shift;
     my $in = shift;
     
-    my $path =  $self->_getSetPathname($file);
+    my $path;
     
-    if (!$path) {return undef}
+    if ($in->{'preset'}){
+        
+         $path =  $self->_getSetPathname($in->{'preset'});
+    
+    } else{
+        $self->{error} ='missing preset name';
+        return undef;
+    }
+
+    if (!$path) {
+        $self->{error} ='invalid preset name';
+        return undef;
+    }
     
     my $saved = WebInterface::Preferences->new($path);
     

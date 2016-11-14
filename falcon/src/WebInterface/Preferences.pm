@@ -52,7 +52,7 @@ sub getPrefs {
     return $self->get();
 }
 sub setPrefs{
-    my $self 		= shift;
+    my $self 	    = shift;
     my $in          = shift;
     
     # The post method olways pass ONLY the thrue booleans, no matter if they 

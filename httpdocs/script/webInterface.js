@@ -57,6 +57,9 @@ $(document).ready(function() {
                            });
                }
                global_needRestart = 0;
+            } else{
+                
+                loadPresets(initErrorCallback);
             }   
         },
         error: function() { 
