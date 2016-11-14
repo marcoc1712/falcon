@@ -294,7 +294,7 @@ function init() {
 }
 function presetChanged(){
     
-    if (!document.getElementById("logFile").value || document.getElementById("preset").value === ""){
+    if (!document.getElementById("preset").value || document.getElementById("preset").value === ""){
         enable("savePreset",0);
         enable("loadPreset",0);
         enable("deletePreset",0);
