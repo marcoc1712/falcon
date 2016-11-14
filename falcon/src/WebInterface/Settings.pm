@@ -228,7 +228,7 @@ sub saveAs{
         return 0;
     }  
     $self->{error}=undef;
-    return 1;
+    return "saved as $path";
 }
 
 sub load{
