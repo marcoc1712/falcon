@@ -102,8 +102,6 @@ sub saveSettings{
     my $self = shift;
     my $in = shift;
     
-    return  $in->{'preset'}; 
-    
     if ($in){
     
         $self->settings()->setSettings($in);
@@ -118,8 +116,7 @@ sub saveAsPreset{
     my $self = shift;
     my $in = shift;
     
-    print $in->{'preset'};
-    die;
+    return  $in->{'preset'};
     
     my $path = _getPresetPathname($in);
     
