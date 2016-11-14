@@ -62,8 +62,10 @@ $(document).ready(function() {
 	
     // set event listeners.
         document.getElementById("formSettings").onsubmit = function(){ 
-            alert( "Handler for .submit() called." );
-            //event.preventDefault();
+
+            alert( "Handler for .onsubmit() called." );
+            return false;
+
         };
 	document.getElementById('audioDevice').onchange = function(){
 		global_audiodevice= document.getElementById('audioDevice').value;
@@ -72,10 +74,8 @@ $(document).ready(function() {
 		global_preset= document.getElementById('presets').value;
                 document.getElementById('preset').value = global_preset;
                 presetChanged();
-    
 	};
-        document.getElementById('preset').onchange = function(){
-		
+        document.getElementById('preset').onchange = function(){		
                 presetChanged();			  
 	};
         document.getElementById('preset').oninput = function() {
