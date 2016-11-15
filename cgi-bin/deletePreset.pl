@@ -44,7 +44,7 @@ use WebInterface::Utils;
 my $utils = WebInterface::Utils->new();
 my $controller= WebInterface::Controller->new();
 
-my %incoming = read_input();
+my %incoming = $utils->read_input();
 my $in = \%incoming;
 
 my $return= $controller->deletePreset($in);
@@ -55,40 +55,4 @@ print "Content-type: text/html\n\n";
 if ($error ){$return = $error;}
 print $return;
 
-
-sub read_input {
-
-    my ($buffer, @pairs, $pair, $name, $value);
-	
-    my  %FORM = ();
-       
-    if (! $ENV{'REQUEST_METHOD'}) {return %FORM;};
-    
-    # Read in text
-    $ENV{'REQUEST_METHOD'} =~ tr/a-z/A-Z/;
-    if ($ENV{'REQUEST_METHOD'} eq "POST") {
-    
-	read(STDIN, $buffer, $ENV{'CONTENT_LENGTH'});
-    
-    } else {
-    
-	$buffer = $ENV{'QUERY_STRING'};
-    }
-
-    # Split information into name/value pairs
-    @pairs = split(/&/, $buffer);
-    foreach $pair (@pairs) {
-	
-		($name, $value) = split(/=/, $pair);
-		$value =~ tr/+/ /;
-		$value =~ s/%(..)/pack("C", hex($1))/eg;
-		
-		if ($value eq "none"){
-			$value = "";
-		}
-		
-		$FORM{$name} = $value;
-    }
-	return  %FORM;
-}
 1;
