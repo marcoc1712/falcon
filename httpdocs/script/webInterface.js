@@ -71,12 +71,21 @@ $(document).ready(function() {
            alert("something went wrong!");
         }
     }); 
+    // set event listeners.
+    document.getElementById("formSettings").onsubmit = function(event){ 
+
+         alert( "Handler for .onsubmit() called." );
+         global_needRestart=1;
+         document.formSettings.action="/cgi-bin/saveSettings.pl";
+         document.formSettings.submit();
+
+    };
     document.getElementById('submitSettings').onclick = function(){
 
             //alert( "submit button pressed." );
             document.formSettings.action="/cgi-bin/saveSettings.pl";
             global_needRestart =1;
-            document.formSettings.submit();;
+           // document.formSettings.submit();;
     }
 
     document.getElementById('savePreset').onclick = function(){
@@ -84,20 +93,20 @@ $(document).ready(function() {
             //alert( "save preset button pressed." );
             document.formSettings.action="/cgi-bin/savePreset.pl";
             global_needRestart=0;
-            document.formSettings.submit();
+           // document.formSettings.submit();
 
     }
     document.getElementById('loadPreset').onclick = function(){
             //alert( "load preset button pressed." );
             document.formSettings.action="/cgi-bin/loadPreset.pl";
             global_needRestart=0;
-            document.formSettings.submit();
+            //document.formSettings.submit();
     }
     document.getElementById('deletePreset').onclick = function(){
             //alert( "save preset button pressed." );
             document.formSettings.action="/cgi-bin/deletePreset.pl";
             global_needRestart=0;
-            document.formSettings.submit();;
+           // document.formSettings.submit();;
     }
 
     document.getElementById('audioDevice').onchange = function(){
