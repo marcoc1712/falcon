@@ -397,16 +397,16 @@ function loadPresets(errorCallback) {
 	});
     
 }
-function loadPreset(data){
+function loadPreset(data,errorCallback){
     
-    return loadSettingsData(data);
+    return loadSettingsData(data,errorCallback);
 }
 
 function loadSettings(errorCallback) {
     jQuery.getJSON("/cgi-bin/getJSONSettings.pl")
     .done(function(data) {
 
-       return loadSettingsData(data);
+       return loadSettingsData(data,errorCallback);
 
     })
     .fail(function() {
@@ -414,7 +414,7 @@ function loadSettings(errorCallback) {
             return 0;
     });
 }
-function loadSettingsData(data){
+function loadSettingsData(data,errorCallback){
     
     if (data.error) { 
 
