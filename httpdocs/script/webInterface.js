@@ -130,7 +130,6 @@ $(document).ready(function() {
         document.getElementById('preset').onpaste = function() {
                 presetChanged();
         };
-        
 	document.getElementById('logFile').onchange = function(){
 					
 		if (!document.getElementById("logFile").value){
@@ -275,19 +274,6 @@ window.onload = function() {
 
     init(); //load data.
 };
-
-function initErrorCallback(){
-    
-    document.getElementById("submitSettings").disabled = true;
-    document.getElementById("reloadSettings").disabled = true;
-    
-}
-function initOkCallback(){
-    
-    document.getElementById("submitSettings").disabled = false;
-    document.getElementById("reloadSettings").disabled = false;
-    
-}
 function init() {
 
     hide(document.getElementById('status'));
@@ -305,7 +291,6 @@ function init() {
     initOkCallback();
     return 1;
 }
-
 function presetChanged(){
     
     if (!document.getElementById("preset").value || document.getElementById("preset").value === ""){
@@ -317,6 +302,18 @@ function presetChanged(){
         enable("loadPreset",1);
         enable("deletePreset",1);
     }
+
+}
+function initErrorCallback(){
+    
+    document.getElementById("submitSettings").disabled = true;
+    document.getElementById("reloadSettings").disabled = true;
+    
+}
+function initOkCallback(){
+    
+    document.getElementById("submitSettings").disabled = false;
+    document.getElementById("reloadSettings").disabled = false;
     
 }
 
@@ -476,9 +473,78 @@ function loadSettingsData(data,errorCallback){
 }
 
 function loadStatus(errorCallback) {
-	jQuery.getJSON("/cgi-bin/getJSONStatus.pl")
-	.done(function(data) {
-            
+    jQuery.getJSON("/cgi-bin/getJSONStatus.pl")
+    .done(function(data) {
+
+        if (data.error) { 
+
+            console.log( data.error );
+            alert(data.error);
+            errorCallback();
+            return 0;
+        }
+
+        console.log( "success" );
+
+        var isR2version=0;
+        var isPathnameValid=0;
+
+        $.each( data, function( key, val ) {
+            console.log( key + " - " + val);
+
+            if (key === "isR2version")	{
+
+                            isR2version=1;	
+
+            }	else if (key === "isPathnameValid")	{
+
+                            isPathnameValid=1;
+
+            }	else {
+
+                    load(key,val);
+            }
+
+        });
+
+        if (! isPathnameValid){
+
+            document.getElementById("pathname").style.color="red";
+
+            if (!document.getElementById("pathname").value ||
+                 document.getElementById("pathname").value === ""){
+
+                document.getElementById("pathname").value="unknow";
+            }		
+        }	
+             enable('lmsDownsampling', 1 );	
+        if (! isR2version ){
+
+            document.getElementById("version").style.color="red";
+
+            if (!document.getElementById("version").value ||
+                 document.getElementById("version").value === ""){
+
+                document.getElementById("version").value="unknow (not R2)";
+                document.getElementById("lmsDownsampling").checked;
+                enable('lmsDownsampling', 0 );
+
+            }	
+        }	
+
+    })
+    .fail(function() {
+            console.log( "error" );
+    })
+    .always(function() {
+            console.log( "complete" );
+    });
+}
+
+function enableSettings(errorCallback) {
+    jQuery.getJSON("/cgi-bin/getJSONDisabled.pl")
+    .done(function(data) {
+
             if (data.error) { 
 
                 console.log( data.error );
@@ -486,144 +552,75 @@ function loadStatus(errorCallback) {
                 errorCallback();
                 return 0;
             }
-            
+
             console.log( "success" );
 
-            var isR2version=0;
-            var isPathnameValid=0;
+            // we need to enable all in order to see changes.
+
+            document.getElementById("shutdown").disabled = false;
+            document.getElementById("reboot").disabled = false;
+            document.getElementById("start").disabled = false;
+            document.getElementById("stop").disabled = false;
+            document.getElementById("restart").disabled = false;
+            document.getElementById("testAudioDevice").disabled = false;
+            document.getElementById("openLog").disabled = false;
+            document.getElementById("clearLog").disabled = false;
+            //
+            document.getElementById("autostart").disabled = false;
+            document.getElementById("allowReboot").disabled = false;
+            document.getElementById("allowShutdown").disabled = false;
+            document.getElementById("allowWakeOnLan").disabled = false;
 
             $.each( data, function( key, val ) {
-                console.log( key + " - " + val);
 
-                if (key === "isR2version")	{
-
-				isR2version=1;	
-
-                }	else if (key === "isPathnameValid")	{
-
-				isPathnameValid=1;
-
-                }	else {
-
-                        load(key,val);
-                }
+                    console.log( key + " - " + val);
+                    enable(key, (val ? 0 : 1));// we get only disabled.
 
             });
+            // save configuration settings :	
+            global_reboot = document.getElementById("reboot").disabled;
+            global_shutdown = document.getElementById("shutdown").disabled;
 
-            if (! isPathnameValid){
+            if (! document.getElementById("allowReboot").checked){
+                    document.getElementById("reboot").disabled = true;
+            }
+            if (! document.getElementById("allowShutdown").checked){
+                    document.getElementById("shutdown").disabled = true;
+            }
 
-                document.getElementById("pathname").style.color="red";
-
-                if (!document.getElementById("pathname").value ||
-                     document.getElementById("pathname").value === ""){
-
-                    document.getElementById("pathname").value="unknow";
-                }		
-            }	
-		 enable('lmsDownsampling', 1 );	
-            if (! isR2version ){
-
-                document.getElementById("version").style.color="red";
-
-                if (!document.getElementById("version").value ||
-                     document.getElementById("version").value === ""){
-
-                    document.getElementById("version").value="unknow (not R2)";
-                    document.getElementById("lmsDownsampling").checked;
-                    enable('lmsDownsampling', 0 );
-
-                }	
-            }	
-
-	})
-	.fail(function() {
-		console.log( "error" );
-	})
-	.always(function() {
-		console.log( "complete" );
-	});
-}
-
-function enableSettings(errorCallback) {
-	jQuery.getJSON("/cgi-bin/getJSONDisabled.pl")
-	.done(function(data) {
-            
-                if (data.error) { 
-                    
-                    console.log( data.error );
-                    alert(data.error);
-                    errorCallback();
-                    return 0;
-                }
-                
-		console.log( "success" );
-		
-		// we need to enable all in order to see changes.
-			
-		document.getElementById("shutdown").disabled = false;
-		document.getElementById("reboot").disabled = false;
-		document.getElementById("start").disabled = false;
-		document.getElementById("stop").disabled = false;
-		document.getElementById("restart").disabled = false;
-		document.getElementById("testAudioDevice").disabled = false;
-		document.getElementById("openLog").disabled = false;
-		document.getElementById("clearLog").disabled = false;
-		//
-		document.getElementById("autostart").disabled = false;
-		document.getElementById("allowReboot").disabled = false;
-		document.getElementById("allowShutdown").disabled = false;
-		document.getElementById("allowWakeOnLan").disabled = false;
-
-		$.each( data, function( key, val ) {
-
-			console.log( key + " - " + val);
-			enable(key, (val ? 0 : 1));// we get only disabled.
-
-		});
-		// save configuration settings :	
-		global_reboot = document.getElementById("reboot").disabled;
-		global_shutdown = document.getElementById("shutdown").disabled;
-		
-		if (! document.getElementById("allowReboot").checked){
-			document.getElementById("reboot").disabled = true;
-		}
-		if (! document.getElementById("allowShutdown").checked){
-			document.getElementById("shutdown").disabled = true;
-		}
-		
-	})
-	.fail(function() {
-		console.log( "error" );
-	})
-	.always(function() {
-		console.log( "complete" );
-	});
+    })
+    .fail(function() {
+            console.log( "error" );
+    })
+    .always(function() {
+            console.log( "complete" );
+    });
 }
 
 function hide (elements) {
-		elements = elements.length ? elements : [elements];
-		for (var index = 0; index < elements.length; index++) {
-			elements[index].style.display = 'none';
-		}
+    elements = elements.length ? elements : [elements];
+    for (var index = 0; index < elements.length; index++) {
+            elements[index].style.display = 'none';
+    }
 }
 
 function show (elements) {
-		elements = elements.length ? elements : [elements];
-		for (var index = 0; index < elements.length; index++) {
-			elements[index].style.display = 'block';
-		}
+    elements = elements.length ? elements : [elements];
+    for (var index = 0; index < elements.length; index++) {
+            elements[index].style.display = 'block';
+    }
 }
 function hideAll() {
-		hide(document.getElementById('status'));
-		hide(document.getElementById('settings'));
+    hide(document.getElementById('status'));
+    hide(document.getElementById('settings'));
 }
 
 function showSettings () {
-		hide(document.getElementById('status'));
-		show(document.getElementById('settings'));
+    hide(document.getElementById('status'));
+    show(document.getElementById('settings'));
 }
 
 function showStatus () {
-		hide(document.getElementById('settings'));
-		show(document.getElementById('status'));
+    hide(document.getElementById('settings'));
+    show(document.getElementById('status'));
 }
