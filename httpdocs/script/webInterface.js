@@ -105,7 +105,7 @@ $(document).ready(function() {
 
             alert( "dummy button pressed." );
             document.formSettings.action="";
-            global_needRestart =1;
+            global_needRestart =0;
     }
     document.getElementById('submitSettings').onclick = function(){
 
