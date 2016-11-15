@@ -25,7 +25,7 @@ var global_audiodevice=null;
 var global_preset=null;
 var global_reboot=0;
 var global_shutdown=0;
-var global_needRestart=0;
+var global_needRestart=0; //set to 1 to force restart after a submit.
 
 $(document).ready(function() {
     
@@ -71,202 +71,192 @@ $(document).ready(function() {
            alert("something went wrong!");
         }
     }); 
-	
-    // set event listeners.
-       /* document.getElementById("formSettings").onsubmit = function(event){ 
+    document.getElementById('submitSettings').onclick = function(){
 
-            //alert( "Handler for .onsubmit() called." );
-            //global_needRestart=0;
-            //document.formSettings.action="/cgi-bin/saveSettings.pl";
-            //document.formSettings.submit();
-            
-        };*/
-        document.getElementById('submitSettings').onclick = function(){
-            
-                //alert( "submit button pressed." );
-                document.formSettings.action="/cgi-bin/saveSettings.pl";
-                global_needRestart =1;
-                document.formSettings.submit();;
-	}
-        
-	document.getElementById('savePreset').onclick = function(){
-		
-                //alert( "save preset button pressed." );
-                document.formSettings.action="/cgi-bin/savePreset.pl";
-                global_needRestart=0;
-                document.formSettings.submit();
-                
-	}
-        document.getElementById('loadPreset').onclick = function(){
-		//alert( "load preset button pressed." );
-                document.formSettings.action="/cgi-bin/loadPreset.pl";
-                global_needRestart=0;
-                document.formSettings.submit();
-	}
-        document.getElementById('deletePreset').onclick = function(){
-		//alert( "save preset button pressed." );
-                document.formSettings.action="/cgi-bin/deletePreset.pl";
-                global_needRestart=0;
-                document.formSettings.submit();;
-	}
-        
-	document.getElementById('audioDevice').onchange = function(){
-		global_audiodevice= document.getElementById('audioDevice').value;
-	};
-	document.getElementById('presets').onchange = function(){
-                global_preset= document.getElementById('presets').value;
-                document.getElementById('preset').value = global_preset;
-                presetChanged();
-	};
-        document.getElementById('preset').onchange = function(){		
-                presetChanged();			  
-	};
-        document.getElementById('preset').oninput = function() {
-                presetChanged();
-        };
-        document.getElementById('preset').onpropertychange = function() {
-                presetChanged();
-        };
-        document.getElementById('preset').onpaste = function() {
-                presetChanged();
-        };
-	document.getElementById('logFile').onchange = function(){
-					
-		if (!document.getElementById("logFile").value){
-				enable("openLog",0);
-				enable("clearLog",0);
-		} else{
-				enable("openLog",1);
-				enable("clearLog",1);
-		}				
-	};
-	document.getElementById('allowReboot').onchange = function(){
-		
-		if (! document.getElementById("allowReboot").checked){
-			
-			enable("reboot",0);
-			
-		} else{
-			
-			enable("reboot",!global_reboot);
-		}
-		
-	};
-	
-	document.getElementById('allowShutdown').onchange = function(){
-		
-		if (! document.getElementById("allowShutdown").checked) {
-			
-			enable("shutdown",0);
-			
-		} else{
-			
-			enable("shutdown",!global_shutdown);
-		}
-	};
-                
-	document.getElementById('reloadSettings').onclick = function(){
-		loadSettings();
-	}
-        
-        document.getElementById('testAudioDevice').onclick = function(){
-		window.open('/htm/testAudioDevice.html');
-	};
-        
-        document.getElementById('openLog').onclick = function(){
-		window.open('/htm/openLog.html');
-	};
-        
-	document.getElementById('clearLog').onclick = function(){
-		jQuery.get("/cgi-bin/clearLog.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
-		});		
-	};
+            //alert( "submit button pressed." );
+            document.formSettings.action="/cgi-bin/saveSettings.pl";
+            global_needRestart =1;
+            document.formSettings.submit();;
+    }
 
-	document.getElementById('start').onclick = function(){
-		jQuery.get("/cgi-bin/serviceStart.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
-                        loadStatus(initErrorCallback);
-		});
-	};
+    document.getElementById('savePreset').onclick = function(){
 
-	document.getElementById('stop').onclick = function(){
-		jQuery.get("/cgi-bin/serviceStop.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
-                        loadStatus(initErrorCallback);
-		});
-	};
+            //alert( "save preset button pressed." );
+            document.formSettings.action="/cgi-bin/savePreset.pl";
+            global_needRestart=0;
+            document.formSettings.submit();
 
-	document.getElementById('restart').onclick = function(){
-		jQuery.get("/cgi-bin/serviceRestart.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
-                        loadStatus(initErrorCallback);
-		});
-	};
-	document.getElementById('shutdown').onclick = function(){
-		jQuery.get("/cgi-bin/hwShutdown.pl")
-		.done(function(data) {
-			console.log( "success" );
-		})
-		.fail(function(data) {
-			console.log( "error" );
-			
-		})
-		.always(function(data) {
-			console.log( "complete" );
-			alert(data);
-		});
-	};
+    }
+    document.getElementById('loadPreset').onclick = function(){
+            //alert( "load preset button pressed." );
+            document.formSettings.action="/cgi-bin/loadPreset.pl";
+            global_needRestart=0;
+            document.formSettings.submit();
+    }
+    document.getElementById('deletePreset').onclick = function(){
+            //alert( "save preset button pressed." );
+            document.formSettings.action="/cgi-bin/deletePreset.pl";
+            global_needRestart=0;
+            document.formSettings.submit();;
+    }
 
-	document.getElementById('reboot').onclick = function(){
-		jQuery.get("/cgi-bin/hwReboot.pl")
-		.done(function(data) {
-			console.log( "success but reboot failed..." );
-			// reboot failed
-			alert(data);
-		})
-		.fail(function(data) {
-			console.log( "error, but reboot succeded" );
-			// reboot succedeed...
-			alert("system is rebooting, please wait some time, then refresh the page");
-			
-		})
-		.always(function(data) {
-			console.log( "complete" );
-		});
-	};
+    document.getElementById('audioDevice').onchange = function(){
+            global_audiodevice= document.getElementById('audioDevice').value;
+    };
+    document.getElementById('presets').onchange = function(){
+            global_preset= document.getElementById('presets').value;
+            document.getElementById('preset').value = global_preset;
+            presetChanged();
+    };
+    document.getElementById('preset').onchange = function(){		
+            presetChanged();			  
+    };
+    document.getElementById('preset').oninput = function() {
+            presetChanged();
+    };
+    document.getElementById('preset').onpropertychange = function() {
+            presetChanged();
+    };
+    document.getElementById('preset').onpaste = function() {
+            presetChanged();
+    };
+    document.getElementById('logFile').onchange = function(){
+
+            if (!document.getElementById("logFile").value){
+                            enable("openLog",0);
+                            enable("clearLog",0);
+            } else{
+                            enable("openLog",1);
+                            enable("clearLog",1);
+            }				
+    };
+    document.getElementById('allowReboot').onchange = function(){
+
+            if (! document.getElementById("allowReboot").checked){
+
+                    enable("reboot",0);
+
+            } else{
+
+                    enable("reboot",!global_reboot);
+            }
+
+    };
+
+    document.getElementById('allowShutdown').onchange = function(){
+
+            if (! document.getElementById("allowShutdown").checked) {
+
+                    enable("shutdown",0);
+
+            } else{
+
+                    enable("shutdown",!global_shutdown);
+            }
+    };
+
+    document.getElementById('reloadSettings').onclick = function(){
+            loadSettings();
+    }
+
+    document.getElementById('testAudioDevice').onclick = function(){
+            window.open('/htm/testAudioDevice.html');
+    };
+
+    document.getElementById('openLog').onclick = function(){
+            window.open('/htm/openLog.html');
+    };
+
+    document.getElementById('clearLog').onclick = function(){
+            jQuery.get("/cgi-bin/clearLog.pl")
+            .done(function(data) {
+                    console.log( "success" );
+            })
+            .fail(function(data) {
+                    console.log( "error" );
+            })
+            .always(function(data) {
+                    console.log( "complete" );
+                    alert(data);
+            });		
+    };
+
+    document.getElementById('start').onclick = function(){
+            jQuery.get("/cgi-bin/serviceStart.pl")
+            .done(function(data) {
+                    console.log( "success" );
+            })
+            .fail(function(data) {
+                    console.log( "error" );
+            })
+            .always(function(data) {
+                    console.log( "complete" );
+                    alert(data);
+                    loadStatus(initErrorCallback);
+            });
+    };
+
+    document.getElementById('stop').onclick = function(){
+            jQuery.get("/cgi-bin/serviceStop.pl")
+            .done(function(data) {
+                    console.log( "success" );
+            })
+            .fail(function(data) {
+                    console.log( "error" );
+            })
+            .always(function(data) {
+                    console.log( "complete" );
+                    alert(data);
+                    loadStatus(initErrorCallback);
+            });
+    };
+
+    document.getElementById('restart').onclick = function(){
+            jQuery.get("/cgi-bin/serviceRestart.pl")
+            .done(function(data) {
+                    console.log( "success" );
+            })
+            .fail(function(data) {
+                    console.log( "error" );
+            })
+            .always(function(data) {
+                    console.log( "complete" );
+                    alert(data);
+                    loadStatus(initErrorCallback);
+            });
+    };
+    document.getElementById('shutdown').onclick = function(){
+            jQuery.get("/cgi-bin/hwShutdown.pl")
+            .done(function(data) {
+                    console.log( "success" );
+            })
+            .fail(function(data) {
+                    console.log( "error" );
+
+            })
+            .always(function(data) {
+                    console.log( "complete" );
+                    alert(data);
+            });
+    };
+
+    document.getElementById('reboot').onclick = function(){
+            jQuery.get("/cgi-bin/hwReboot.pl")
+            .done(function(data) {
+                    console.log( "success but reboot failed..." );
+                    // reboot failed
+                    alert(data);
+            })
+            .fail(function(data) {
+                    console.log( "error, but reboot succeded" );
+                    // reboot succedeed...
+                    alert("system is rebooting, please wait some time, then refresh the page");
+
+            })
+            .always(function(data) {
+                    console.log( "complete" );
+            });
+    };
 
 });
 
