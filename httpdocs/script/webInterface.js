@@ -74,7 +74,7 @@ $(document).ready(function() {
     // set event listeners.
     //document.getElementById("formSettings").onsubmit = function(event){ 
 
-         //alert( "Handler for .onsubmit() called." );
+         alert( "Handler for .onsubmit() called." );
          //global_needRestart=1;
          //document.formSettings.action="/cgi-bin/saveSettings.pl";
          //document.formSettings.submit();
@@ -102,7 +102,7 @@ $(document).ready(function() {
             //document.formSettings.submit();
     }
     document.getElementById('deletePreset').onclick = function(){
-            alert( "save preset button pressed." );
+            alert( "delete preset button pressed." );
             document.formSettings.action="/cgi-bin/deletePreset.pl";
             global_needRestart=0;
             document.formSettings.submit();;
