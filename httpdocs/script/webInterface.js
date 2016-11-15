@@ -77,7 +77,7 @@ $(document).ready(function() {
          alert( "Handler for .onsubmit() called." );
          global_needRestart=1;
          document.formSettings.action="/cgi-bin/saveSettings.pl";
-         document.formSettings.submit();
+         //document.formSettings.submit();
 
     };
     document.getElementById('submitSettings').onclick = function(){
