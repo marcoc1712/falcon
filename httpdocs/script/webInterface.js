@@ -101,9 +101,9 @@ $(document).ready(function() {
          //document.formSettings.action="/cgi-bin/saveSettings.pl";
          //document.formSettings.submit();
     //};
-   document.getElementById('dummy').onclick = function(){
+   document.getElementById('dummy').onclick = function(){ //catch the enter key press
 
-            alert( "dummy button pressed." );
+            //alert( "dummy button pressed." );
             document.formSettings.action="";
             global_needRestart =0;
             return false;
