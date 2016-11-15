@@ -26,7 +26,6 @@ var global_preset=null;
 var global_reboot=0;
 var global_shutdown=0;
 var global_needRestart=0; //set to 1 to force restart after a submit.
-var global_submitter= null;
 
 $(document).ready(function() {
     
@@ -73,45 +72,39 @@ $(document).ready(function() {
         }
     }); 
     // set event listeners.
-    document.getElementById("formSettings").onsubmit = function(event){ 
+    //document.getElementById("formSettings").onsubmit = function(event){ 
 
-         alert( "Handler for .onsubmit() called. submitter: " + global_submitter);
+         //alert( "Handler for .onsubmit() called. submitter: ");
          //global_needRestart=1;
          //document.formSettings.action="/cgi-bin/saveSettings.pl";
          //document.formSettings.submit();
-         global_submitter=null;
-    };
+    //};
     document.getElementById('submitSettings').onclick = function(){
 
-            alert( "submit button pressed." );
-            global_submitter = 'submitSettings';
+            //alert( "submit button pressed." );
             document.formSettings.action="/cgi-bin/saveSettings.pl";
             global_needRestart =1;
-           // document.formSettings.submit();;
     }
 
     document.getElementById('savePreset').onclick = function(){
 
-            alert( "save preset button pressed." );
-            global_submitter = 'savePreset';
+            //alert( "save preset button pressed." );
             document.formSettings.action="/cgi-bin/savePreset.pl";
             global_needRestart=0;
-           // document.formSettings.submit();
 
     }
     document.getElementById('loadPreset').onclick = function(){
-            alert( "load preset button pressed." );
-            global_submitter = 'loadPreset';
+        
+            //alert( "load preset button pressed." );
             document.formSettings.action="/cgi-bin/loadPreset.pl";
             global_needRestart=0;
-            //document.formSettings.submit();
+          
     }
     document.getElementById('deletePreset').onclick = function(){
-            alert( "delete preset button pressed." );
-            global_submitter = 'deletePreset';
+        
+            //alert( "delete preset button pressed." );
             document.formSettings.action="/cgi-bin/deletePreset.pl";
             global_needRestart=0;
-            document.formSettings.submit();;
     }
 
     document.getElementById('audioDevice').onchange = function(){
