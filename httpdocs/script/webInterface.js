@@ -27,6 +27,28 @@ var global_reboot=0;
 var global_shutdown=0;
 var global_needRestart=0; //set to 1 to force restart after a submit.
 
+window.onload = function() {
+
+    init(); //load data.
+};
+function init() {
+
+    hide(document.getElementById('status'));
+    enable("savePreset",0);
+    enable("loadPreset",0);
+    enable("deletePreset",0);
+    document.getElementById('preset').value = global_preset;
+                    
+    loadAudioDevices(initErrorCallback);
+    enableSettings(initErrorCallback);
+    loadSettings(initErrorCallback);
+    loadStatus(initErrorCallback);
+    loadPresets(initErrorCallback);
+
+    initOkCallback();
+    return 1;
+}
+
 $(document).ready(function() {
     
     $('#formSettings').ajaxForm({ 
@@ -79,6 +101,12 @@ $(document).ready(function() {
          //document.formSettings.action="/cgi-bin/saveSettings.pl";
          //document.formSettings.submit();
     //};
+   document.getElementById('dummy').onclick = function(){
+
+            alert( "dummy button pressed." );
+            document.formSettings.action="";
+            global_needRestart =1;
+    }
     document.getElementById('submitSettings').onclick = function(){
 
             //alert( "submit button pressed." );
@@ -267,27 +295,6 @@ $(document).ready(function() {
 
 });
 
-window.onload = function() {
-
-    init(); //load data.
-};
-function init() {
-
-    hide(document.getElementById('status'));
-    enable("savePreset",0);
-    enable("loadPreset",0);
-    enable("deletePreset",0);
-    document.getElementById('preset').value = global_preset;
-                    
-    loadAudioDevices(initErrorCallback);
-    enableSettings(initErrorCallback);
-    loadSettings(initErrorCallback);
-    loadStatus(initErrorCallback);
-    loadPresets(initErrorCallback);
-
-    initOkCallback();
-    return 1;
-}
 function presetChanged(){
     
     if (!document.getElementById("preset").value || document.getElementById("preset").value === ""){
