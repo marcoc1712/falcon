@@ -75,7 +75,7 @@ $(document).ready(function() {
     // set event listeners.
     document.getElementById("formSettings").onsubmit = function(event){ 
 
-         alert( "Handler for .onsubmit() called. submitter: " + global_submitter.);
+         alert( "Handler for .onsubmit() called. submitter: " + global_submitter);
          //global_needRestart=1;
          //document.formSettings.action="/cgi-bin/saveSettings.pl";
          //document.formSettings.submit();
