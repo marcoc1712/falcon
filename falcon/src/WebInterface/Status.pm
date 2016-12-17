@@ -91,7 +91,7 @@ sub getAudioCardsHTML{
 			$key=$utils->trim($key);
 			$desc=$utils->trim($desc);
 	
-			if (substr($key,0,7) eq default){
+			if (substr($key,0,7) eq "default"){
 				
 				#add the hw: plugin to the device list.
 				$id=$id+1;
