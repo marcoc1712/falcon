@@ -85,20 +85,29 @@ sub getAudioCardsHTML{
 
     for my $dev (@devicelist){
 	
-	($key, $desc)= split /-/, $dev, 2;
+		($key, $desc)= split /-/, $dev, 2;
+
+		if ($key && $desc){
+			$key=$utils->trim($key);
+			$desc=$utils->trim($desc);
 	
-	if ($key && $desc){
-		
-		$key=$utils->trim($key);
-		$desc=$utils->trim($desc);
+			if (substr($key,0,7) eq default){
+				
+				#add the hw: plugin to the device list.
+				$id=$id+1;
+				my $dev = substr($key,8,length($key)-7);
+				my $hw = "hw".$dev;
+				my $text = $hw." - ".$desc;		
+				push @html, qq (<option value= "$hw"> "$text" </option>)."\n";
+			}
+			
+			$id=$id+1;
 
-		$id=$id+1;
-		
-		my $text = $key." - ".$desc;		
+			my $text = $key." - ".$desc;		
 
-		push @html, qq (<option value= "$key"> "$text" </option>)."\n";
-		$id=$id+1;
-	}
+			push @html, qq (<option value= "$key"> "$text" </option>)."\n";
+			$id=$id+1;
+		}
     }
     return \@html;
 }
