@@ -96,7 +96,7 @@ sub getAudioCardsHTML{
 				#add the hw: plugin to the device list.
 				$id=$id+1;
 				my $dev = substr($key,8,length($key)-7);
-				my $hw = "hw".$dev;
+				my $hw = "hw:".$dev;
 				my $text = $hw." - ".$desc;		
 				push @html, qq (<option value= "$hw"> "$text" </option>)."\n";
 			}
