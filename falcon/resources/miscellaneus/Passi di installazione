@@ -1,65 +1,89 @@
-QUESTA NON E' UNA GUIDA ALL'INSTALLAZIONE, MA UN PROMEMORIA PER L'INTEGRAZIONE.
+QUESTA NON E' UNA GUIDA ALL'INSTALLAZIONE, MA UN PROMEMORIA PER L'INTEGRAZIONE
+DESTINATA AD AMMINISTRATORI DI SISTEMA O A MANUTENTORI DI DISTRIBUZIONI OVE
+FALCON NON SIA ANCORA SUPPORTATO.
 
-A. PREREQUISTI:
+TRA [] E' RIPORTATO LO STATO DI IMPLEMENTAZIONE CORRENTE PER LE PIATTAFORME 
+SUPPORTATE DIRETTAMENTE:
 
-1. Installare un qualsiasi web server con supporto alle CGI.  Qui si presume che l'utente sia www-data, se diverso operare
-   le necessarie variazioni a quanto segue. [se non presente viene istallato Apache2 o lightdp]
+- DEBIAN
+- GENTOO
 
-2. la cartella home del sito è: <cartella www> /falcon/httpdocs, quindi in linux normalmente /var/www/falcon/httpdocs.
-[impostato automaticamente nei rispettivi files di configurazione]
-3. la cartella cgi-bin, cui bisogna crere l'alias per il web server, è ../cgi-bin, cioè /var/www/falcon/cgi-bin.
-[impostato automaticamente nei rispettivi files di configurazione]
+A. PREREQUISITI:
 
-Questo è tutto quanto serve per impostare il web server (testato su apache e lighttpd, da verificare negli altri casi).
+1. Installare un qualsiasi web server con supporto alle CGI.  in questo documento 
+   si presume che l'utente sia www-data, se diverso operare le necessarie 
+   variazioni a quanto segue. 
 
-4. Assicurarsi di aver installato PERL
-5. Assicurarsi di aver installato git.
-6. Assicurarsi di aver creato  <cartella www> (/var/www)
-7. Assicurarsi di aver creato l'utente www-data
+   [se non presente viene istallato Apache2 o lightdp.]
+
+2. la cartella home del sito è: <cartella www> /falcon/httpdocs, quindi in linux 
+   normalmente /var/www/falcon/httpdocs.
+
+   [impostato automaticamente nei rispettivi files di configurazione]
+
+3. la cartella cgi-bin, cui bisogna crere l'alias per il web server nei files di
+   configurazione, è ../cgi-bin, cioè /var/www/falcon/cgi-bin.
+   
+   [impostato automaticamente nei rispettivi files di configurazione]
+
+Questo è tutto quanto serve per impostare il web server (testato ed automatico 
+su apache e lighttpd, da verificare negli altri casi).
+
+Ulteriori verifiche:
+
+4. Assicurarsi di aver installato PERL [no, si da per scontato]
+5. Assicurarsi di aver installato git. [fatto]
+6. Assicurarsi di aver creato  <cartella www> (/var/www) [fatto]
+7. Assicurarsi di aver creato l'utente www-data [fatto]
 
 B. INSTALLAZIONE falcon
-1. posizionarsi in /var/www e dare il comando: git clone https://github.com/marcoc1712/falcon.git
-2. assegnare la proprietà della cartella data a www-data (o altro user del web server) nel gruppo www-data, con privilegi di lettura e scrittura.
-2. nella cartella cgi-bin: chmod +x *.pl
-3. nella cartella exit: chmod +x *.pl
-4. nella cartella falcon/default/exit ed in tutte le sottocartelle: chmod +x *.pl
+1. posizionarsi in /var/www e dare il comando: 
+   git clone https://github.com/marcoc1712/falcon.git [fatto]
+2. assegnare la proprietà della cartella data a www-data nel gruppo www-data, 
+   con privilegi di lettura e scrittura. [fatto]
+2. nella cartella cgi-bin: chmod +x *.pl [fatto]
+3. nella cartella exit: chmod +x *.pl [fatto]
+4. nella cartella falcon/default/exit ed in tutte le sottocartelle: chmod +x *.pl [fatto]
 
 C. CONFIGURAZIONE
 
-1. copiare nella cartella data un file di configurazione adeguato (per debian configurato con easy audio setup 
-   esiste un file specifico in falcon/defaults/debiani386.conf) e rinominarlo in falcon.conf,
-   altrimenti il sistema ne creerà uno standard, che sarà da configurare manualmente.
+1. copiare nella cartella data un file di configurazione adeguato 
+   e rinominarlo in falcon.conf, altrimenti il sistema ne creerà uno standard, 
+   che sarà da configurare manualmente. [fatto]
 
-2. Assicurarsi di aver indicato il corretto pathname all'eseguibile di squeezelite e la correttezza delle locazioni
-   assegnate ai file di preferenze e PID (quest'ultimo non serve con debian impostato mediante easy audio steup), 
-   lasciarlo commentato.
+2. Assicurarsi di aver indicato il corretto pathname all'eseguibile di squeezelite, 
+   la correttezza delle locazioni assegnate ai file di preferenze e PID [fatto]
 
 C. PERSONALIZZAZIONE
 
-Se si utilizza un sistema Debian configurato da easy audio setup, la configurazione inpostata per copia del file standard 
-è sufficiente, verificare solo il punto relativo al test del dispositivo audio.
+Se si utilizza un sistema Debian configurato da easy audio setup, la configurazione 
+inpostata per copia del file standard è sufficiente, verificare solo il punto 
+relativo al test del dispositivo audio.
 
-1. confermare l'utilizzo delle exit standard (cartella falcon/defualt/exit/...) nel file di configurazione oppure
-   realizzare le proprie e posizionarle nella cartella exit. Per debian configurato con easy audio setup 
-   sono disponibili tutte le exit necessarie in falcon/default/Standard/Linux/Debian_ea e sono già puntate dal file 
-   di configurazione di cui sopra. Se si vuole modificarle o sostituirle, è bene copiarle in exit e modificare
-   il puntatore del file di configurazione.
+1. confermare l'utilizzo delle exit standard (cartella falcon/defualt/exit/...) 
+   nel file di configurazione oppure realizzare le proprie e posizionarle nella 
+   cartella exit. Per debian configurato con easy audio setup sono disponibili 
+   tutte le exit necessarie in falcon/default/Standard/Linux/Debian_ea e sono già 
+   puntate dal file di configurazione di cui sopra. Se si vuole modificarle o 
+   sostituirle, è bene copiarle in exit e modificare il puntatore del file di configurazione.
 
-2. Disabilitare le funzionalità indesiderate mediante l'opportuna voce in DISABLED (quelle disponibili sono già presenti, 
-   eventualmente commentate).
+2. Disabilitare le funzionalità indesiderate mediante l'opportuna voce in DISABLED 
+   (quelle disponibili sono già presenti, eventualmente commentate).
 
-3. Editare il file exit/testAudioDevice.pl ed inserire almeno la corrispondenza tra la scheda audio ed il comando da eseguire,
-   seguendo gli esempi già presenti.
+3. Editare il file exit/testAudioDevice.pl ed inserire almeno la corrispondenza 
+   tra la scheda audio ed il comando da eseguire, seguendo gli esempi già presenti.
 
    Porre molta attenzione alla sintassi.
 
-A questo punto, se si è proceduto correttamente, tutte le funzionalità del sistema saranno funzionanti, ma potrebbero retsituire
-errori dovuti all'impossibillità di accedere alle risorse del sistema.
+A questo punto, se si è proceduto correttamente, tutte le funzionalità del sistema 
+saranno funzionanti, ma potrebbero restituire errori dovuti all'impossibillità di 
+accedere alle risorse del sistema.
 
 D. Integrazione.
 
-Tutte le funzionalità di Falcon, sia da standard che personalizzate mediante exit, vengono eseguite dall'utente www-data 
-(o altro, in funzione da come si configura il web server).
+Tutte le funzionalità di Falcon, sia da standard che personalizzate mediante exit, 
+vengono eseguite dall'utente www-data (o altro, in funzione da come si configura 
+il web server).
 
 Perchè falcon possa funzionare è necessario che www-data possa:
 
@@ -68,37 +92,44 @@ b. eseguire il file squeezelite-r2 nella locazione indicata nel file di configur
 
 In assenza di queste due condizioni minime, falcon non funziona.
 
-Tutte le altre risorse vengono raggiunte tramite comandi mediati dal meccanismo delle exit, quindi l'amministrtaore 
-del sistema o il manutentore della distribuzione possono agire come meglio ritengono.
+Tutte le altre risorse vengono raggiunte tramite comandi mediati dal meccanismo 
+delle exit, quindi l'amministrtaore del sistema o il manutentore della 
+distribuzione possono agire come meglio ritengono.
 
-A seguire l'elenco delle risorse cui falcon richiede accesso per espletare le proprie funzioni:
+A seguire l'elenco delle risorse cui falcon richiede accesso per espletare le 
+proprie funzioni:
 
-c. riga di comando. La exit ReadCommandLine deve restituire l'attuale riga di comando, mentre saveCommandLine la riceve 
-   e si occupa di scriverla ove opportuno (i.e. etc/default/squeezelite in debian configurato con easetup).
+c. riga di comando. La exit ReadCommandLine deve restituire l'attuale riga di 
+   comando, mentre saveCommandLine la riceve e si occupa di scriverla ove 
+   oopportuno (i.e. etc/default/squeezelite in debian configurato con easetup).
    
-   Lo script 'standard' crea anche una copia del file originale, se riesce nella stessa cartella, altrimenti
-   come fault back in data.
+   Lo script 'standard' crea anche una copia del file originale, se riesce nella 
+   stessa cartella, altrimenti come fault back in data.
 
-	Ovviamnete, se non è garantito l'accesso in scrittura al file, falcon non potrà operare correttamente sui parametri.
+   Ovviamnete, se non è garantito l'accesso in scrittura al file, falcon non potrà 
+   operare correttamente sui parametri.
 
 d. file di preferenze.
 
-	falcon deve poter accedere in lettura e scrittura al file: squeezelite-R2.prefs, la cui posizione è indicata nel 
-	file di configurazione. In caso di problemi, usare la cartella data.
+   falcon deve poter accedere in lettura e scrittura al file: squeezelite-R2.prefs, 
+   la cui posizione è indicata nel file di configurazione. In caso di problemi, 
+   è poaaibile poaizionarlo nella cartella data.
 
 e. file di log.
 
-	falcon deve poter accedere in lettura e scrittura al file: falcon.log in var/log/falcon, in caso di problemi
-        passa a data.
+   falcon deve poter accedere in lettura e scrittura al file: falcon.log in 
+   var/log/falcon, in caso di problemi passa a data.
 
-	Il file di log di squezelite-R2 è indicato in linea di comando (quindi nelle preferenze) in caso di problemi
-	NON viene creato e cercando di accedervi si otterrà errore. Se non si vuole o può configurare correttamente l'accesso
-	alla cartella dei log, usare data, direttamente nei settings.
+   Il file di log di squezelite-R2 è indicato in linea di comando (quindi nelle 
+   preferenze) in caso di problemi NON viene creato e cercando di accedervi si 
+   otterrà errore. Se non si vuole o può configurare correttamente l'accesso
+   alla cartella dei log, usare data, direttamente nei settings.
 
 f. start/stop/restart/shutdown/reboot/autostart/wake on lan
-	
-	si basano su comandi del sistema operativo mediati dal meccanismo delle exit, se non si vuole aprirne l'accesso a
-	www-data evitando la comparsa di messaggi di errore, è preferibile disabilitarli in configurazione.
+
+   si basano su comandi del sistema operativo mediati dal meccanismo delle exit, 
+   se non si vuole aprirne l'accesso a www-data evitando la comparsa di messaggi 
+   di errore, è preferibile disabilitarli in configurazione.
 
 
 
