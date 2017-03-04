@@ -1,15 +1,21 @@
-A. Prerequisiti:
+QUESTA NON E' UNA GUIDA ALL'INSTALLAZIONE, MA UN PROMEMORIA PER L'INTEGRAZIONE.
+
+A. PREREQUISTI:
 
 1. Installare un qualsiasi web server con supporto alle CGI.  Qui si presume che l'utente sia www-data, se diverso operare
-   le necessarie variazioni a quanto segue.
+   le necessarie variazioni a quanto segue. [se non presente viene istallato Apache2 o lightdp]
 
-2. la cartella home del sito è: <cartella www> /falcon/httpdocs, quindi il linux normalmente /var/www/falcon/httpdocs.
+2. la cartella home del sito è: <cartella www> /falcon/httpdocs, quindi in linux normalmente /var/www/falcon/httpdocs.
+[impostato automaticamente nei rispettivi files di configurazione]
 3. la cartella cgi-bin, cui bisogna crere l'alias per il web server, è ../cgi-bin, cioè /var/www/falcon/cgi-bin.
+[impostato automaticamente nei rispettivi files di configurazione]
 
 Questo è tutto quanto serve per impostare il web server (testato su apache e lighttpd, da verificare negli altri casi).
 
 4. Assicurarsi di aver installato PERL
 5. Assicurarsi di aver installato git.
+6. Assicurarsi di aver creato  <cartella www> (/var/www)
+7. Assicurarsi di aver creato l'utente www-data
 
 B. INSTALLAZIONE falcon
 1. posizionarsi in /var/www e dare il comando: git clone https://github.com/marcoc1712/falcon.git
@@ -70,7 +76,7 @@ A seguire l'elenco delle risorse cui falcon richiede accesso per espletare le pr
 c. riga di comando. La exit ReadCommandLine deve restituire l'attuale riga di comando, mentre saveCommandLine la riceve 
    e si occupa di scriverla ove opportuno (i.e. etc/default/squeezelite in debian configurato con easetup).
    
-   Lo script 'dtandard' crea anche una copia del file originale, se riesce nella stessa cartella, altrimenti
+   Lo script 'standard' crea anche una copia del file originale, se riesce nella stessa cartella, altrimenti
    come fault back in data.
 
 	Ovviamnete, se non è garantito l'accesso in scrittura al file, falcon non potrà operare correttamente sui parametri.
@@ -83,10 +89,10 @@ d. file di preferenze.
 e. file di log.
 
 	falcon deve poter accedere in lettura e scrittura al file: falcon.log in var/log/falcon, in caso di problemi
-    passa a data.
+        passa a data.
 
 	Il file di log di squezelite-R2 è indicato in linea di comando (quindi nelle preferenze) in caso di problemi
-	NON viene creato e cercando di accedervi si otterrà errore. Se non si vuole7può configurare correttament el'accesso
+	NON viene creato e cercando di accedervi si otterrà errore. Se non si vuole o può configurare correttamente l'accesso
 	alla cartella dei log, usare data, direttamente nei settings.
 
 f. start/stop/restart/shutdown/reboot/autostart/wake on lan

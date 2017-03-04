@@ -38,6 +38,10 @@ function install_git(){
 }
 function clone_falcon(){
 
+        if [ ! -d '/var/www' ]; then
+		mkdir /var/www
+        fi
+
 	cd /var/www
 	git clone https://github.com/marcoc1712/falcon.git
 

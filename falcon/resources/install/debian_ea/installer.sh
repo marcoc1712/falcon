@@ -80,9 +80,8 @@ function additional_settings(){
 
     ## aggiunge www-data al gruppo audio, così da vedere tutti i dispositivi.
     adduser www-data audio
-    ### 
+ 
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
-    
     if [ ! -e '/etc/default/squeezelite.wbak' ]; then
         cp /etc/default/squeezelite /etc/default/squeezelite.wbak
     fi
@@ -108,7 +107,7 @@ function additional_settings(){
 
     ### Shutdown, bisogna essere root.                              -> visudo
     ### Reboot, bisogna essere root (?)                             -> visudo
-    ### Service xqueezelite (start,stop,restart) accesso negato.    -> visudo
+    ### Service squeezelite (start,stop,restart) accesso negato.    -> visudo
     ### update-rc.d (autostart) accesso negato                      -> visudo
     if [ -e '/etc/sudoers.d/falcon' ]; then
         rm /etc/sudoers.d/falcon
