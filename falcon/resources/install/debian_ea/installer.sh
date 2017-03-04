@@ -49,6 +49,7 @@ function install_falcon(){
 		chown www-data:www-data data
 
 		#set Falcon configuraton to DebianI386 default
+                chown www-data:www-data /var/www/falcon/falcon/default/conf/debianI386.conf
 		ln -s  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
 	fi
 
