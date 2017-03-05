@@ -39,6 +39,7 @@ function install_falcon(){
 	cd /var/www/falcon
 	if [ ! -d '/var/www/falcon/exit' ]; then
 		mkdir exit
+
 		ln -s /var/www/falcon/falcon/default/exit/Examples/setWakeOnLan.pl /var/www/falcon/exit/setWakeOnLan.pl 
 		ln -s /var/www/falcon/falcon/default/exit/Examples/testAudioDevice.pl /var/www/falcon/exit/testAudioDevice.pl 
 	fi
@@ -82,6 +83,9 @@ function additional_settings(){
     ## aggiunge www-data al gruppo audio, così da vedere tutti i dispositivi.
     adduser www-data audio
  
+    # correct  ìa previous version error.
+    chown www-data:www-data /var/www/falcon/falcon/default/conf/debianI386.conf
+
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     if [ ! -e '/etc/default/squeezelite.wbak' ]; then
         cp /etc/default/squeezelite /etc/default/squeezelite.wbak
