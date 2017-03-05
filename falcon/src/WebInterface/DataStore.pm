@@ -74,7 +74,7 @@ sub getError{
 
 sub _read{
     my $self 	= shift;
-    if (! -e $self->{file}) {
+    if ((! -e $self->{file}) || ! -r $self->{file}) {
 
         $self->{data}= $self->{default};
         $self->{error} = undef; 
