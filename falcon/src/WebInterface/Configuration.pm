@@ -420,6 +420,8 @@ sub _upgrade{
     # upgrade from pref file to pref folder and file.
     if (!$self->getPrefFolder() && $self->getPrefFile()){
         
+        $log->info("_upgrade: ".$self->getPrefFile());
+       
         my $file = $self->getPrefFile();
         my ($filename, $folder) = fileparse($file);
              

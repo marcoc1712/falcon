@@ -121,9 +121,7 @@ code{
 pre {
     display: block;
     font-family: "Courier", monospace; 
-	font-size: 12px; 
-    // white-space: pre;
-    // margin: 1em 0;
+    font-size: 12px; 
 } 
 .testo{
   min-width: 260px;

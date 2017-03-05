@@ -51,7 +51,8 @@ function install_falcon(){
 		mkdir data
 		chown www-data:www-data data
 
-		#set Falcon configuraton to DebianI386 default
+		#set Falcon configuraton to gentoo default
+                chown www-data:www-data /var/www/falcon/falcon/default/conf/gentoox86.conf
 		ln -s  /var/www/falcon/falcon/default/conf/gentoox86.conf  /var/www/falcon/data/falcon.conf
 	fi
 
@@ -92,6 +93,9 @@ function additional_settings(){
 
     usermod -g www-data -aG audio,squeezelite www-data
     
+    # correct a previous version mistake.
+    chown www-data:www-data /var/www/falcon/falcon/default/conf/gentoox86.conf
+
     ### 
     ### accesso in scrittura a etc/conf.d/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     

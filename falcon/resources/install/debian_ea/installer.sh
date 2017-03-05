@@ -83,7 +83,7 @@ function additional_settings(){
     ## aggiunge www-data al gruppo audio, così da vedere tutti i dispositivi.
     adduser www-data audio
  
-    # correct  ìa previous version error.
+    # correct a previous version mistake.
     chown www-data:www-data /var/www/falcon/falcon/default/conf/debianI386.conf
 
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
