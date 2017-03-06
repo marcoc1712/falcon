@@ -85,11 +85,6 @@ WEB INTERFACE and Controll application for an headless squeezelite
 
                             <br><br>
 
-                            <label for="supportsDOP">Supports DSD:</label>							
-                            <input type="checkbox" id="supportsDOP" name="supportsDOP" value="1"> <br>
-
-                            <br>
-
                             <label for="lmsDownsampling">LMS Downsample:</label>							
                             <input type="checkbox" id="lmsDownsampling" name="lmsDownsampling" value="1"> <br>
 
@@ -182,6 +177,20 @@ WEB INTERFACE and Controll application for an headless squeezelite
 
                         <br><br>
 
+                        <fieldset>
+                            <legend>Output </legend>
+                            <label for="supportsDOP">Supports DSD:</label>							
+                            <input type="checkbox" id="supportsDOP" name="supportsDOP" value="1"> <br>
+                            <label for="DsdFormats">Dsd Formats :</label>
+                            <select id="DsdFormats" 
+                                    name="DsdFormats" 
+                                    class="select">
+                                    <option value="none">Select</option>
+                            </select> 
+                        </fieldset>
+                        
+                        <br><br>
+                        
                         <fieldset>
                             <legend>Transition delay </legend>
                             <label for="fromPcmToPcm">PCM to PCM:</label>							
