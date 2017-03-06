@@ -117,8 +117,7 @@ sub getDsdFormatsHTML{
     my @formatlist = ();
     
     if  (_isDsdNativeCapalble){
-        if (!strcmp(fstr, "dop")) dsd_outfmt = DOP; 
-            @formatlist = ('disabled' 'DOP' 'u8' 'u16le' 'u32le' 'u16be' 'u32be' 'dop24' 'dop24_3' );
+        @formatlist = ('disabled' 'DOP' 'u8' 'u16le' 'u32le' 'u16be' 'u32be' 'dop24' 'dop24_3' );
     } else {
         @formatlist = ('disabled' 'DOP');
     } 
