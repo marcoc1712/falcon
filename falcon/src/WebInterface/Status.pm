@@ -116,7 +116,7 @@ sub getDsdFormatsHTML{
     
     my @formatlist = ();
     
-    if  (_isDsdNativeCapalble()){
+    if  ($self->_isDsdNativeCapalble()){
         @formatlist = ('disabled','DOP', 'u8', 'u16le', 'u32le', 'u16be', 'u32be', 'dop24', 'dop24_3' );
     } else {
         @formatlist = ('disabled', 'DOP');
@@ -133,10 +133,11 @@ sub getDsdFormatsHTML{
 }
 ####################################################################################################
 sub _isDsdNativeCapalble{
-    
-     if  (($self->getStatus()->{'isLinux'})&&
-          ($self->getStatus()->{'isAlsa'}) &&
-          ($self->getStatus()->{'isDSD'})){
+    my $self = shift;
+     
+    if  (($self->getStatus()->{'isLinux'})&&
+         ($self->getStatus()->{'isAlsa'}) &&
+         ($self->getStatus()->{'isDSD'})){
               
           return 1;
     }
