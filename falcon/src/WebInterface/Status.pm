@@ -312,7 +312,7 @@ sub _checkExecutable{
 
         #look for R2 version tag
         #if (lc($row) =~ /v1\.8\...\(r2\)/){
-        if (lc($row) =~ /v...\(r2\)/){
+        if (lc($row) =~ /v\...\(r2\)/){
 
              $self->getStatus()->{'version'} =substr($row,23,11);
              $self->getStatus()->{'isR2version'}=1;
