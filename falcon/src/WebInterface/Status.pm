@@ -123,10 +123,8 @@ sub getDsdFormatsHTML{
     } 
     
     my @html=();
-    my ($key, $desc, $opt);
-    my $id=0;
     
-    for my $dev (@formatlist){
+    for my $key (@formatlist){
 	
 		push @html, qq (<option value= "$key"> "$key" </option>)."\n";
     }
