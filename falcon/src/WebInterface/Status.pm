@@ -346,7 +346,7 @@ sub _checkExecutable{
             last;
         }
     }
-  for my $opt (split ' ',$self->getStatus()->{'buildOptions'}){
+    for my $opt (split ' ',$self->getStatus()->{'buildOptions'}){
         
         if ($opt eq "LINUX"){
              
@@ -361,8 +361,6 @@ sub _checkExecutable{
             
              $self->getStatus()->{'isAlsa'} =1;
         }
-    
-    return 1;
     }
 }
 1;
