@@ -348,7 +348,7 @@ sub _checkExecutable{
     }
     for my $opt (split ' ',$self->getStatus()->{'buildOptions'}){
        
-        $self->getStatus()->{$opt} =1;
+        $self->getStatus()->{'opts'}->{$opt} =1;
     }
 }
 1;
