@@ -346,7 +346,7 @@ sub _checkExecutable{
             last;
         }
     }
-    for split('',$self->getStatus()->{'buildOptions'});{
+  for my $opt (split ' ', $self->getStatus()->{'buildOptions'});{
         
         $self->getStatus()->{'LINUX'} =1;
         
