@@ -22,6 +22,7 @@
 */
 
 var global_audiodevice=null;
+var global_dsdformat=null;
 var global_preset=null;
 var global_reboot=0;
 var global_shutdown=0;
@@ -40,6 +41,7 @@ function init() {
     document.getElementById('preset').value = global_preset;
                     
     loadAudioDevices(initErrorCallback);
+    loadDsdFormats(initErrorCallback);
     enableSettings(initErrorCallback);
     loadSettings(initErrorCallback);
     loadStatus(initErrorCallback);
@@ -138,6 +140,9 @@ $(document).ready(function() {
 
     document.getElementById('audioDevice').onchange = function(){
             global_audiodevice= document.getElementById('audioDevice').value;
+    };
+    document.getElementById('dsdFormat').onchange = function(){
+            global_dsdformat= document.getElementById('dsdFormat').value;
     };
     document.getElementById('presets').onchange = function(){
             global_preset= document.getElementById('presets').value;
@@ -387,6 +392,16 @@ function loadAudioDevices(errorCallback) {
 		} 
 	});
     
+}function loadDsdFormats(errorCallback) {
+    
+	$("#dsdFornat").load('/cgi-bin/loadDsdFormats.pl', function(){
+	
+		if( ($('#dsdFornat').has('option').length > 0 ) && (global_dsdformat)){
+			 
+			document.getElementById('dsdFornat').value = global_dsdformat;
+		} 
+	});
+    
 }
 function loadPresets(errorCallback) {
     
@@ -438,6 +453,14 @@ function loadSettingsData(data,errorCallback){
             if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
 
                             document.getElementById('audioDevice').value = global_audiodevice;				  		
+            }
+        } else if (key === "dsdFormats"){
+
+            global_dsdformat= val;
+
+            if( ($('#dsdFormat').has('option').length > 0 ) && (global_dsdformat)){
+
+                            document.getElementById('dsdFormat').value = global_dsdformat;	
             }
         } else if (key === "presets"){
 

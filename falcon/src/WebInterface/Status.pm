@@ -111,8 +111,38 @@ sub getAudioCardsHTML{
     }
     return \@html;
 }
-
+sub getDsdFormatsHTML{
+    my $self = shift;
+    
+    my @formatlist = ();
+    
+    if  (_isDsdNativeCapalble){
+        if (!strcmp(fstr, "dop")) dsd_outfmt = DOP; 
+            @formatlist = ('disabled' 'DOP' 'u8' 'u16le' 'u32le' 'u16be' 'u32be' 'dop24' 'dop24_3' );
+    } else {
+        @formatlist = ('disabled' 'DOP');
+    } 
+    
+    my @html=();
+    my ($key, $desc, $opt);
+    my $id=0;
+    
+    for my $dev (@formatlist){
+	
+		push @html, qq (<option value= "$key"> "$key" </option>)."\n";
+    }
+}
 ####################################################################################################
+sub _isDsdNativeCapalble{
+    
+     if  (($self->getStatus()->{'isLinux'})&&
+          ($self->getStatus()->{'isAlsa'}) &&
+          ($self->getStatus()->{'isDSD'})){
+              
+          return 1;
+    }
+    return 0;
+}
 
 sub _init{
     my $self = shift;

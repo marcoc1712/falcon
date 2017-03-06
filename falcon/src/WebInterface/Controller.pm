@@ -185,6 +185,14 @@ sub getAudioCardsHTML{
 
     return $return;
 }
+sub getDsdFormatsHTML{
+    my $self = shift;
+    
+    my $return = $self->status()->getDsdFormatsHTML();
+    $self->{error}= $self->status()->getError();
+
+    return $return;
+}
 sub clearLogfile{
     my $self = shift;
     my $who = shift || "";
