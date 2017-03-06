@@ -346,17 +346,15 @@ sub _checkExecutable{
             last;
         }
     }
-    my @opts = split('',$self->getStatus()->{'buildOptions'});
-    for my $opt (@opts){
-
-        $opt=$utils->trim($opt);
-
-        #look for specific build optiona:
-        if (uc($opt) eq "DSD"){
+    for split('',$self->getStatus()->{'buildOptions'});{
+        
+        $self->getStatus()->{'LINUX'} =1;
+        
+        if ($_ eq "DSD"){
              
              $self->getStatus()->{'DSD'} =1;
              
-        } elsif (uc($opt) eq "ALSA"){
+        } elsif ($_ eq "ALSA"){
             
              $self->getStatus()->{'ALSA'} =1;
         }
