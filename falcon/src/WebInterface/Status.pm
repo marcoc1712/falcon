@@ -346,6 +346,21 @@ sub _checkExecutable{
             last;
         }
     }
+    my @opts = split('',$self->getStatus()->{'buildOptions'});
+    for my $opt (@opts){
+
+        $opt=$utils->trim($opt);
+
+        #look for specific build optiona:
+        if (uc($opt) eq "DSD"){
+             
+             $self->getStatus()->{'DSD'} =1;
+             
+        } elsif (uc($opt) eq "ALSA"){
+            
+             $self->getStatus()->{'ALSA'} =1;
+        }
+    
     return 1;
 }
 1;
