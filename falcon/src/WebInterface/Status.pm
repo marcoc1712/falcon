@@ -277,10 +277,81 @@ sub _initPathname{
     
     }
     if (! -x $squeezelitePath) {
+    
+        $self->{error}= "ERROR: could not execute $squeezelitePath";
+        return undef; 
+    
+    }
+    if ( $self->{error}) {return undef;}
+    
+     $self->getStatus()->{'isPathnameValid'} = '1';
+}
 
+sub _checkExecutable{
+    my $self = shift;
+    
+    my $squeezelitePath     = shift;
+
+    my @license = `$squeezelitePath -t`;
+
+    if (scalar(@license) == 0) {
+
+		# TODO check the eerror with a second call.
+		#To capture a command's STDERR but discard its STDOUT
+		#$output = `cmd 2>&1 1>/dev/null`;  
+	
+        $self->{error} = "ERROR unable to run $squeezelitePath -t";
+        return undef;
+    }
+
+     $self->getStatus()->{'copyrigth'} ="";
+
+    for my $row (@license){
+
+        $row=$utils->trim($row);
+
+        #look for R2 version tag
+        if (lc($row) =~ /v1\.8\...\(r2\)/){
+
+             $self->getStatus()->{'version'} =substr($row,23,11);
+             $self->getStatus()->{'isR2version'}=1;
+
+        }
+		while (length($row) > 80 ){
+				
+				my $join = $self->getStatus()->{'copyrigth'} eq "" ? "" : "\n";
+				$self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}.$join.substr($row,0,80);
+				$row = substr($row,80);
+		}
+		my $join = $self->getStatus()->{'copyrigth'} eq "" ? "" : "\n";
+		$self->getStatus()->{'copyrigth'} = $self->getStatus()->{'copyrigth'}.$join.$row;
+
+    }
+    my @help = `$squeezelitePath -?`;
+
+    if (scalar(@help) == 0) {
+
+        $self->{error} = "ERROR unable to run $squeezelitePath -?";
+        return undef;
+    }
+
+    for my $row (@help){
+
+        $row=$utils->trim($row);
+
+        #look for R2 build options
+        if (lc($row) =~ /^build options:/){
+
+             $self->getStatus()->{'buildOptions'} =substr($row,15);
+            last;
+        }
+    }
+  for my $opt (split ' ',$self->getStatus()->{'buildOptions'}){
+        
         if ($opt eq "LINUX"){
              
              $self->getStatus()->{'isLinux'} =1;
+             
         }
         if ($opt eq "DSD"){
              
