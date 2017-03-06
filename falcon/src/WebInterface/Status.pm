@@ -347,13 +347,14 @@ sub _checkExecutable{
         }
     }
     for my $opt (split ' ',$self->getStatus()->{'buildOptions'}){
-        
+       
+        $self->getStatus()->{$opt} =1;
+       
         if ($opt eq "LINUX"){
              
              $self->getStatus()->{'isLinux'} =1;
              
-        }
-        if ($opt eq "DSD"){
+        } elsif ($opt eq "DSD"){
              
              $self->getStatus()->{'isDsd'} =1;
              
