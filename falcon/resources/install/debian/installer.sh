@@ -49,11 +49,11 @@ function install_falcon(){
 		mkdir data
 		chown www-data:www-data data
 
-		#set Falcon configuraton to DebianI386 default
-                chown www-data:www-data /var/www/falcon/falcon/default/conf/debianI386.conf
-		ln -s  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
+		#set Falcon configuraton to debianI386 default
+		cp  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
+        chown www-data:www-data /var/www/falcon/data/falcon.conf
 	fi
-
+    
 	if [ ! -d '/var/log/falcon' ]; then
 		# create log directory
 		mkdir /var/log/falcon
@@ -83,8 +83,12 @@ function additional_settings(){
     ## aggiunge www-data al gruppo audio, così da vedere tutti i dispositivi.
     adduser www-data audio
  
-    # correct a previous version mistake.
-    chown www-data:www-data /var/www/falcon/falcon/default/conf/debianI386.conf
+    # corregge un errore di versioni precedenti.
+    if [ -L '/var/www/falcon/data/falcon.conf' ]; then
+        rm /var/www/falcon/data/falcon.conf
+        cp  /var/www/falcon/falcon/default/conf/debianI386.conf  /var/www/falcon/data/falcon.conf
+    fi
+    chown www-data:www-data /var/www/falcon/data/falcon.conf
 
     #verifica se squeezelite-R2 è stato installato con eaSetup, altrimenti reinstalla.
     if [ ! -e '/usr/bin/squeezelite' ] || [ ! -e '/etc/default/squeezelite' ] || 
