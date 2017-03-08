@@ -102,6 +102,8 @@ function additional_settings(){
     chown www-data:www-data /etc/default/squeezelite
     chmod g=rw /etc/default/squeezelite
 
+    systemctl daemon-reload
+
     ###
     ### accesso in scrittura al file di log ( ed eventualmente ai files di backup e rotazione,se la si vuole attivare).
     
