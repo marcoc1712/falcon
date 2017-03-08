@@ -339,7 +339,7 @@ sub _checkExecutable{
         $row=$utils->trim($row);
 
         #look for R2 version tag
-        #if (lc($row) =~ /v1\.8\...\(r2\)/){
+        #if (lc($row) =~ /v1\.8\...\(r2\)/){ #}
         if (lc($row) =~ /v\s*\d{1,2}\.\d{1,2}\.\d{1,2}\s*\(r2\)/){
  
             $self->getStatus()->{'version'} =substr($row, index(lc($row),$&), length($&));
@@ -379,5 +379,8 @@ sub _checkExecutable{
        
         $self->getStatus()->{'opts'}->{$opt} =1;
     }
+    
+    return 1;
+    
 }
 1;
