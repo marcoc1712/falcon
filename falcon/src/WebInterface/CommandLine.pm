@@ -227,7 +227,8 @@ sub _buildCommandLineFromPreferences{
 
                     $commandLine = $commandLine.$preferences->getItem('bufferSize').":";
                     $commandLine = $commandLine.$preferences->getItem('periodCount').":";
-                    $commandLine = $commandLine.$preferences->getItem('sampleFormat').":";
+                    $commandLine = $commandLine.($preferences->getItem('sampleFormat') ? 
+                                                    $preferences->getItem('sampleFormat') : "").":";
                     $commandLine = $commandLine.($preferences->getItem('useMmap') ? "1" : "0");
 
             } else {
