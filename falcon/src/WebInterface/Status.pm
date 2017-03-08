@@ -117,7 +117,7 @@ sub getDsdFormatsHTML{
     my @formatlist = ('disabled', 'DOP');
     
     if  ($self->_isDsdNativeCapalble()){
-        @formatlist = push(@formatlist, self->conf()->getDsdNatives());
+        @formatlist = push(@formatlist, $self->conf()->getDsdNatives());
     }
     
     my @html=();
