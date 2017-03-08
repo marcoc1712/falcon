@@ -132,9 +132,9 @@ sub getDsdFormatsHTML{
 sub _isDsdNativeCapalble{
     my $self = shift;
      
-    if  (($self->getStatus()->{'isLinux'})&&
-         ($self->getStatus()->{'isAlsa'}) &&
-         ($self->getStatus()->{'isDSD'})){
+    if  (($self->getStatus()->{'opts'}->{'LINUX'})&&
+         ($self->getStatus()->{'opts'}->{'ALSA'}) &&
+         ($self->getStatus()->{'opts'}->{'DSD'})){
               
           return 1;
     }
