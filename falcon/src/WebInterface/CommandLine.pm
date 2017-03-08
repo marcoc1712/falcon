@@ -134,7 +134,7 @@ sub _buildCommandLineFromPreferences{
     
     # $log->debug("supportsDOP: ".($preferences->getItem('supportsDOP') || 0));
     
-    my $dsdFormat= $preferences->getItem('dsdFormat') ?  $preferences->getItem('dsdFormat') : 'disabled':
+    my $dsdFormat= $preferences->getItem('dsdFormat') ?  $preferences->getItem('dsdFormat') : 'disabled';
     $log->debug("dsdFormat: ".$dsdFormat);
     
     if (!($preferences->getItem('dsdFormat') eq 'disabled' )){
@@ -414,7 +414,7 @@ sub _handleOption{
         
         if ($value) {
             
-            my ($delay,$dsdFormat,$error) = _checkDelayAndDsdFormat($value);
+            my ($delay, $dsdFormat, $error) = _checkDelayAndDsdFormat($value);
             
             if ($error){
                 
