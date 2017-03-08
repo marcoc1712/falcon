@@ -44,8 +44,7 @@ function clone_falcon(){
         
 	cd /var/www
 	git clone https://github.com/marcoc1712/falcon.git
-
-}
+   
 function pull_falcon(){
 
     cd /var/www/falcon

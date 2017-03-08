@@ -122,6 +122,11 @@ function additional_settings(){
     ### Reboot, bisogna essere root (?)                             -> visudo
     ### Service squeezelite (start,stop,restart) accesso negato.    -> visudo
     ### update-rc.d (autostart) accesso negato                      -> visudo
+
+    if [ ! -e '/etc/sudoers.d' ]; then
+        apt-get install sudo
+    fi
+
     if [ -e '/etc/sudoers.d/falcon' ]; then
         rm /etc/sudoers.d/falcon
     fi

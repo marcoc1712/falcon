@@ -52,7 +52,7 @@ function download_squeezelite_r2() {
     else
         
         wget "https://github.com/marcoc1712/squeezelite-R2/releases/download/v1.8.3-(R2)/squeezelite-R2-min-x86_64"
-        mv 'squeezelite-R2-min-i386' '/usr/bin/squeezelite-R2'
+        mv 'squeezelite-R2-min-x86_64' '/usr/bin/squeezelite-R2'
         
     fi 
 
