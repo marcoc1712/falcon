@@ -4,12 +4,12 @@
 #########################################################################
  
 # created at falcon install time
-# input commandline is: /usr/bin/squeezelite-R2 -n squeezelite-R2@squeezelite-R2@<hostname>
+# input commandline is: /usr/bin/squeezelite-R2 -n squeezelite-R2@<hostname>
  
 #########################################################################
 SL_NAME="squeezelite-R2@$(hostname -s)"
 SL_SOUNDCARD=""
-SB_EXTRA_ARGS=""
+SB_EXTRA_ARGS=" -a 100:3:: -b 4096:4096"
  
 #########################################################################
 # Original file (if there) has been saved as /etc/default/squeezelite.wbak.
