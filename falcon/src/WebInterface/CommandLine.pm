@@ -422,7 +422,7 @@ sub _handleOption{
                 $preferences->setItem('fromPcmToDOP',0 );
                 $preferences->setItem('dsdFormat','disabled' );
             
-            } else
+            } else {
             
                 if ($delay){
                     
