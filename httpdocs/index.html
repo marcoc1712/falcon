@@ -193,7 +193,7 @@ WEB INTERFACE and Controll application for an headless squeezelite
                             <legend>Transition delay </legend>
                             <label for="fromPcmToPcm">PCM to PCM:</label>							
                             <input type="number" id="fromPcmToPcm" name="fromPcmToPcm" min="0" step="1" value="0" required class="numero"> ms  <br>
-                            <label for="fromPcmToDOP">PCM to DOP:</label>							
+                            <label for="fromPcmToDOP">PCM to DSD:</label>							
                             <input type="number" id="fromPcmToDOP" name="fromPcmToDOP" min="0" step="1" value="0" required class="numero"> ms  <br>
                         </fieldset>
 
@@ -336,11 +336,6 @@ WEB INTERFACE and Controll application for an headless squeezelite
                     </div>
 
                     <div class="voce">
-                        <p> <strong>Support DOP:</strong>
-                            Output device supports DSD over PCM </p>
-                    </div>
-
-                    <div class="voce">
                         <p> <strong>LMS Downsample:</strong>
                             Allow squeezebox server to downsample if the sample rate is not supported. </p>
                         <p> WARNING: this will produce an error in LMS if codec is PCM.
@@ -382,9 +377,14 @@ WEB INTERFACE and Controll application for an headless squeezelite
                     </div>
 
                     <div class="voce">
+                        <p> <strong>Output DSD format:</strong>
+                            dsd otput is disabled, use DOP or a 'native' format </p>
+                    </div>
+
+                    <div class="voce">
                         <p>	<strong>Transition delay:</strong>
-                            optional delay when switching between different sample rates or between PCM and DoP in ms.</p>
-                        <p>	WARNING: require Sample rates to be declared and DOP support enabled </p>
+                            optional delay when switching between different sample rates or between PCM and DSD in ms.</p>
+                        <p>	WARNING: require Sample rates to be declared and DSD support enabled </p>
                     </div>
 
                     <div class="voce">

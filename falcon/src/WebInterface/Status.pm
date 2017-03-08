@@ -35,6 +35,8 @@ my $log;
 
 my $utils= WebInterface::Utils->new();
 
+my @dsdNatives = ('u8', 'u16le', 'u32le', 'u16be', 'u32be');
+ 
 sub new {
     my $class = shift;
     
@@ -114,13 +116,11 @@ sub getAudioCardsHTML{
 sub getDsdFormatsHTML{
     my $self = shift;
     
-    my @formatlist = ();
+    my @formatlist = ('disabled', 'DOP');
     
     if  ($self->_isDsdNativeCapalble()){
-        @formatlist = ('disabled','DOP', 'u8', 'u16le', 'u32le', 'u16be', 'u32be', 'dop24', 'dop24_3' );
-    } else {
-        @formatlist = ('disabled', 'DOP');
-    } 
+        @formatlist = push(@formatlist, @dsdNatives);
+    }
     
     my @html=();
     
