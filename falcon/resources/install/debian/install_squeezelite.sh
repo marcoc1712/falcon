@@ -42,14 +42,14 @@ function download_squeezelite_r2() {
         mv '/usr/bin/squeezelite-R2' '/usr/bin/squeezelite-R2.wbak'
     fi
 
-    arc="$(uname -m)"
+    arc="$(getconf LONG_BIT)"
 
-    if [ $arc == "i386" ]; then
+    if [ $arc == "32" ]; then
      
         wget "http://github.com/marcoc1712/squeezelite-R2/releases/download/v1.8.3-(R2)/squeezelite-R2-min-i386"
         mv 'squeezelite-R2-min-i386' '/usr/bin/squeezelite-R2'
 
-    elif[ $arc == "x86_64" ]; then
+    else
         
         wget "https://github.com/marcoc1712/squeezelite-R2/releases/download/v1.8.3-(R2)/squeezelite-R2-min-x86_64"
         mv 'squeezelite-R2-min-i386' '/usr/bin/squeezelite-R2'
