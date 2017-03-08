@@ -394,11 +394,11 @@ function loadAudioDevices(errorCallback) {
     
 }function loadDsdFormats(errorCallback) {
     
-	$("#dsdFornat").load('/cgi-bin/loadDsdFormats.pl', function(){
+	$("#dsdFormat").load('/cgi-bin/loadDsdFormats.pl', function(){
 	
-		if( ($('#dsdFornat').has('option').length > 0 ) && (global_dsdformat)){
+		if( ($('#dsdFormat').has('option').length > 0 ) && (global_dsdformat)){
 			 
-			document.getElementById('dsdFornat').value = global_dsdformat;
+			document.getElementById('dsdFormat').value = global_dsdformat;
 		} 
 	});
     
