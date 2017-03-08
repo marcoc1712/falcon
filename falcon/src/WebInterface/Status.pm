@@ -128,6 +128,7 @@ sub getDsdFormatsHTML{
 	
 		push @html, qq (<option value= "$key"> "$key" </option>)."\n";
     }
+    return \@html;
 }
 ####################################################################################################
 sub _isDsdNativeCapalble{
