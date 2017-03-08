@@ -70,12 +70,12 @@ function set_scripts_permissions(){
     #sets execution capability to all the scripts.
     chmod +x /var/www/falcon/cgi-bin/*.pl
     chmod +x /var/www/falcon/exit/*.pl
-    chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/Debian_ea/*.pl
-    chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/*.pl
+    chmod +x /var/www/falcon/falcon/default/exit/standard/linux/debian/*.pl
+    chmod +x /var/www/falcon/falcon/default/exit/standard/linux/*.pl
     chmod +x /var/www/falcon/falcon/default/exit/myOwn/*.pl
     chmod +x /var/www/falcon/falcon/default/exit/Examples/*.pl
     # 
-    chmod +x /var/www/falcon/falcon/resources/install/debian_ea/*.sh
+    chmod +x /var/www/falcon/falcon/resources/install/debian/*.sh
 
 }
 function additional_settings(){
@@ -85,6 +85,14 @@ function additional_settings(){
  
     # correct a previous version mistake.
     chown www-data:www-data /var/www/falcon/falcon/default/conf/debianI386.conf
+
+    #verifica se squeezelite-R2 è stato installato con eaSetup, altrimenti reinstalla.
+    if [ ! -e '/usr/bin/squeezelite' ] || [ ! -e '/etc/default/squeezelite' ] || 
+       [ ! -e '/etc/init.d/squeezelite' ]; then
+
+       /var/www/falcon/falcon/resources/install/debian/install_squeezelite.sh
+
+    fi
 
     ### accesso in scrittura a etc/default/squeezelite (ed eventualmente al backup da creare come /etc/default/squeezelite.wbak)
     if [ ! -e '/etc/default/squeezelite.wbak' ]; then
@@ -117,7 +125,7 @@ function additional_settings(){
     if [ -e '/etc/sudoers.d/falcon' ]; then
         rm /etc/sudoers.d/falcon
     fi
-    cp /var/www/falcon/falcon/resources/install/debian_ea/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
+    cp /var/www/falcon/falcon/resources/install/debian/systemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
     chown root:root /etc/sudoers.d/falcon 
     chmod 440 /etc/sudoers.d/falcon
 
@@ -135,7 +143,7 @@ function config_apache2(){
     else
         rm /etc/apache2/sites-available/000-default.conf
     fi 
-    cp /var/www/falcon/falcon/resources/install/WebServer/apache2/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
+    cp /var/www/falcon/falcon/resources/install/webServer/apache2/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
     ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
     #abilita le CGI
@@ -150,7 +158,7 @@ function config_lighttpd(){
     else
         rm /etc/lighttpd/lighttpd.conf
     fi 
-    mv /var/www/falcon/falcon/resources/install/WebServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
+    mv /var/www/falcon/falcon/resources/install/webServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
 }
 ##############################################################################
 ## MAIN

@@ -63,7 +63,7 @@ relativo al test del dispositivo audio.
 1. confermare l'utilizzo delle exit standard (cartella falcon/defualt/exit/...) 
    nel file di configurazione oppure realizzare le proprie e posizionarle nella 
    cartella exit. Per debian configurato con easy audio setup sono disponibili 
-   tutte le exit necessarie in falcon/default/Standard/Linux/Debian_ea e sono già 
+   tutte le exit necessarie in falcon/default/standard/linux/debian e sono già 
    puntate dal file di configurazione di cui sopra. Se si vuole modificarle o 
    sostituirle, è bene copiarle in exit e modificare il puntatore del file di configurazione.
 

@@ -72,8 +72,8 @@ function set_scripts_permissions(){
     #sets execution capability to all the scripts.
     chmod +x /var/www/falcon/cgi-bin/*.pl
     chmod +x /var/www/falcon/exit/*.pl
-    chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/gentoo_gallifrey/*.pl
-    chmod +x /var/www/falcon/falcon/default/exit/Standard/Linux/*.pl
+    chmod +x /var/www/falcon/falcon/default/exit/standard/linux/gentoo_gallifrey/*.pl
+    chmod +x /var/www/falcon/falcon/default/exit/standard/linux/*.pl
     chmod +x /var/www/falcon/falcon/default/exit/myOwn/*.pl
     chmod +x /var/www/falcon/falcon/default/exit/Examples/*.pl
     # 
@@ -132,7 +132,7 @@ function additional_settings(){
     if [ -e '/etc/sudoers.d/falcon' ]; then
        rm /etc/sudoers.d/falcon
     fi
-    cp /var/www/falcon/falcon/resources/install/gentoo_gallifrey/SystemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
+    cp /var/www/falcon/falcon/resources/install/gentoo_gallifrey/systemRoot/etc/sudoers.d/falcon /etc/sudoers.d/falcon
     chown root:root /etc/sudoers.d/falcon 
     chmod 440 /etc/sudoers.d/falcon
 
@@ -152,7 +152,7 @@ function config_lighttpd(){
     else
         rm /etc/lighttpd/lighttpd.conf
     fi 
-    cp /var/www/falcon/falcon/resources/install/WebServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
+    cp /var/www/falcon/falcon/resources/install/webServer/lighttpd/etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
 }
 ##############################################################################
 ## MAIN

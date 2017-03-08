@@ -63,5 +63,5 @@ else
     pull_falcon
 fi
 
-chmod +x /var/www/falcon/falcon/resources/install/debian_ea/installer.sh
-/var/www/falcon/falcon/resources/install/debian_ea/installer.sh
+chmod +x /var/www/falcon/falcon/resources/install/debian/installer.sh
+/var/www/falcon/falcon/resources/install/debian/installer.sh
