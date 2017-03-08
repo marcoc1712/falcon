@@ -1138,8 +1138,8 @@ sub _isDsdNativeFormatValid{
     my $val = shift;
     
     if (!$val){return 0;}
-    
-    my %params = map { $_ => 1 } @$conf->getDsdNatives();
+    my @dsd = $self->conf()->getDsdNatives();
+    my %params = map { $_ => 1 } @dsd;
     if($params{$val}) {return 1} 
     
     return 0;
