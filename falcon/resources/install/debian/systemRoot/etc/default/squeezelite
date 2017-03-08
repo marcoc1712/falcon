@@ -3,15 +3,13 @@
  
 #########################################################################
  
-# created at Mon Mar  6 21:13:06 2017
-# input commandline is: /usr/bin/squeezelite-R2 -n squeezelite-R2 -o hw:CARD=I82801AAICH,DEV=0 -x -C 1 -r 44100-192000 -a 100:3:16:1
+# created at falcon install time
+# input commandline is: /usr/bin/squeezelite-R2 -n squeezelite-R2@squeezelite-R2@<hostname>
  
 #########################################################################
- 
-SL_NAME="squeezelite-R2"
-SL_SOUNDCARD="hw:CARD=I82801AAICH,DEV=0"
-SB_EXTRA_ARGS=" -x -C 1 -r 44100-192000 -a 100:3:16:1"
+SL_NAME="squeezelite-R2@$(hostname -s)"
+SL_SOUNDCARD=""
+SB_EXTRA_ARGS=""
  
 #########################################################################
- 
-# Original file has been saved as /etc/default/squeezelite.wbak.
+# Original file (if there) has been saved as /etc/default/squeezelite.wbak.
