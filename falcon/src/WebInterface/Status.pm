@@ -126,7 +126,7 @@ sub getDsdFormatsHTML{
     
     for my $key (@formatlist){
 	
-		push @html, qq (<option value= "$key"> "$key" </option>)."\n";
+		push @html, qq (<option value= $key > $key </option>)."\n";
     }
     return \@html;
 }
