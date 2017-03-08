@@ -1138,7 +1138,7 @@ sub _isDsdNativeFormatValid{
     
     if (!$val){return 0;}
     
-    my %params = map { $_ => 1 } @dsdNatives;
+    my %params = map { $_ => 1 } $conf->getDsdNatives();
     if($params{$val}) {return 1} 
     
     return 0;

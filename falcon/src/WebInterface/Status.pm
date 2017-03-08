@@ -35,8 +35,6 @@ my $log;
 
 my $utils= WebInterface::Utils->new();
 
-my @dsdNatives = ('u8', 'u16le', 'u32le', 'u16be', 'u32be');
- 
 sub new {
     my $class = shift;
     
@@ -119,7 +117,7 @@ sub getDsdFormatsHTML{
     my @formatlist = ('disabled', 'DOP');
     
     if  ($self->_isDsdNativeCapalble()){
-        @formatlist = push(@formatlist, @dsdNatives);
+        @formatlist = push(@formatlist, self->conf()->getDsdNatives());
     }
     
     my @html=();

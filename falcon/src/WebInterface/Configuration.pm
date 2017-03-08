@@ -412,7 +412,11 @@ sub readCommandLine{
     }
     return undef;
 }
-
+sub getDsdNatives{
+    my @dsdNatives = ('u8', 'u16le', 'u32le', 'u16be', 'u32be');
+    
+    return @dsdNatives;
+}
 ####################################################################################################
 sub _upgrade{
     my $self = shift;
