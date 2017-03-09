@@ -137,18 +137,23 @@ sub _buildCommandLineFromPreferences{
     my $dsdFormat= $preferences->getItem('dsdFormat') ?  $preferences->getItem('dsdFormat') : 'disabled';
     $log->debug("dsdFormat: ".$dsdFormat);
     
-    if (!($preferences->getItem('dsdFormat') eq 'disabled' )){
+    if (! ($dsdFormat eq 'disabled' )){
 
         $commandLine = $commandLine." -D";       
 
+        if ($preferences->getItem('fromPcmToDOP') || !($preferences->getItem('dsdFormat') eq 'DOP' )){
+            
+             $commandLine = $commandLine." ";
+        }
+        
         if ($preferences->getItem('fromPcmToDOP')){
 
-                $commandLine = $commandLine." ".$preferences->getItem('fromPcmToDOP');
+                $commandLine = $commandLine.$preferences->getItem('fromPcmToDOP');
         } 
 
         if (!($preferences->getItem('dsdFormat') eq 'DOP' )){
 
-             $commandLine = $commandLine." : ".$preferences->getItem('dsdFormat');
+             $commandLine = $commandLine.":".$preferences->getItem('dsdFormat');
         }
     }        
 
