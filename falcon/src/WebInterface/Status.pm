@@ -118,7 +118,8 @@ sub getDsdFormatsHTML{
 
 if  ($self->_isDsdNativeCapalble()){
         
-        push  @formatlist, keys $self->conf()->getDsdNatives();
+        my $ref=$self->conf()->getDsdNatives();
+        push  @formatlist, keys %$ref;
     }
     
     my @html=();
