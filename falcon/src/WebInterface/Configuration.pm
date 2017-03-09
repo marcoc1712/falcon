@@ -415,7 +415,7 @@ sub readCommandLine{
 sub getDsdNatives{
     my @dsdNatives = ('u8', 'u16le', 'u32le', 'u16be', 'u32be');
     my %out = map { $_ => 1 } @dsdNatives;
-    return \%out;
+    return %out;
 }
 ####################################################################################################
 sub _upgrade{
