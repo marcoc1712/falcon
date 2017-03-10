@@ -29,9 +29,11 @@ use utf8;
 
 use constant ISWINDOWS    => ( $^O =~ /^m?s?win/i ) ? 1 : 0;
 use constant ISMAC        => ( $^O =~ /darwin/i ) ? 1 : 0;
+use constant ISLINUX      => ( $^O =~ /linux/i ) ? 1 : 0;
 
-printf $^O;
-printf ISWINDOWS ? "windows" : ISMAC ? 'mac' : 'linux';
+printf $^O."\n";
+printf (ISWINDOWS ? 'windows' : ISMAC ? 'mac' : ISLINUX ? 'linux' : 'unknown')."\n";
+printf ISWINDOWS ? "windows" : ISMAC ? 'mac' : 'linux'."\"
 
 
 1;
