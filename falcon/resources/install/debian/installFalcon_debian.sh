@@ -20,7 +20,7 @@
 #
 ################################################################################
 #
-# Install falcon over a Debian 8.3 with squeezelite already installed via easetup.sh
+# Install falcon over a Debian compatible system.
 #
 ################################################################################
 

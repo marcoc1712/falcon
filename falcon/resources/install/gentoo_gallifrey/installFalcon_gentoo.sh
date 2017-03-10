@@ -20,9 +20,7 @@
 #
 ################################################################################
 #
-# Install falcon over a gentoo x86_64 with squeezelite-R2 already installed via the 
-# ebuild in gallifrey overlay : 
-# https://raw.githubusercontent.com/fedeliallalinea/gallifrey/master/repositories.xml
+# Install falcon over a gentoo system.
 #
 ################################################################################
 
