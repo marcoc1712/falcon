@@ -25,7 +25,7 @@ use strict;
 use warnings;
 use utf8;
 
-use Data::Dump qw(dump pp);
+#use Data::Dump qw(dump pp);
 
 use constant ISWINDOWS    => ( $^O =~ /^m?s?win/i ) ? 1 : 0;
 use constant ISMAC        => ( $^O =~ /darwin/i ) ? 1 : 0;
