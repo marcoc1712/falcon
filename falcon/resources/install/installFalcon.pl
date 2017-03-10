@@ -31,9 +31,9 @@ use constant ISWINDOWS    => ( $^O =~ /^m?s?win/i ) ? 1 : 0;
 use constant ISMAC        => ( $^O =~ /darwin/i ) ? 1 : 0;
 use constant ISLINUX      => ( $^O =~ /linux/i ) ? 1 : 0;
 
-printf $^O."\n";
-printf (ISWINDOWS ? 'windows' : ISMAC ? 'mac' : ISLINUX ? 'linux' : 'unknown')."\n";
-printf ISWINDOWS ? "windows" : ISMAC ? 'mac' : 'linux'."\"
+print $^O."\n";
+print ISWINDOWS ? 'windows' : ISMAC ? 'mac' : ISLINUX ? 'linux' : 'unknown', "\n";
+print ISWINDOWS ? "windows" : ISMAC ? 'mac' : 'linux', "\n";
 
 
 1;
