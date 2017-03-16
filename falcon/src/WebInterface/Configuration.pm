@@ -389,6 +389,7 @@ sub readCommandLine{
     my $self = shift;
 
     my @rows = $self->_runExit('readCommandLine');
+    die;
     my $result = $self->_getExitResult(\@rows);
     
     if ( $result->{'status'} eq "DONE"){
