@@ -39,7 +39,6 @@ function install_falcon(){
 	cd /var/www/falcon
 	if [ ! -d '/var/www/falcon/exit' ]; then
 		mkdir exit
-
 		ln -s /var/www/falcon/falcon/default/exit/Examples/setWakeOnLan.pl /var/www/falcon/exit/setWakeOnLan.pl 
 		ln -s /var/www/falcon/falcon/default/exit/Examples/testAudioDevice.pl /var/www/falcon/exit/testAudioDevice.pl 
 	fi

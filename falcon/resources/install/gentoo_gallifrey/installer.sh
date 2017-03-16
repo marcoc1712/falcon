@@ -139,7 +139,7 @@ function additional_settings(){
 }
 function install_lighttpd(){
 
-     emerge -n lightpd
+     emerge -n lighttpd
      mkdir /var/log/lighttpd
      chown www-data:root /var/log/lighttpd
 
