@@ -390,11 +390,10 @@ sub readCommandLine{
 
     my @rows = $self->_runExit('readCommandLine');
     
-    print join "\n", @rows;
+    print $self->{error};
     die;
     
     my $result = $self->_getExitResult(\@rows);
-    
 
     if ( $result->{'status'} eq "DONE"){
 
@@ -451,9 +450,6 @@ sub _runExit{
 	my $script= $self->get()->{$exit};
     
     if (! $self->_checkScript($script)){return undef;}
-	
-    print $script;
-    die;
     
 	my $command;
 	
