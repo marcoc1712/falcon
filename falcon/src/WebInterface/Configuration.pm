@@ -449,8 +449,12 @@ sub _runExit{
 	
 	$self->{error}=undef;
 	my $script= $self->get()->{$exit};
-	if (! $self->_checkScript($script)){return undef;}
+    
+    if (! $self->_checkScript($script)){return undef;}
 	
+    print $script;
+    die;
+    
 	my $command;
 	
 	if ($options){
