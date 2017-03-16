@@ -6,5 +6,6 @@
 #
 
 use strict;
+use WebInterface::Configuration;
 
- WebInterface::Configuration->new();
+WebInterface::Configuration->new();
