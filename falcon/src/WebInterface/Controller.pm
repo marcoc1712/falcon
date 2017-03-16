@@ -82,8 +82,8 @@ sub getSettings {
     my $return = $self->settings()->getSettings();
     $self->{error}= $self->settings()->getError();
     
-    #my $return = undef;
-    #$self->{error}= "ERROR: testo di prova";
+    my $return = undef;
+    $self->{error}= "ERROR: testo di prova";
     
     return $return;
    
