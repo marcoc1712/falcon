@@ -39,10 +39,9 @@ sub new {
     $log= Log::Log4perl->get_logger("controller");
     
     my $conf        = WebInterface::Configuration->new();
-    die;
     my $settings    = WebInterface::Settings->new();
     my $status      = WebInterface::Status->new();
-
+die;
     my $self = bless {
                 conf => $conf,
                 settings => $settings,
