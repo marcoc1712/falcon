@@ -52,6 +52,8 @@ sub decode{
     my $out;
 
     if (! $json_txt && !$json_txt eq '') {return undef;}
+    print $json_txt;
+    die;
     my $data = decode_json $json_txt;
     
     return $data;
