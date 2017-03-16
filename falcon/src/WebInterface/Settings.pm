@@ -53,9 +53,9 @@ sub new {
         $commandLine = WebInterface::CommandLine->new($prefs);
 
     } else {
-        
-		my $commandLineText=$conf->readCommandLine();
         die;
+		my $commandLineText=$conf->readCommandLine();
+        
 		$error = $conf->getError();
 		
 		$log->info($commandLineText);
