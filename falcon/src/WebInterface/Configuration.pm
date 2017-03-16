@@ -389,9 +389,10 @@ sub readCommandLine{
     my $self = shift;
 
     my @rows = $self->_runExit('readCommandLine');
-    die;
     my $result = $self->_getExitResult(\@rows);
     
+    print join "\n", @rows;
+    die;
     if ( $result->{'status'} eq "DONE"){
 
         my $data = $result->{'data'};
