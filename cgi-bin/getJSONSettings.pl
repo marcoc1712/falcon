@@ -45,7 +45,6 @@ use WebInterface::Utils;
 
 my $controller = WebInterface::Controller->new();
 my $utils = WebInterface::Utils->new();
-die;
 
 my $result= $controller->getSettings();
 my $error = $controller->getError();
