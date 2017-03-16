@@ -42,6 +42,7 @@ sub new {
     $log = Log::Log4perl->get_logger("settings");
 
     my $conf = WebInterface::Configuration->new();
+    die;
     my $prefs;
     my $commandLine;
     my $error;

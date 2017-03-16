@@ -40,7 +40,6 @@ sub new {
     
     my $conf        = WebInterface::Configuration->new();
     my $settings    = WebInterface::Settings->new();
-    die;
     my $status      = WebInterface::Status->new();
 
     my $self = bless {
