@@ -104,7 +104,7 @@ sub getAutostart {
 
         print scalar @$data;
         print "\n";
-        print $$data[0;
+        print $$data[0];
         print "\n";
         print  ($$data[0]  =~ /^on+$/) ? "SI" : "NO";
         print "\n";
@@ -123,9 +123,7 @@ sub getAutostart {
 			return 0;
 		}
 	}
-    
 
-        
 	$self->{error}=$result->{'status'};
 	$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
 
