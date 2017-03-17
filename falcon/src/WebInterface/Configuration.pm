@@ -101,20 +101,23 @@ sub getAutostart {
 	if ($result->{'data'}){
         
         my $data =  $result->{'data'};
-        
-        use Data::Dumper qw(Dumper);
-        print Dumper($data);
-        die;
 
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
-
+            
+            print "TROVATO";
 			return 1;
 		}
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^off+$/)){
 
+             print "NON TROVATO";
 			return 0;
 		}
-	} 
+	}
+    
+    use Data::Dumper qw(Dumper);
+    print Dumper($data);
+    die;
+        
 	$self->{error}=$result->{'status'};
 	$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
 
