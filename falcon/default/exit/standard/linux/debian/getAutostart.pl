@@ -47,33 +47,84 @@ $out->{'data'}=\@data;
 #tobe converted in JSON format and printed out.
 
 #here the command to be executed;
-my $command= "/sbin/chkconfig squeezelite";
+#my $command= "/sbin/chkconfig squeezelite";
+my $command = qq(ls -l /etc/rc?.d/*squeezelite);
 
 #command execution;
 my @rows = `$command 2>&1`;
+my $err=$?;
 
 #result validation
-validateResult(\@rows);
+validateResult($err, \@rows);
 
 sub validateResult{
-	my $result = shift;
+	my $err = shift;
+    my $result = shift;
 	
 	#here your validation code.
 	
-	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
+    my %rc;
+
+    if ($err){
+
+        $out->{'status'}='error';
+
+    } elsif (scalar @answ == 7){
+
+        for my $rc (@answ){
+
+            my $str= trim($rc);
+            my $ind=(index($str, "/etc/rc"));
+
+            my $lev= substr($str,$ind+7,1);
+            $str= substr($str,length($str)-$ind);
+
+            my $end=index($str, "squeezelite -> ../init.d/squeezelite");
+
+            if ($end ge 3){
+
+                my $act  = substr($str,0,1);
+                my $prio = substr($str,1,$end-1);
+
+                if (($lev ge 0 && $lev le 6) &&
+                    ($act eq "S" || $act eq "K") &&
+                    ($prio ge 0 && $prio le 100)){
+
+                    $rc{$lev}{'act'}=$act;
+                    $rc{$lev}{'prio'}=$prio;
+
+                    next;
+                }
+                $out->{'status'}='warning';
+            }
+        }
+
+    } else {
+
+        $out->{'status'}='warning';
+    }
+
+    if (($rc{2} && $rc{2}{'act'} eq "S") ||
+        ($rc{3} && $rc{3}{'act'} eq "S") || 
+        ($rc{4} && $rc{4}{'act'} eq "S") ||
+        ($rc{5} && $rc{5}{'act'} eq "S")){
+
+        $out->{'status'}='ok';
+        @data=('on');
+        
+    } else{
+        
+        $out->{'status'}='warning';
+        @data=('off');
+    }
+
+    my $message="";
+    for my $row (@$result){
+		
+        $message= $message.trim($row);
+    }
+    $out->{'message'}=$message;
 	
-		my $str = trim(substr(trim($$result[0]),11));
-		push @data, $str;
-		
-	} else {
-		my $message="";
-		for my $row (@$result){
-		
-			$message= $message.trim($row);
-		}
-		$out->{'status'}='warning';
-		$out->{'message'}=$message;
-	}
 	printJSON($out);
 }
 ###############################################################################

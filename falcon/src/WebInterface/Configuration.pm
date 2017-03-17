@@ -101,6 +101,9 @@ sub getAutostart {
 	if ($result->{'data'}){
 
 		my $data =  $result->{'data'};
+        
+        print $$data[0];
+        die;
 
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
 
@@ -116,7 +119,7 @@ sub getAutostart {
 
 	if ( $result->{'message'}){
 
-		$self->{error}=$result->{'message'};
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
 	return undef;
 }
