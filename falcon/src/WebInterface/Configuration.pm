@@ -99,7 +99,7 @@ sub getAutostart {
 	my $result = $self->_getExitResult(\@rows);
    
    use Data::Dumper qw(Dumper);
-   print Dumper($result)
+   print Dumper($result);
    die;
     
 	if ($result->{'data'}){
