@@ -101,25 +101,13 @@ sub getAutostart {
 	if ($result->{'data'}){
         
         my $data =  $result->{'data'};
-
-        print scalar @$data;
-        print "\n";
-        print $$data[0];
-        print "\n";
-        print  ($$data[0]  =~ /^on+$/) ? "SI" : "NO";
-        print "\n";
+        
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
-            
-            print "TROVATO";
 
-            die;
 			return 1;
 		}
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^off+$/)){
 
-            print "NON TROVATO";
-
-            die;
 			return 0;
 		}
 	}
