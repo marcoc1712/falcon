@@ -96,12 +96,12 @@ sub getAutostart {
 	if ($self->isDisabled('autostart')) {return 0};
 	
 	my @rows = $self->_runExit('getAutostart');
-    
-    print join "\n", @rows;
-    die;
-    
 	my $result = $self->_getExitResult(\@rows);
-
+   
+   use Data::Dumper qw(Dumper);
+   print Dumper($result)
+   die;
+    
 	if ($result->{'data'}){
 
 		my $data =  $result->{'data'};
