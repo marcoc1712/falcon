@@ -97,14 +97,14 @@ sub getAutostart {
 	
 	my @rows = $self->_runExit('getAutostart');
 	my $result = $self->_getExitResult(\@rows);
-   
-   use Data::Dumper qw(Dumper);
-   print Dumper($result);
-   die;
-    
-	if ($result->{'data'}){
 
-		my $data =  $result->{'data'};
+	if ($result->{'data'}){
+        
+        my $data =  $result->{'data'};
+        
+        use Data::Dumper qw(Dumper);
+        print Dumper($data);
+        die;
 
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
 
