@@ -96,14 +96,15 @@ sub getAutostart {
 	if ($self->isDisabled('autostart')) {return 0};
 	
 	my @rows = $self->_runExit('getAutostart');
+    
+    print join "\n", @rows;
+    die;
+    
 	my $result = $self->_getExitResult(\@rows);
 
 	if ($result->{'data'}){
 
 		my $data =  $result->{'data'};
-        
-        print $$data[0];
-        die;
 
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
 
