@@ -121,7 +121,7 @@ function additional_settings(){
 
     ###
     ### Installa chkconfig per l'autostart.
-    apt-get install chkconfig
+    #apt-get install chkconfig
 
     ### Shutdown, bisogna essere root.                              -> visudo
     ### Reboot, bisogna essere root (?)                             -> visudo
