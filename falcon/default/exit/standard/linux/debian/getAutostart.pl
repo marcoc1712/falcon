@@ -69,9 +69,9 @@ sub validateResult{
 
         $out->{'status'}='error';
 
-    } elsif (scalar @answ == 7){
+    } elsif (scalar @$result == 7){
 
-        for my $rc (@answ){
+        for my $rc (@$result){
 
             my $str= trim($rc);
             my $ind=(index($str, "/etc/rc"));
