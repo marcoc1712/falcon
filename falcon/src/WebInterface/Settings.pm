@@ -55,7 +55,10 @@ sub new {
     } else {
    
 		my $commandLineText=$conf->readCommandLine();
+        
+        print $commandLineText;
         die;
+        
 		$error = $conf->getError();
 		
 		$log->info($commandLineText);
