@@ -55,19 +55,19 @@ sub new {
     } else {
    
 		my $commandLineText=$conf->readCommandLine();
- 
+  die;
 		$error = $conf->getError();
 		
 		$log->info($commandLineText);
 		
 		if (! $commandLineText || $commandLineText eq ""){
-			 die;
+			
 			#load defaults.
 			$prefs = WebInterface::Preferences->new($conf->getPrefFile());
 			$commandLine = WebInterface::CommandLine->new($prefs);
 			
 		} else{
-			 die;
+			
 			#load command line.
 			$commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
 			$prefs = $commandLine->getPreferences();
