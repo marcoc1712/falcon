@@ -4,8 +4,6 @@ A web interface to Squeezelite (R2).
 
 Install and controll your squeezelite box from any browser in your network, even from your phone.
 
-More to come.
-
 DISCLAIMER:
 
 This is a pre release tested only for: Debian, Ubuntu and Gentoo, could be easily 
