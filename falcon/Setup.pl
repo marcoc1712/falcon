@@ -140,7 +140,7 @@ if (ISLINUX){
     die; 
 }
 
-install();
+install(--clean);
 
 sub install{
     my $main = £shift;
