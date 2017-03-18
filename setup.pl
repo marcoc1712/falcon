@@ -26,7 +26,7 @@ use warnings;
 
 use FindBin qw($Bin);
 use lib $Bin;
-use lib "./falcon/src/Installer";
+#use lib "./falcon/src/Installer";
 
 use utf8;
 use File::Path;
@@ -142,8 +142,10 @@ sub prepare{
             print "Fatal: can't rename $extracted to $installerDir\n";
             die;  
         }
-
-        $command = qq(chmod +x $installerDir."/*.pl");
+        print "Info: ".$extracted." renamed to ".$installerDir."\n";
+        
+        my $pattern= $installerDir."/*.pl";
+        $command = qq(chmod +x $pattern);
         @ret= `$command`;
         $err=$?;
 
@@ -161,7 +163,8 @@ sub prepare{
 
             print "WARNING: can't remove ".$file;
         }
-
+      
+        push @INC, "./$installerDir";
         require Status;
         require Linux::Installer;
         $installer= Linux::Installer->new(ISDEBUG);
@@ -245,6 +248,29 @@ sub finalize {
             }
             return 0;
         }
+    } 
+    
+    if (REMOVE){ 
+        
+        rmtree( $installerDir, {error => \my $msg} );
+        if (@$msg) {
+
+            print "Error deleting tree starting at: $installerDir";
+
+            for my $diag (@$msg) {
+                my ($file, $message) = %$diag;
+                if ($file eq '') {
+
+                    print  "general error: $message";
+
+                } else {
+
+                    print  "problem unlinking $file: $message";
+                }
+            }
+            return 0;
+        }
+        return 1;
     } 
     
     mkpath  $src, 0755;
