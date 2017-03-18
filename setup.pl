@@ -205,8 +205,8 @@ sub execute{
 
     if ($installer->getError()){
 
-        #$installer->getStatus()->printout(1); #use 1 for debug,3 for info.
-        $installer->getStatus()->printout(ISDEBUG);
+        $installer->getStatus()->printout(1); #use 1 for debug,3 for info.
+        #installer->getStatus()->printout(ISDEBUG);
 
     } elsif ($err){
 
