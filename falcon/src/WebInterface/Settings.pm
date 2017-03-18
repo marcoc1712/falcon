@@ -41,19 +41,19 @@ sub new {
 
     $log = Log::Log4perl->get_logger("settings");
     
-    my $conf = WebInterface::Configuration->new();die;
+    my $conf = WebInterface::Configuration->new();
 
     my $prefs;
     my $commandLine;
     my $error;
 	
     if ($conf->getPrefFile() && -e $conf->getPrefFile() && -r $conf->getPrefFile()){
-    
+    die;
         $prefs = WebInterface::Preferences->new($conf->getPrefFile());
         $commandLine = WebInterface::CommandLine->new($prefs);
 
     } else {
-
+    die;
 		my $commandLineText=$conf->readCommandLine();
  
 		$error = $conf->getError();
