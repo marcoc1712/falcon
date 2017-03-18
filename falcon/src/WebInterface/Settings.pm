@@ -48,12 +48,12 @@ sub new {
     my $error;
 	
     if ($conf->getPrefFile() && -e $conf->getPrefFile() && -r $conf->getPrefFile()){
-    die;
+    
         $prefs = WebInterface::Preferences->new($conf->getPrefFile());
         $commandLine = WebInterface::CommandLine->new($prefs);
 
     } else {
-    die;
+   
 		my $commandLineText=$conf->readCommandLine();
  
 		$error = $conf->getError();
@@ -61,13 +61,13 @@ sub new {
 		$log->info($commandLineText);
 		
 		if (! $commandLineText || $commandLineText eq ""){
-			
+			 die;
 			#load defaults.
 			$prefs = WebInterface::Preferences->new($conf->getPrefFile());
 			$commandLine = WebInterface::CommandLine->new($prefs);
 			
 		} else{
-			
+			 die;
 			#load command line.
 			$commandLine = WebInterface::CommandLine->new(undef, $commandLineText);
 			$prefs = $commandLine->getPreferences();
