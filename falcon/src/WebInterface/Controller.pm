@@ -169,6 +169,7 @@ sub deletePreset {
 sub getStatus {
     my $self = shift;
     
+    die;
     my $return = $self->status()->getStatus();
     $self->{error}= $self->status()->getError();
 
