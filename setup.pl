@@ -24,9 +24,9 @@
 use strict;
 use warnings;
 
-#use FindBin qw($Bin);
-#use lib $Bin;
-#use lib "./falcon/src/Installer";
+use FindBin qw($Bin);
+use lib $Bin;
+use lib "./falcon/src/Installer";
 
 use utf8;
 use File::Path;
@@ -50,6 +50,7 @@ my $url          = "https://github.com/marcoc1712/installFalcon/archive/".$branc
 my $archive      = 'master';
 my $extracted    = 'installFalcon-master';
 my $installerDir = 'installer';
+
 
 main();
 
@@ -122,7 +123,7 @@ sub prepare{
             print (join "\n", @ret);
             die;
         }  
-
+        
         $command = qq(tar -zxvf $archive.tar.gz);
         @ret= `$command`;
         $err=$?;
@@ -132,7 +133,8 @@ sub prepare{
             print (join "\n", @ret);
             die;
         } 
-
+        print "Info: ".$archive." unpacked in ".getcwd."\n";
+        
         move $extracted, $installerDir;
 
         if (-e $extracted && !-e $installerDir){
@@ -141,7 +143,7 @@ sub prepare{
             die;  
         }
 
-        $command = qq(chmod +x $main);
+        $command = qq(chmod +x $installerDir."/*.pl");
         @ret= `$command`;
         $err=$?;
 
@@ -160,21 +162,21 @@ sub prepare{
             print "WARNING: can't remove ".$file;
         }
 
-        use Status;
-        use Linux::Installer;
+        require Status;
+        require Linux::Installer;
         $installer= Linux::Installer->new(ISDEBUG);
 
     } elsif(ISMAC){
 
-        use Status;   
-        use Mac::Installer;
+        require Status;   
+        require Mac::Installer;
         $installer= Mac::Installer->new(ISDEBUG);
         return 0; 
 
     } elsif(ISWINDOWS){
 
-        use Status;
-        use Windows::Installer;
+        require Status;
+        require Windows::Installer;
         $installer= Windows::Installer->new(ISDEBUG);
         return 0; 
 
@@ -215,7 +217,7 @@ sub execute{
 
     } elsif ($err){
 
-        warn "something went wrong."
+        warn "something went wrong.";
         return 0; 
     }
     
