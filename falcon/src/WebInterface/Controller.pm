@@ -37,8 +37,8 @@ my $log;
 sub new {
     my $class = shift;
     $log= Log::Log4perl->get_logger("controller");
-    die;
-    my $conf        = WebInterface::Configuration->new();
+    
+    my $conf        = WebInterface::Configuration->new();die;
     my $settings    = WebInterface::Settings->new();
     my $status      = WebInterface::Status->new();
 
