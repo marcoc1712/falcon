@@ -6,13 +6,14 @@
 description="A headless Squeezebox emulator using ALSA audio output"
 
 user="squeezelite:squeezelite"
-logfile="/var/log/squeezelite-R2.log"
+#logfile="/var/log/squeezelite-R2.log"
+#logfile=${SL_LOG}
 
 start_stop_daemon_args="--user $user"
 
 command="/usr/bin/squeezelite-R2"
 command_args="
-        -f $logfile
+#        -f $logfile
         -p 89
         ${SL_OPTS}
 "
@@ -27,6 +28,6 @@ depend() {
 }
 
 start_pre() {
-    checkpath --file --owner $user --mode 0664 $logfile
+    #checkpath --file --owner $user --mode 0664 $logfile
 }
 
