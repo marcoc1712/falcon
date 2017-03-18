@@ -46,7 +46,7 @@ $out->{'data'}=\@data;
 #tobe converted in JSON format and printed out.
 
 #here the command to be executed;
-my $command= qq(sudo /etc/init.d/squeezelite-R2 restart);
+my $command= qq(sudo /etc/init.d/squeezelite restart);
 
 my @rows = `$command 2>&1`;
 

@@ -47,7 +47,7 @@ $out->{'data'}=\@data;
 #tobe converted in JSON format and printed out.
 
 #here the command to be executed;
-my $command= " rc-status | grep squeezelite-R2";
+my $command= " rc-status | grep squeezelite";
 
 #command execution;
 my @rows = `$command 2>&1`;

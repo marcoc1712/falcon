@@ -36,7 +36,7 @@ my $commandLine="";
 
 #FULL PATHNAME of the file to write to (please, double check permissions)  
 
-my $pathname = "/etc/conf.d/squeezelite-R2";
+my $pathname = "/etc/conf.d/squeezelite";
 
 
 # the return MUST be in form of an hash with three elements:

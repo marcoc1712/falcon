@@ -34,9 +34,9 @@ use JSON::PP;
 
 #FULL PATHNAME of the file to write to (please, double check permissions)  
 
-my $pathname = "/etc/conf.d/squeezelite-R2";
-my $backup = "/etc/conf.d/squeezelite-R2.wbak";
-my $faultback = "/var/www/falcon/data/squeezelite-R2.conf.d"; #used if can't write backup.
+my $pathname = "/etc/conf.d/squeezelite";
+my $backup = "/etc/conf.d/squeezelite.wbak";
+my $faultback = "/var/www/falcon/data/squeezelite.conf.d"; #used if can't write backup.
 
 # Some text line to include BEFORE the command line.
 

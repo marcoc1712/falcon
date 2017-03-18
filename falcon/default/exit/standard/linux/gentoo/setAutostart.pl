@@ -61,7 +61,7 @@ my $command="";
 
 if ($action eq "enable"){
 	
-	$command="rc-update add squeezelite-R2 default";
+	$command="rc-update add squeezelite default";
 	my @rows = `$command 2>&1`;
 
 	#result validation and return.
@@ -69,7 +69,7 @@ if ($action eq "enable"){
 	
 } elsif ($action eq "disable"){
 	
-	$command="rc-update del squeezelite-R2";
+	$command="rc-update del squeezelite";
 	my @rows = `$command 2>&1`;
 
 	#result validation and return.
