@@ -38,8 +38,8 @@ sub new {
     my $class = shift;
     $log= Log::Log4perl->get_logger("controller");
     
-    my $conf        = WebInterface::Configuration->new();die;
-    my $settings    = WebInterface::Settings->new();
+    my $conf        = WebInterface::Configuration->new();
+    my $settings    = WebInterface::Settings->new();die;
     my $status      = WebInterface::Status->new();
 
     my $self = bless {
