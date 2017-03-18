@@ -144,17 +144,6 @@ sub prepare{
             die;  
         }
         print "Info: ".$extracted." renamed to ".$installerDir."\n";
-        
-        my $pattern= $installerDir."/*.pl";
-        $command = qq(chmod +x $pattern);
-        @ret= `$command`;
-        $err=$?;
-
-        if ($err){
-            print "Fatal: ".$err."\n";
-            print (join "\n", @ret);
-            die;
-        } 
 
         my $file= $archive.".tar.gz";
 
