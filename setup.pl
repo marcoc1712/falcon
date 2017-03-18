@@ -38,7 +38,8 @@ use constant ISMAC        => ( $^O =~ /darwin/i ) ? 1 : 0;
 use constant ISLINUX      => ( $^O =~ /linux/i ) ? 1 : 0;
 
 use constant REMOVE       => ( grep { /--remove/ } @ARGV ) ? 1 : 0;
-use constant CLEAN       => ( grep { /--clean/ } @ARGV ) ? 1 : 0;
+use constant CLEAN        => ( grep { /--clean/ } @ARGV ) ? 1 : 0;
+use constant NOGIT        => ( grep { /--nogit/ } @ARGV ) ? 1 : 0;
 use constant ISDEBUG      => ( grep { /--debug/ } @ARGV ) ? 1 : 0;
 
 my $installer;
@@ -167,20 +168,20 @@ sub prepare{
         push @INC, "./$installerDir";
         require Status;
         require Linux::Installer;
-        $installer= Linux::Installer->new(ISDEBUG);
+        $installer= Linux::Installer->new(ISDEBUG, NOGIT);
 
     } elsif(ISMAC){
 
         require Status;   
         require Mac::Installer;
-        $installer= Mac::Installer->new(ISDEBUG);
+        $installer= Mac::Installer->new(ISDEBUG, NOGIT);
         return 0; 
 
     } elsif(ISWINDOWS){
 
         require Status;
         require Windows::Installer;
-        $installer= Windows::Installer->new(ISDEBUG);
+        $installer= Windows::Installer->new(ISDEBUG, NOGIT);
         return 0; 
 
     }else {
@@ -204,13 +205,13 @@ sub execute{
 
         print "\n************************* CLEAN INSTALL ***************************\n";
 
-        if (!$installer->remove(ISDEBUG) || !$installer->install(ISDEBUG)) {$err=1};
+        if (!$installer->remove(ISDEBUG) || !$installer->install(ISDEBUG, NOGIT)) {$err=1};
 
     } else {
 
         print "\n*************************** INSTALL *******************************\n";
 
-        if (!$installer->install(ISDEBUG)) {$err=1};
+        if (!$installer->install(ISDEBUG, NOGIT)) {$err=1};
     }
 
     if ($installer->getError()){
