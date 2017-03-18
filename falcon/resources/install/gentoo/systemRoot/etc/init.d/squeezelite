@@ -27,7 +27,4 @@ depend() {
     after bootmisc
 }
 
-start_pre() {
-    #checkpath --file --owner $user --mode 0664 $logfile
-}
 
