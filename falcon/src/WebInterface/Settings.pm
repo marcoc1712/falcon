@@ -40,8 +40,8 @@ sub new {
     my $class = shift;
 
     $log = Log::Log4perl->get_logger("settings");
-    die;
-    my $conf = WebInterface::Configuration->new();
+    
+    my $conf = WebInterface::Configuration->new();die;
 
     my $prefs;
     my $commandLine;
