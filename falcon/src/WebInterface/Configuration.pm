@@ -391,8 +391,8 @@ sub readCommandLine{
 
     my @rows = $self->_runExit('readCommandLine');
     
-    #print $self->{error};
-    #die;
+    print $self->{error};
+    die;
     
     my $result = $self->_getExitResult(\@rows);
 
