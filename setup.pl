@@ -155,20 +155,18 @@ sub prepare{
         }
       
         push @INC, "./$installerDir";
-        require Status;
+        
         require Linux::Installer;
         $installer= Linux::Installer->new(ISDEBUG, NOGIT);
 
     } elsif(ISMAC){
-
-        require Status;   
+   
         require Mac::Installer;
         $installer= Mac::Installer->new(ISDEBUG, NOGIT);
         return 0; 
 
     } elsif(ISWINDOWS){
 
-        require Status;
         require Windows::Installer;
         $installer= Windows::Installer->new(ISDEBUG, NOGIT);
         return 0; 
@@ -204,7 +202,12 @@ sub execute{
     }
 
     if ($installer->getError()){
-
+        
+        require Status;
+        require Linux::Installer;
+        require Mac::Installer;
+        require Windows::Installer;
+        
         #$installer->getStatus()->printout(); #use 1 for debug,3 for info.
         $installer->getStatus()->printout(ISDEBUG);
 
