@@ -49,9 +49,12 @@ my $main;
 my $branch       = 'master';
 my $url          = "https://github.com/marcoc1712/installFalcon/archive/".$branch.".tar.gz";
 my $archive      = 'master';
-my $extracted    = 'installFalcon-master';
 my $installerDir = 'Installer';
+my $DownloadedDir = 'Installer';
 
+my $extracted    = 'installFalcon-master';
+my $target       = 'falcon';
+my $targetTar    = 'falcon.tar';
 
 main();
 
@@ -115,6 +118,30 @@ sub prepare{
                 die;
             }
         }
+        if (-d 'falcon'){
+            rmtree( 'falcon', {error => \my $msg} );
+            if (@$msg) {
+
+                print "Error deleting tree starting at: falcon";
+
+                for my $diag (@$msg) {
+                    my ($file, $message) = %$diag;
+                    if ($file eq '') {
+
+                        print  "general error: $message";
+
+                    } else {
+
+                        print  "problem unlinking $file: $message";
+                    }
+                }
+                die;
+            }
+        }
+        
+        unlink $archive;
+        unlink $targetTar;
+        
         my $command = qq(wget $url);
         my @ret= `$command`;
         my $err=$?;
