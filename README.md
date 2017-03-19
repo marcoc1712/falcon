@@ -22,7 +22,9 @@ then run it ./ setup.pl
 use:
 
 --debug  to get some more messages.
+
 --nogit  to not use git to download and install the code (tested only for new clean installs).
+
 --remove to remove falcon instead of install it. 
 
 PLEASE NOTE: 
