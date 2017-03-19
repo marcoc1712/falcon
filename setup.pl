@@ -50,7 +50,7 @@ my $branch       = 'master';
 my $url          = "https://github.com/marcoc1712/installFalcon/archive/".$branch.".tar.gz";
 my $archive      = 'master';
 my $extracted    = 'installFalcon-master';
-my $installerDir = 'installer';
+my $installerDir = 'Installer';
 
 
 main();
@@ -154,20 +154,18 @@ sub prepare{
             print "WARNING: can't remove ".$file;
         }
       
-        push @INC, "./$installerDir";
-        
-        require Linux::Installer;
+        loadInstallers();
         $installer= Linux::Installer->new(ISDEBUG, NOGIT);
 
     } elsif(ISMAC){
-   
-        require Mac::Installer;
+        
+        loadInstallers();
         $installer= Mac::Installer->new(ISDEBUG, NOGIT);
         return 0; 
 
     } elsif(ISWINDOWS){
-
-        require Windows::Installer;
+        
+        loadInstallers();
         $installer= Windows::Installer->new(ISDEBUG, NOGIT);
         return 0; 
 
@@ -203,10 +201,7 @@ sub execute{
 
     if ($installer->getError()){
         
-        require Status;
-        require Linux::Installer;
-        require Mac::Installer;
-        require Windows::Installer;
+        loadInstallers();
         
         #$installer->getStatus()->printout(); #use 1 for debug,3 for info.
         $installer->getStatus()->printout(ISDEBUG);
@@ -282,5 +277,18 @@ sub finalize {
         return 0;
     }
     return 1;
+}
+sub loadInstallers{
+    
+    push @INC, "./$installerDir";
+    require Status;
+    require Linux::Installer;
+    require Mac::Installer;
+    require Windows::Installer;
+    
+    my $dummy;
+    $dummy= Linux::Installer->new(ISDEBUG, NOGIT);
+    $dummy= Mac::Installer->new(ISDEBUG, NOGIT);
+    $dummy= Windows::Installer->new(ISDEBUG, NOGIT);
 }
 1;
