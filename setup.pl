@@ -41,6 +41,9 @@ use constant REMOVE       => ( grep { /--remove/ } @ARGV ) ? 1 : 0;
 use constant CLEAN        => ( grep { /--clean/ } @ARGV ) ? 1 : 0;
 use constant NOGIT        => ( grep { /--nogit/ } @ARGV ) ? 1 : 0;
 use constant ISDEBUG      => ( grep { /--debug/ } @ARGV ) ? 1 : 0;
+use constant ISINFO       => ( grep { /--info/ } @ARGV ) ? 1 : 0;
+
+my $verbosity = ISDEBUG ? 1 : ISINFO ? 3 : 5; #6 is warning.
 
 my $installer;
 my $src;
@@ -230,8 +233,7 @@ sub execute{
         
         loadInstallers();
         
-        #$installer->getStatus()->printout(); #use 1 for debug,3 for info.
-        $installer->getStatus()->printout(ISDEBUG);
+        $installer->getStatus()->printout($verbosity);
 
     } elsif ($err){
 
