@@ -65,7 +65,7 @@ sub trim{
 		
     }
     
-    return $val;         
+    return $val || '';         
 }
 sub trimQuotes{
 	my $class = shift;

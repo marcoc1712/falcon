@@ -20,9 +20,7 @@
 #
 ################################################################################
 #
-# Install falcon over a gentoo x86_64 with squeezelite-R2 already installed via the 
-# ebuild in gallifrey overlay : 
-# https://raw.githubusercontent.com/fedeliallalinea/gallifrey/master/repositories.xml
+# Install falcon over a Debian compatible system.
 #
 ################################################################################
 
@@ -34,18 +32,19 @@ function run_as_root() {
 }
 
 function install_git(){
-	emerge -n git
+
+	# install git and then clone falcon from github.
+	apt-get install git
 }
 function clone_falcon(){
 
         if [ ! -d '/var/www' ]; then
 		mkdir /var/www
         fi
-
+        
 	cd /var/www
 	git clone https://github.com/marcoc1712/falcon.git
-
-}
+   
 function pull_falcon(){
 
     cd /var/www/falcon
@@ -54,6 +53,7 @@ function pull_falcon(){
 
 }
 run_as_root	# run this first!
+apt-get update
 install_git
 
 if [ ! -d '/var/www/falcon' ]; then
@@ -62,5 +62,5 @@ else
     pull_falcon
 fi
 
-chmod +x /var/www/falcon/falcon/resources/install/gentoo_gallifrey/installer.sh
-/var/www/falcon/falcon/resources/install/gentoo_gallifrey/installer.sh
+chmod +x /var/www/falcon/falcon/resources/install/debian/installer.sh
+/var/www/falcon/falcon/resources/install/debian/installer.sh

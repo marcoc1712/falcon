@@ -81,10 +81,7 @@ sub getSettings {
     
     my $return = $self->settings()->getSettings();
     $self->{error}= $self->settings()->getError();
-    
-    #my $return = undef;
-    #$self->{error}= "ERROR: testo di prova";
-    
+        
     return $return;
    
 }
@@ -181,6 +178,14 @@ sub getAudioCardsHTML{
     my $self = shift;
     
     my $return = $self->status()->getAudioCardsHTML();
+    $self->{error}= $self->status()->getError();
+
+    return $return;
+}
+sub getDsdFormatsHTML{
+    my $self = shift;
+    
+    my $return = $self->status()->getDsdFormatsHTML();
     $self->{error}= $self->status()->getError();
 
     return $return;

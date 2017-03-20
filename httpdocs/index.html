@@ -85,11 +85,6 @@ WEB INTERFACE and Controll application for an headless squeezelite
 
                             <br><br>
 
-                            <label for="supportsDOP">Supports DOP:</label>							
-                            <input type="checkbox" id="supportsDOP" name="supportsDOP" value="1"> <br>
-
-                            <br>
-
                             <label for="lmsDownsampling">LMS Downsample:</label>							
                             <input type="checkbox" id="lmsDownsampling" name="lmsDownsampling" value="1"> <br>
 
@@ -183,10 +178,22 @@ WEB INTERFACE and Controll application for an headless squeezelite
                         <br><br>
 
                         <fieldset>
+                            <legend>Output </legend>
+                            <label for="dsdFormat">DSD Format :</label>
+                            <select id="dsdFormat" 
+                                    name="dsdFormat" 
+                                    class="select">
+                                    <option value="none">Select</option>
+                            </select> 
+                        </fieldset>
+                        
+                        <br><br>
+                        
+                        <fieldset>
                             <legend>Transition delay </legend>
                             <label for="fromPcmToPcm">PCM to PCM:</label>							
                             <input type="number" id="fromPcmToPcm" name="fromPcmToPcm" min="0" step="1" value="0" required class="numero"> ms  <br>
-                            <label for="fromPcmToDOP">PCM to DOP:</label>							
+                            <label for="fromPcmToDOP">PCM to DSD:</label>							
                             <input type="number" id="fromPcmToDOP" name="fromPcmToDOP" min="0" step="1" value="0" required class="numero"> ms  <br>
                         </fieldset>
 
@@ -329,11 +336,6 @@ WEB INTERFACE and Controll application for an headless squeezelite
                     </div>
 
                     <div class="voce">
-                        <p> <strong>Support DOP:</strong>
-                            Output device supports DSD over PCM </p>
-                    </div>
-
-                    <div class="voce">
                         <p> <strong>LMS Downsample:</strong>
                             Allow squeezebox server to downsample if the sample rate is not supported. </p>
                         <p> WARNING: this will produce an error in LMS if codec is PCM.
@@ -375,9 +377,16 @@ WEB INTERFACE and Controll application for an headless squeezelite
                     </div>
 
                     <div class="voce">
+                        <p> <strong>Output DSD format:</strong>
+                            Depending on the OS capabilities,can disable DSD playback, use DOP or a specifc 'native' format if supported.</p>
+                        <p> Be sure to select an appropriate value to the selected audio device.</p>
+                        
+                    </div>
+
+                    <div class="voce">
                         <p>	<strong>Transition delay:</strong>
-                            optional delay when switching between different sample rates or between PCM and DoP in ms.</p>
-                        <p>	WARNING: require Sample rates to be declared and DOP support enabled </p>
+                            optional delay when switching between different sample rates or between PCM and DSD in ms.</p>
+                        <p>	WARNING: require Sample rates to be declared and DSD support enabled </p>
                     </div>
 
                     <div class="voce">

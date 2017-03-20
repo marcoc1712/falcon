@@ -131,17 +131,33 @@ sub _buildCommandLineFromPreferences{
             $commandLine = $commandLine." -o ".$preferences->getItem('audioDevice');
 
     } 
-     $log->debug("supportsDOP: ".($preferences->getItem('supportsDOP') || 0)); 
-    if ($preferences->getItem('supportsDOP')){
+    
+    # $log->debug("supportsDOP: ".($preferences->getItem('supportsDOP') || 0));
+    
+    my $dsdFormat= $preferences->getItem('dsdFormat') ?  $preferences->getItem('dsdFormat') : 'disabled';
+    $log->debug("dsdFormat: ".$dsdFormat);
+    
+    if (! ($dsdFormat eq 'disabled' )){
 
-            $commandLine = $commandLine." -D";
+        $commandLine = $commandLine." -D";       
 
-            if ($preferences->getItem('fromPcmToDOP')){
+        if ($preferences->getItem('fromPcmToDOP') || !($preferences->getItem('dsdFormat') eq 'DOP' )){
+            
+             $commandLine = $commandLine." ";
+        }
+        
+        if ($preferences->getItem('fromPcmToDOP')){
 
-                    $commandLine = $commandLine." ".$preferences->getItem('fromPcmToDOP');
-            } 
-    }
-    $log->debug("AFTER supportsDOP: ".$commandLine);  
+                $commandLine = $commandLine.$preferences->getItem('fromPcmToDOP');
+        } 
+
+        if (!($preferences->getItem('dsdFormat') eq 'DOP' )){
+
+             $commandLine = $commandLine.":".$preferences->getItem('dsdFormat');
+        }
+    }        
+
+    $log->debug("AFTER dsdFormat: ".$commandLine);  
     
     $log->debug("lmsDownsampling: ".($preferences->getItem('lmsDownsampling') || 0)); 
     if (! $preferences->getItem('lmsDownsampling')){
@@ -216,7 +232,8 @@ sub _buildCommandLineFromPreferences{
 
                     $commandLine = $commandLine.$preferences->getItem('bufferSize').":";
                     $commandLine = $commandLine.$preferences->getItem('periodCount').":";
-                    $commandLine = $commandLine.$preferences->getItem('sampleFormat').":";
+                    $commandLine = $commandLine.($preferences->getItem('sampleFormat') ? 
+                                                    $preferences->getItem('sampleFormat') : "").":";
                     $commandLine = $commandLine.($preferences->getItem('useMmap') ? "1" : "0");
 
             } else {
@@ -399,19 +416,30 @@ sub _handleOption{
     
         $preferences->setItem('lmsDownsampling',"0" );
     
-    } elsif  ($key eq "D"){ #PCM to DOP delay
+    } elsif  ($key eq "D"){ #PCM to DOP delay && dsdFormat
         
-        $preferences->setItem('supportsDOP',"1" );
-        
-        if ($value && ($value  =~ /^[0-9,.E]+$/ )){
+        if ($value) {
             
-             $preferences->setItem('fromPcmToDOP',$value );
-             
-        } elsif ($value){
-        
-             $self->_setError("WARNING: $value is invalid for key $key");
+            my ($delay, $dsdFormat, $error) = _checkDelayAndDsdFormat($value);
+            
+            if ($error){
+                
+                $self->_setError("WARNING: $value is invalid for key $key");
+                $preferences->setItem('fromPcmToDOP',0 );
+                $preferences->setItem('dsdFormat','disabled' );
+            
+            } else {
+            
+                if ($delay){
+                    
+                    $preferences->setItem('fromPcmToDOP',$delay );
+                }
+                if ($dsdFormat){
+                    
+                    $preferences->setItem('dsdFormat',$dsdFormat );
+                }
+            }
         }
-    
     } elsif  ($key eq "C"){ #timeout
         
         if ($value && ($value  =~ /^[0-9,.E]+$/ )){
@@ -1074,5 +1102,51 @@ sub _discontinuous{
     }
     return $out;
 }
+sub _checkDelayAndDsdFormat {
+    my $value = shift;
+    
+    my @string = split ':', $value;
 
+    my $delay=0;
+    my $dsdFormat = '';
+
+    my $primo = $utils->trim($string[0]);
+    my $secon = $utils->trim($string[1]);
+    my $terzo = $utils->trim($string[2]);
+    
+    #printf "originale: >".$value."<";
+    #printf " primo: >".($primo ? $primo : 'UNDEF')."<";
+    #printf " secon: >".($secon ? $secon : 'UNDEF')."<";
+    #printf " terzo: >".($terzo ? $terzo : 'UNDEF')."<";
+
+    if ($terzo) {return (undef,undef,1)};
+    if (!$primo && !$secon) {return (undef,undef,0)};
+    
+    if ($primo && ($primo  =~ /^[0-9,.E]+$/ ) && _isDsdNativeFormatValid($secon)) {
+
+        return ($primo,$secon,0);   
+    }
+    if ($primo && ($primo  =~ /^[0-9,.E]+$/ ) && !$secon) {
+        
+        return ($primo, undef,0);
+    }
+
+    if (!$primo && _isDsdNativeFormatValid($secon)) {return (undef,$secon,0)};
+
+    if (_isDsdNativeFormatValid($primo) && !$secon) {return (undef,$secon,0)};
+    
+    return ($primo,$secon, 1);
+
+}
+
+sub _isDsdNativeFormatValid{
+    my $val = shift;
+    
+    if (!$val){return 0;}
+    my $ref=$conf->getDsdNatives();
+    my %params = map { $_ => 1 } keys %$ref;
+    if($params{$val}) {return 1} 
+    
+    return 0;
+}
 1;

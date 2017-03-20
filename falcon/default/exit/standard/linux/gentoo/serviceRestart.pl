@@ -37,7 +37,6 @@ use JSON::PP;
 # any other element is discharged.
 #
 # here the PROTOTYPE:
-
 my @data=();
 my $out={};
 $out->{'status'}='ok';
@@ -47,35 +46,55 @@ $out->{'data'}=\@data;
 #tobe converted in JSON format and printed out.
 
 #here the command to be executed;
-my $command= "/sbin/chkconfig squeezelite";
+my $command= qq(sudo /etc/init.d/squeezelite restart);
 
-#command execution;
 my @rows = `$command 2>&1`;
 
-#result validation
+#result validation and return.
 validateResult(\@rows);
 
 sub validateResult{
 	my $result = shift;
-	
-	#here your validation code.
-	
-	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
-	
-		my $str = trim(substr(trim($$result[0]),11));
-		push @data, $str;
-		
-	} else {
-		my $message="";
-		for my $row (@$result){
-		
-			$message= $message.trim($row);
-		}
-		$out->{'status'}='warning';
-		$out->{'message'}=$message;
+
+	if (! $result || (scalar @$result == 0)){
+		$out->{'status'}="ok";
+		$out->{'message'}="";
+			
+		printJSON($out);
+		exit 1;
 	}
+	#if here something went wrong
+	my $message="";
+	for my $row (@$result){
+
+		if ($row  =~ /^ERROR/){
+		
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim(substr($row,5));
+			
+			printJSON($out);
+			exit 0;
+			
+		} elsif ( $row  =~ /^WARNING/){
+		
+			$out->{'status'}="WARNING";
+			$out->{'message'}=trim(substr($row,7));
+						
+			printJSON($out);
+			exit 0;
+			
+		}
+		else{
+			$message = $message." ".trim($row);
+		}
+	}
+	$out->{'status'}="INFO";
+	$out->{'message'}=$message;
+	
 	printJSON($out);
+	exit 1;
 }
+
 ###############################################################################
 # This code should be in a library, please do not modify it.
 ###############################################################################

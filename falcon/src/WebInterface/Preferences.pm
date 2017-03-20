@@ -58,7 +58,7 @@ sub setPrefs{
     # The post method olways pass ONLY the thrue booleans, no matter if they 
     # changed or not, so we need to set all them to false before.
     
-    $self->setItem('supportsDOP',0);
+   #$self->setItem('supportsDOP',0);
     $self->setItem('lmsDownsampling',0);
     $self->setItem('autostart',0);
     $self->setItem('rate008000',0);
@@ -137,7 +137,7 @@ sub _initDefault{
 
     $default->{"playerName"}='squeezelite-R2';
     $default->{"audioDevice"}="";
-    $default->{"supportsDOP"}=0;
+    #$default->{"supportsDOP"}=0;
     $default->{"lmsDownsampling"}=1;
     $default->{"autostart"}=0;
     $default->{"timeout"}=0;
@@ -170,6 +170,7 @@ sub _initDefault{
     $default->{"codecAif"}=0;
     $default->{"codecDff"}=0;
     $default->{"codecDsf"}=0;
+    $default->{"dsdFormat"}='disabled';
     $default->{"fromPcmToPcm"}=0;
     $default->{"fromPcmToDOP"}=0;
     $default->{"inBuffer"}=0;

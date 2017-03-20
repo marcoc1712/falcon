@@ -26,19 +26,6 @@ use warnings;
 
 use JSON::PP;
 
-my $commandLine="";
-
-###############################################################################
-#
-# apply your mods here
-#
-###############################################################################
-
-#FULL PATHNAME of the file to write to (please, double check permissions)  
-
-my $pathname = "/etc/conf.d/squeezelite-R2";
-
-
 # the return MUST be in form of an hash with three elements:
 #
 # 'status'  = values "ok", "ERROR", "WARNING". Any other is "INFO".
@@ -50,7 +37,6 @@ my $pathname = "/etc/conf.d/squeezelite-R2";
 # any other element is discharged.
 #
 # here the PROTOTYPE:
-
 my @data=();
 my $out={};
 $out->{'status'}='ok';
@@ -59,85 +45,84 @@ $out->{'data'}=\@data;
 
 #tobe converted in JSON format and printed out.
 
-my $FH;
-if (! (-e $pathname)) {
+#here the command to be executed;
+my $command= qq(sudo /etc/init.d/squeezelite start);
 
-    $out->{'status'}='WARNING';
-    $out->{'message'}="file does not exists $pathname";   
-    printJSON($out);
-    exit 0;
-        
+my @rows = `$command 2>&1`;
+
+#result validation and return.
+validateResult(\@rows);
+
+sub validateResult{
+	my $result = shift;
+
+	if (! $result || (scalar @$result == 0)){
+		$out->{'status'}="ok";
+		$out->{'message'}="";
+			
+		printJSON($out);
+		exit 1;
+	}
+	#if here something went wrong
+	my $message="";
+	for my $row (@$result){
+
+		if ($row  =~ /^ERROR/){
+		
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim(substr($row,5));
+			
+			printJSON($out);
+			exit 0;
+			
+		} elsif ( $row  =~ /^WARNING/){
+		
+			$out->{'status'}="WARNING";
+			$out->{'message'}=trim(substr($row,7));
+						
+			printJSON($out);
+			exit 0;
+			
+		}
+		else{
+			$message = $message." ".trim($row);
+		}
+	}
+	$out->{'status'}="INFO";
+	$out->{'message'}=$message;
+	
+	printJSON($out);
+	exit 1;
 }
-if (! open($FH, "< $pathname")) {
-
-    $out->{'status'}='ERROR';
-    $out->{'message'}="Failure opening '$pathname' for reading- $!";   
-    printJSON($out);
-    exit 0;
-}
-my @lines = <$FH>;
-
-close $FH;
-
-my $name="";
-my $card=""; 
-my $server="";
-my $extra="";
-
-for my $row (@lines) {
-
-    $row = trim($row);
-
-    #print $row."\n";
-
-   if (substr($row,0,8) eq "SL_OPTS="){
-
-        $extra= trim(substr($row,8));
-        #print "extra is: ".$extra."\n";
-
-    } elsif (substr($row,0,9) eq "SL_OPTS ="){
-
-        $extra= trim(substr($row,9));
-        #print "extra is: ".$extra."\n";
-    }
-}
-$commandLine=$name." ".$card." ".$server." ".$extra;
-
-################################################################################
-# Please don't change anything beyond this line
-################################################################################
-
-push @data, $commandLine;
-printJSON($out);
 
 ###############################################################################
 # This code should be in a library, please do not modify it.
 ###############################################################################
 
 sub trim {
-    my ($val) = shift;
+	my ($val) = shift;
 
-    if (defined $val) {
+  	if (defined $val) {
 
     	$val =~ s/^\s+//; # strip white space from the beginning
     	$val =~ s/\s+$//; # strip white space from the end
     }
-    if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
+	if (($val =~ /^\"/) && ($val =~ /\"+$/)) {#"
 	
-        $val =~ s/^\"+//; # strip "  from the beginning
+		$val =~ s/^\"+//; # strip "  from the beginning
     	$val =~ s/\"+$//; # strip "  from the end 
-    }
-    if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
+	}
+	if (($val =~ /^\'/) && ($val =~ /\'+$/)) {#'
 	
-        $val =~ s/^\'+//; # strip '  from the beginning
+		$val =~ s/^\'+//; # strip '  from the beginning
     	$val =~ s/\'+$//; # strip '  from the end
-    }
+	}
     
     return $val;         
 }
 
 sub printJSON{
-    my $in = shift;
-    print  encode_json $in;
+	my $in = shift;
+	print  encode_json $in;
 }
 1;

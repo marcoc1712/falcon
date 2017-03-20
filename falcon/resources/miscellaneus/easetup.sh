@@ -5,11 +5,11 @@
 # Easy Audio Setup: semi-automated installation and configuration of
 # LMS+Squeezelite audio systems on Debian GNU/Linux OS.
 #
-# Copyright Paolo 'UnixMan' Saggese <pms@audiofaidate.org>, 2015
+# Copyright 2015,2016 Paolo 'UnixMan' Saggese <pms@audiofaidate.org>
 # Released under the terms of the GNU General Public License, see:
 # http://www.gnu.org/copyleft/gpl.html
 ##############################################################################
-EAS_VERSION=0.15b4
+EAS_VERSION=0.15b8
 myName=$(basename $0)
 
 # definizione delle funzioni
@@ -342,7 +342,7 @@ function grub_setup() {
   else
     cat <<-EOGW
 
-	ATTENZIONE:	
+	ATTENZIONE:
 	Il comando "update-grub" è fallito: il sistema potrebbe non riavviarsi.
 	
 	Prima di arrestare o riavviare il sistema, si raccomanda di verificare
@@ -429,22 +429,40 @@ function uninstall_syslogger() {
 
 ##############################################################################
 
+function apt_update() {
+  echo -e '\nAggiornamento delle liste dei pacchetti...'
+  apt-get update 2>&1 | tee -a "update.log"
+  echo -e '\nInstallazione dei "keyrings" per APT...'
+  apt-get --allow-unauthenticated -y install '((^(deb(ian)?|liquorix)-([^-]+-)?)|-archive-)keyring.?'
+  pausa
+  echo -e '\nÈ necessario aggiornare di nuovo...'
+  apt-get update
+  pausa
+}
+
+##############################################################################
+
 function base_repos_setup() {
   echo -e '\nAggiunta dei repository di base + multimedia, inclusi "non-free" e "contrib"'
   [ -f /etc/apt/sources.list ] && mv -f /etc/apt/sources.list /etc/apt/sources.list.bak
   [ -f /etc/apt/sources.list.d/debian.list ] && mv -f /etc/apt/sources.list.d/debian.list /etc/apt/sources.list.d/debian.list.bak
   cat <<-EOD > /etc/apt/sources.list.d/debian.list
 
-	deb http://httpredir.debian.org/debian jessie main contrib non-free
-	deb http://httpredir.debian.org/debian jessie-updates main contrib non-free
+	#deb http://httpredir.debian.org/debian jessie main contrib non-free
+	#deb http://httpredir.debian.org/debian jessie-updates main contrib non-free
+
+	deb http://ftp.debian.org/debian jessie main contrib non-free
+	deb http://ftp.debian.org/debian jessie-updates main contrib non-free
+
+	#deb http://ftp.debian.org/debian jessie-backports main non-free contrib
+	#deb http://ftp.debian.org/debian jessie-backports-sloppy main non-free contrib
 
 	deb http://security.debian.org/ jessie/updates main contrib non-free
 
 	deb http://www.deb-multimedia.org jessie main non-free
 
 	EOD
-  echo -e '\nAggiornamento delle liste dei pacchetti...'
-  apt-get update || fail "aggiornamento del DB di APT fallito."
+  apt_update
 }
 
 ##############################################################################
@@ -461,29 +479,15 @@ function liquorix_repos_setup() {
 	#deb-src http://liquorix.net/debian sid main past
 
 	# Mirrors:
-	#
 	# Unit193 - France
-	deb http://mirror.unit193.net/liquorix sid main
+	# deb http://mirror.unit193.net/liquorix sid main
 	# deb-src http://mirror.unit193.net/liquorix sid main
-	#
 	# Liquorix - Cloudfront Global CDN
 	# deb http://cdn.liquorix.net/debian sid main
 	# deb-src http://cdn.liquorix.net/debian sid main
 
 	EOLS
-  echo -e '\nAggiornamento delle liste dei pacchetti...'
-  apt-get update || fail "aggiornamento del DB di APT fallito."
-}
-
-##############################################################################
-
-function apt_setup() {
-  base_repos_setup
-  echo -e '\nInstallazione dei "keyrings" per APT...'
-  apt-get --allow-unauthenticated -y install '((^(deb(ian)?|liquorix)-([^-]+-)?)|-archive-)keyring.?' \
-    2>&1 | tee -a "install.keyrings.log"
-  # è necessario aggiornare di nuovo
-  apt-get update >> "update.log" 2>&1 || fail "aggiornamento del DB di APT fallito."
+  apt_update
 }
 
 ##############################################################################
@@ -494,7 +498,8 @@ function basic_packages_setup() {
   echo
   if [ "$REPLY" != "n" ] 
   then 
-    echo -e '\nInstallazione degli aggiornamenti di sistema...'
+  base_repos_setup
+  echo -e '\nInstallazione degli aggiornamenti di sistema...'
     apt-get -y dist-upgrade 2>&1 | tee -a "upgrade.log"
     echo -e '\nRimozione dei pacchetti superflui...'
     apt-get -y autoremove 2>&1 | tee -a "autoremove.log" 
@@ -502,6 +507,7 @@ function basic_packages_setup() {
   echo -e '\nInstallazione accessori vari, ALSA utils, rtirq, ffmpeg, sox, ecc...'
   package_list="\
 	alsa-utils		\
+	aptitude		\
 	apt-transport-https	\
 	fdupes			\
 	ffmpeg			\
@@ -518,11 +524,13 @@ function basic_packages_setup() {
 	openssh-client		\
 	openssh-server		\
 	rtirq-init		\
+	schedtool		\
 	sox			\
 	sysvinit-utils		\
 	ssh			\
 	sudo			\
 	unzip			\
+	util-linux		\
   "
   apt-get --install-recommends -y install $package_list 2>&1 | tee -a "install.packages.log"
   echo -e '\nDownload ed installazione di "alsa-info.sh"...'
@@ -563,7 +571,8 @@ function install_liquorix_kernel() {
     else
       MyKernel="linux-image-liquorix-686"
     fi
-    apt-get --no-install-recommends -y install $MyKernel 2>&1 | tee -a "install.kernel.log"
+    #apt-get --no-install-recommends -y install $MyKernel 2>&1 | tee -a "install.kernel.log"
+    apt-get --no-install-recommends install $MyKernel
     cat <<-EOK
 	ATTENZIONE: 
 	per attivare il nuovo Kernel sarà necessario riavviare il sistema.
@@ -944,14 +953,10 @@ function select_sample_rate_range() {
 	multipli interi supportati dall'hardware delle due frequenze "base",
 	44.1 e 48 kHz, ad es. 176.4 e 192 kHz, oppure 352.8 e 384 kHz, ecc.
 	
-	In questo modo è possibile forzare un "ricampionamento sincrono" dei
+	In questo modo è possibile ottenere un "ricampionamento sincrono" dei
 	flussi in ingresso, cioè far sì che questi vengano sempre ricampionati
 	al massimo multiplo intero (supportato) della loro frequenza base.
 	
-	Ciò comporta dei sensibili vantaggi rispetto al ricampionamento verso
-	una frequenza fissa, sia dal punto di vista tecnico che, spesso, anche
-	da quello della qualità soggettiva della riproduzione audio.
-
 	Se invece volete (per quanto possibile) evitare il ricampionamento
 	(almeno sul "player"), indicate correttamente gli effettivi limiti
 	minimo e massimo imposti dal vostro hardware.
@@ -1046,6 +1051,8 @@ function install_squeezelite() {
 	SL_NAME="R2@\$(hostname -s)"
 
 	# ALSA output device:
+	#SL_SOUNDCARD="hw:0,0"
+	#SL_SOUNDCARD="hw:1,0"
 	#SL_SOUNDCARD="default:CARD=Amanero"
 	#SL_SOUNDCARD="hw:CARD=x20,DEV=0"
 	#SL_SOUNDCARD="front:CARD=D20,DEV=0"
@@ -1062,9 +1069,10 @@ function install_squeezelite() {
 	#
 	#SB_EXTRA_ARGS="-C 1 -a 100:3:16:1 -x -u vME:0::64:90 -r 44100-384000"
 	#SB_EXTRA_ARGS="-C 1 -a 200:6:24:1 -x -u vIE:2::64:95 -r 352800,384000"
-	#SB_EXTRA_ARGS="-C 1 -a 300:9:32:1 -x -u vLE:8::64:98 -r 384000"
-	SB_EXTRA_ARGS="-C 1 -a 100:3:$bit_depth:1 -b 65536:65536 -x -u vIE:32::64:91 -r $ratesRange -d all=info -f /var/log/squeezelite.log"
-	#SB_EXTRA_ARGS="-C 1 -a 100:3:$bit_depth:1 -b 65536:65536 -x -u vIE:32::64:91 -r $ratesRange"
+	#SB_EXTRA_ARGS="-C 1 -a 300:9:32:1 -x -u vLE:8::64:98 -r 192000"
+	#SB_EXTRA_ARGS="-C 1 -a 100:3:32:1 -x -b 65536:65536 -x -u vIE:32::64:91 -r 384000"
+	#SB_EXTRA_ARGS="-C 1 -a 100:3:$bit_depth:1 -x -b 3072:4096 -u vX:60:3:64:91:95:25 -r $ratesRange -d all=info -f /tmp/squeezelite.log"
+	SB_EXTRA_ARGS="-C 1 -a 100:3:$bit_depth:1 -x -b 3072:4096 -u vX:60:3:64:91:95:25 -r $ratesRange"
 	
 	EOSLC
   if [ "$myOutputDev" != "default" ]; then
@@ -1073,47 +1081,67 @@ function install_squeezelite() {
   run_alsamixer
   restart_squeezelite
   cat <<-EOSLM > "squeezelite_notice.txt"
-
-	ATTENZIONE: il sistema è stato preconfigurato e dovrebbe già essere
-	funzionante senza bisogno di ulteriori interventi.
-	Ciò non di meno potrebbe essere utile o necessario personalizzare la
-	configurazione di squeezelite "editando" il relativo file, ad esempio
-	con il comando:
+	
+	Il sistema è stato preconfigurato e dovrebbe già essere perfettamente
+	funzionante, senza bisogno di ulteriori interventi.
+	
+	Qualora ve ne fosse l'esigenza, se si ha sufficiente dimestichezza con
+	il sistema è comunque possibile personalizzare le opzioni di avvio di
+	squeezelite modificando il relativo file di configurazione, ad esempio
+	utilizzando l'editor "nano":
 
 	  nano /etc/default/squeezelite
 	
-	In particolare, per permettere l'identificazione e la risuluzione di
-	eventuali problemi, durante questa procedura sono state abilitate le
-	funzioni di logging di squeezelite. Per visualizzare il file registro
-	potete dare il comando:
+	In particolare, per facilitare l'identificazione e la risuluzione di
+	eventuali problemi che si dovessero riscontrare è possibile abilitare
+	le funzioni di logging di squeezelite.
+	Per farlo è sufficiente "scommentare" la riga che contiene le opzioni:
 	
-	  less /var/log/squeezelite.
+	  -d all=debug -f /tmp/squeezelite.log
 	
-	Tali funzioni possono però interferire con le prestazioni del sistema
-	e, qualora il dispositivo ove risiede il file system "/var" sia una 
-	memoria a stato solido (quale un SSD, una scheda "Compact Flash", una 
-	"pen-drive" USB, ecc), le continue scritture del file di log possono 
-	causarne l'invecchiamento precoce.
-	
-	Pertanto, una volta verificato che il sistema funziona correttamente, 
-	si raccomanda caldamente di disabilitare il logging. 
-	
-	Per farlo è sufficiente "commentare" la riga che contiene le opzioni:
-	
-	  -d all=debug -f /var/log/squeezelite.log
-	
-	cioè aggiungere un carattere '#' all'inizio della riga stessa e quindi
-	abilitare la riga adiacente, che è identica in tutto tranne che per la
-	mancanza di quei parametri, cancellando il '#' che la precede.
+	cioè rimuovere il carattere '#' presente all'inizio della riga stessa
+	e quindi disabilitare (commentare) la riga adiacente, precedentemente
+	attiva, aggiungendo il medesimo carattere '#' all'inizio di tale riga.
 
-	Dopo aver apportato qualsiasi modifica al file di configurazione, per
-	renderla effettiva è necessario riavviare il servizio squeezelite con
-	il comando:
+	Dopo aver modificato il file di configurazione, per rendere effettive
+	le modifiche appena fatte è necessario riavviare il relativo servizio
+	utilizzando il comando:
 
 	  service squeezelite restart
 
 	oppure riavviare il sistema.
 
+	Qualora abbiate abilitato il logging come indicato, per visualizzare
+	il file di registro potete dare il comando:
+	
+	  less /tmp/squeezelite
+
+	Potete anche monitorare gli aggiornamenti in tempo reale, utilizzando
+	invece il comando:
+	
+	  tail -f /tmp/squeezelite
+
+	(per uscire da 'less' premete il tasto 'q'; per terminare l'esecuzione
+	di 'tail -f' premete invece contemporaneamente i tasti 'Ctrl' e 'c').
+
+	ATTENZIONE:
+	
+	*) Come suggerito dal suo nome, il file system "/tmp" è destinato
+	a contenere files temporanei. In molti sistemi è automaticamente e
+	completamente "ripulito" (svuotato) all'avvio del sistema. In altri
+	potrebbe addirittura essere ospitato su un "RAM disk".
+	Se avete motivo di voler conservare un file di log di squeezelite,
+	non dimenticate di copiarlo altrove prima di arrestare o riavviare
+	il sistema.
+
+	*) Le funzioni di logging possono interferire con le prestazioni
+	del sistema. Inoltre, qualora il file system "/tmp" risieda su di
+	una memoria di massa a stato solido quale un SSD, un "pen-drive"
+	USB, una scheda "Compact Flash", ecc, le continue scritture del
+	file di log possono causarne l'invecchiamento precoce.
+	Pertanto, una volta terminato il debugging e verificato che tutto
+	funzioni correttamente, si raccomanda caldamente di disabilitarle.
+	
 	EOSLM
 }
 
@@ -1128,16 +1156,23 @@ function install_LMS() {
   } 2>&1|tee install_LMS.log
   cat <<-EOLMS > "LMS_notice.txt"
 
-	ATTENZIONE: potrebbe essere necessario personalizzare le configurazioni 
-	di LMS editando i relativi files di configurazione:
+	ATTENZIONE: LMS è stato installato e dovrebbe già essere attivo. Prima
+	di cominciare ad utilizzarlo dovrete però provvedere a configurarlo per
+	mezzo della sua interfaccia Web.
+	
+	Personalizzazioni più "spinte" potrebbero richiedere la modifica dei 
+	files di configurazione di LMS (operazione vivamente sconsigliata, in
+	special modo ai meno esperti). I files in questione sono:
 
 	  /etc/default/logitechmediaserver
 	  /etc/squeezeboxserver/convert.conf
 	  /etc/squeezeboxserver/modules.conf
 	  /etc/squeezeboxserver/types.conf
 
-	Dopo aver editato i files di configurazione, per rendere effettive le 
-	modifiche effettuate riavviare il servizo con il comando:
+	Dopo aver modificato (attraverso l'interfaccia web) impostazioni che 
+	richiedono il riavvio di LMS o modificato i files di configurazione, 
+	per rendere effettive le modifiche dovete riavviare il servizo con il 
+	comando:
 
 	  service logitechmediaserver restart
 
@@ -1183,7 +1218,6 @@ limits_setup
 udev_setup
 sysctl_setup
 rclocal_setup
-apt_setup
 basic_packages_setup
 install_liquorix_kernel
 echo -e '\nSetup di base completato.'

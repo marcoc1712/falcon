@@ -99,9 +99,9 @@ sub getAutostart {
 	my $result = $self->_getExitResult(\@rows);
 
 	if ($result->{'data'}){
-
-		my $data =  $result->{'data'};
-
+        
+        my $data =  $result->{'data'};
+        
 		if ((scalar @$data == 1) && ($$data[0]  =~ /^on+$/)){
 
 			return 1;
@@ -110,13 +110,14 @@ sub getAutostart {
 
 			return 0;
 		}
-	} 
+	}
+
 	$self->{error}=$result->{'status'};
 	$self->{error}= $self->{error}.": from exit: getAutostart. Message is: ";
 
 	if ( $result->{'message'}){
 
-		$self->{error}=$result->{'message'};
+		$self->{error}=$self->{error}.$result->{'message'};
 	}
 	return undef;
 }
@@ -389,8 +390,9 @@ sub readCommandLine{
     my $self = shift;
 
     my @rows = $self->_runExit('readCommandLine');
-    my $result = $self->_getExitResult(\@rows);
     
+    my $result = $self->_getExitResult(\@rows);
+
     if ( $result->{'status'} eq "DONE"){
 
         my $data = $result->{'data'};
@@ -412,7 +414,11 @@ sub readCommandLine{
     }
     return undef;
 }
-
+sub getDsdNatives{
+    my @dsdNatives = ('u8', 'u16le', 'u32le', 'u16be', 'u32be');
+    my %out = map { $_ => 1 } @dsdNatives;
+    return \%out;
+}
 ####################################################################################################
 sub _upgrade{
     my $self = shift;
@@ -440,8 +446,9 @@ sub _runExit{
 	
 	$self->{error}=undef;
 	my $script= $self->get()->{$exit};
-	if (! $self->_checkScript($script)){return undef;}
-	
+    
+    if (! $self->_checkScript($script)){return undef;}
+   
 	my $command;
 	
 	if ($options){

@@ -46,36 +46,84 @@ $out->{'data'}=\@data;
 
 #tobe converted in JSON format and printed out.
 
-#here the command to be executed;
-my $command= " rc-status | grep squeezelite-R2";
+if (! scalar @ARGV == 1){
+	
+	$out->{'status'}="WARNING";
+	$out->{'message'}="Missing action";
+	
+	printJSON($out);
+	exit 0;
+	
+} 
 
-#command execution;
-my @rows = `$command 2>&1`;
+my $action = $ARGV[0];
+my $command="";
 
-#result validation
-validateResult(\@rows);
+if ($action eq "enable"){
+	
+	$command="rc-update add squeezelite default";
+	my @rows = `$command 2>&1`;
+
+	#result validation and return.
+	validateResult(\@rows);
+	
+} elsif ($action eq "disable"){
+	
+	$command="rc-update del squeezelite";
+	my @rows = `$command 2>&1`;
+
+	#result validation and return.
+	validateResult(\@rows);
+}
+else {
+
+	$out->{'status'}="WARNING";
+	$out->{'message'}="Invalid action";
+	
+	printJSON($out);
+	exit 0;
+}
 
 sub validateResult{
 	my $result = shift;
+	my $message="";
 	
-	#here your validation code.
-	
-	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
-	
-		#my $str = trim(substr(trim($$result[0]),11));
-		my $str = "1";
-		push @data, $str;
+	for my $row (@$result){
+
+		if ($row  =~ /^Failed/){
 		
-	} else {
-		my $message="";
-		for my $row (@$result){
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim($row,5);
+			
+			printJSON($out);
+			exit 0;
+			
+		}elsif ($row  =~ /^ERROR/){
 		
-			$message= $message.trim($row);
+			$out->{'status'}="ERROR";
+			$out->{'message'}=trim(substr($row,5));
+			
+			printJSON($out);
+			exit 0;
+			
+		} elsif ( $row  =~ /^WARNING/){
+		
+			$out->{'status'}="WARNING";
+			$out->{'message'}=trim(substr($row,7));
+						
+			printJSON($out);
+			exit 0;
+			
 		}
-		$out->{'status'}='warning';
-		$out->{'message'}=$message;
+		else{
+			$message = $message." ".trim($row);
+		}
 	}
+	$out->{'status'}="ok";
+	$out->{'message'}=$message;
+	
 	printJSON($out);
+	exit 1;
 }
 ###############################################################################
 # This code should be in a library, please do not modify it.

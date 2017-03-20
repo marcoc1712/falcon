@@ -40,8 +40,9 @@ sub new {
     my $class = shift;
 
     $log = Log::Log4perl->get_logger("settings");
-
+    
     my $conf = WebInterface::Configuration->new();
+
     my $prefs;
     my $commandLine;
     my $error;
@@ -52,8 +53,9 @@ sub new {
         $commandLine = WebInterface::CommandLine->new($prefs);
 
     } else {
-        
+   
 		my $commandLineText=$conf->readCommandLine();
+        
 		$error = $conf->getError();
 		
 		$log->info($commandLineText);

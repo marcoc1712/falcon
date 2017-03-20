@@ -111,8 +111,37 @@ sub getAudioCardsHTML{
     }
     return \@html;
 }
+sub getDsdFormatsHTML{
+    my $self = shift;
+    
+    my @formatlist = ('disabled', 'DOP');
 
+if  ($self->_isDsdNativeCapalble()){
+        
+        my $ref=$self->conf()->getDsdNatives();
+        push  @formatlist, keys %$ref;
+    }
+    
+    my @html=();
+    
+    for my $key (@formatlist){
+	
+		push @html, qq (<option value= $key > $key </option>)."\n";
+    }
+    return \@html;
+}
 ####################################################################################################
+sub _isDsdNativeCapalble{
+    my $self = shift;
+     
+    if  (($self->getStatus()->{'opts'}->{'LINUX'})&&
+         ($self->getStatus()->{'opts'}->{'ALSA'}) &&
+         ($self->getStatus()->{'opts'}->{'DSD'})){
+              
+          return 1;
+    }
+    return 0;
+}
 
 sub _init{
     my $self = shift;
@@ -311,10 +340,11 @@ sub _checkExecutable{
         $row=$utils->trim($row);
 
         #look for R2 version tag
-        if (lc($row) =~ /v1\.8\...\(r2\)/){
-        
-             $self->getStatus()->{'version'} =substr($row,23,11);
-             $self->getStatus()->{'isR2version'}=1;
+        #if (lc($row) =~ /v1\.8\...\(r2\)/){ #}
+        if (lc($row) =~ /v\s*\d{1,2}\.\d{1,2}\.\d{1,2}\s*\(r2\)/){
+ 
+            $self->getStatus()->{'version'} =substr($row, index(lc($row),$&), length($&));
+            $self->getStatus()->{'isR2version'}=1;
 
         }
 		while (length($row) > 80 ){
@@ -350,5 +380,8 @@ sub _checkExecutable{
        
         $self->getStatus()->{'opts'}->{$opt} =1;
     }
+    
+    return 1;
+    
 }
 1;

@@ -31,7 +31,7 @@ su apache e lighttpd, da verificare negli altri casi).
 
 Ulteriori verifiche:
 
-4. Assicurarsi di aver installato PERL [no, si da per scontato]
+4. Assicurarsi di aver installato PERL [si da per scontato]
 5. Assicurarsi di aver installato git. [fatto]
 6. Assicurarsi di aver creato  <cartella www> (/var/www) [fatto]
 7. Assicurarsi di aver creato l'utente www-data [fatto]
@@ -47,8 +47,10 @@ B. INSTALLAZIONE falcon
 
 C. CONFIGURAZIONE
 
-1. copiare nella cartella data un file di configurazione adeguato 
-   e rinominarlo in falcon.conf, altrimenti il sistema ne creerà uno standard, 
+1. copiare nella cartella data un file di configurazione adeguato, selezionandolo 
+   tra quelli forniti in  <falcon folder>\falcon\default\conf o prodotto a nuovo,
+   avendo cura di mantenerne sintassi e correttezza dei riferimenti, il nome deve 
+   esserein ogni caso falcon.conf, altrimenti il sistema ne creerà uno standard, 
    che sarà da configurare manualmente. [fatto]
 
 2. Assicurarsi di aver indicato il corretto pathname all'eseguibile di squeezelite, 
@@ -56,16 +58,17 @@ C. CONFIGURAZIONE
 
 C. PERSONALIZZAZIONE
 
-Se si utilizza un sistema Debian configurato da easy audio setup, la configurazione 
-inpostata per copia del file standard è sufficiente, verificare solo il punto 
-relativo al test del dispositivo audio.
+Se si utilizza un sistema Debian o Gentoo la configurazione inpostata per copia 
+del file standard è sufficiente, verificare solo il punto relativo al test del 
+dispositivo audio.
 
 1. confermare l'utilizzo delle exit standard (cartella falcon/defualt/exit/...) 
    nel file di configurazione oppure realizzare le proprie e posizionarle nella 
-   cartella exit. Per debian configurato con easy audio setup sono disponibili 
-   tutte le exit necessarie in falcon/default/Standard/Linux/Debian_ea e sono già 
+   cartella exit. Per debian e gentoo tutte le exit necessarie sono in in 
+   <falcon folder>falcon/default/standard/linux/<distro> e sono già 
    puntate dal file di configurazione di cui sopra. Se si vuole modificarle o 
-   sostituirle, è bene copiarle in exit e modificare il puntatore del file di configurazione.
+   sostituirle, è bene prima copiarle in exit e modificare il puntatore del file 
+   di configurazione.
 
 2. Disabilitare le funzionalità indesiderate mediante l'opportuna voce in DISABLED 
    (quelle disponibili sono già presenti, eventualmente commentate).
@@ -73,11 +76,13 @@ relativo al test del dispositivo audio.
 3. Editare il file exit/testAudioDevice.pl ed inserire almeno la corrispondenza 
    tra la scheda audio ed il comando da eseguire, seguendo gli esempi già presenti.
 
-   Porre molta attenzione alla sintassi.
+ATTENZIONE: Porre molta attenzione alla sintassi, non è previsto nessun controllo
+sui contenuti dei files di configurazione, in caso di errori, questi si manifesteranno
+a runtime, con risultati imprevedibili.
 
 A questo punto, se si è proceduto correttamente, tutte le funzionalità del sistema 
 saranno funzionanti, ma potrebbero restituire errori dovuti all'impossibillità di 
-accedere alle risorse del sistema.
+accedere alle risorse del sistema (permessi), porre molta attenzione.
 
 D. Integrazione.
 
@@ -101,7 +106,7 @@ proprie funzioni:
 
 c. riga di comando. La exit ReadCommandLine deve restituire l'attuale riga di 
    comando, mentre saveCommandLine la riceve e si occupa di scriverla ove 
-   oopportuno (i.e. etc/default/squeezelite in debian configurato con easetup).
+   oopportuno (i.e. etc/default/squeezelite in debian).
    
    Lo script 'standard' crea anche una copia del file originale, se riesce nella 
    stessa cartella, altrimenti come fault back in data.
@@ -113,7 +118,7 @@ d. file di preferenze.
 
    falcon deve poter accedere in lettura e scrittura al file: squeezelite-R2.prefs, 
    la cui posizione è indicata nel file di configurazione. In caso di problemi, 
-   è poaaibile poaizionarlo nella cartella data.
+   è possibile poaizionarlo nella cartella data.
 
 e. file di log.
 

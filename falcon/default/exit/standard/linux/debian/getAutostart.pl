@@ -46,84 +46,86 @@ $out->{'data'}=\@data;
 
 #tobe converted in JSON format and printed out.
 
-if (! scalar @ARGV == 1){
-	
-	$out->{'status'}="WARNING";
-	$out->{'message'}="Missing action";
-	
-	printJSON($out);
-	exit 0;
-	
-} 
+#here the command to be executed;
+#my $command= "/sbin/chkconfig squeezelite";
+my $command = qq(ls -l /etc/rc?.d/*squeezelite);
 
-my $action = $ARGV[0];
-my $command="";
+#command execution;
+my @rows = `$command 2>&1`;
+my $err=$?;
 
-if ($action eq "enable"){
-	
-	$command="rc-update add squeezelite-R2 default";
-	my @rows = `$command 2>&1`;
-
-	#result validation and return.
-	validateResult(\@rows);
-	
-} elsif ($action eq "disable"){
-	
-	$command="rc-update del squeezelite-R2";
-	my @rows = `$command 2>&1`;
-
-	#result validation and return.
-	validateResult(\@rows);
-}
-else {
-
-	$out->{'status'}="WARNING";
-	$out->{'message'}="Invalid action";
-	
-	printJSON($out);
-	exit 0;
-}
+#result validation
+validateResult($err, \@rows);
 
 sub validateResult{
-	my $result = shift;
-	my $message="";
+	my $err = shift;
+    my $result = shift;
 	
-	for my $row (@$result){
+	#here your validation code.
+	
+    my %rc;
 
-		if ($row  =~ /^Failed/){
+    if ($err){
+
+        $out->{'status'}='error';
+
+    } elsif (scalar @$result == 7){
+
+        for my $rc (@$result){
+
+            my $str= trim($rc);
+            my $ind=(index($str, "/etc/rc"));
+
+            my $lev= substr($str,$ind+7,1);
+            $str= substr($str,length($str)-$ind);
+
+            my $end=index($str, "squeezelite -> ../init.d/squeezelite");
+
+            if ($end ge 3){
+
+                my $act  = substr($str,0,1);
+                my $prio = substr($str,1,$end-1);
+
+                if (($lev ge 0 && $lev le 6) &&
+                    ($act eq "S" || $act eq "K") &&
+                    ($prio ge 0 && $prio le 100)){
+
+                    $rc{$lev}{'act'}=$act;
+                    $rc{$lev}{'prio'}=$prio;
+
+                    next;
+                }
+                $out->{'status'}='warning';
+            }
+        }
+
+    } else {
+
+        $out->{'status'}='warning';
+    }
+
+    if (($rc{2} && $rc{2}{'act'} eq "S") ||
+        ($rc{3} && $rc{3}{'act'} eq "S") || 
+        ($rc{4} && $rc{4}{'act'} eq "S") ||
+        ($rc{5} && $rc{5}{'act'} eq "S")){
+
+        $out->{'status'}='ok';
+        @data=('on');
+        
+    } else{
+        
+        $out->{'status'}='warning';
+        @data=('off');
+    }
+
+    my $message="";
+    for my $row (@$result){
 		
-			$out->{'status'}="ERROR";
-			$out->{'message'}=trim($row,5);
-			
-			printJSON($out);
-			exit 0;
-			
-		}elsif ($row  =~ /^ERROR/){
-		
-			$out->{'status'}="ERROR";
-			$out->{'message'}=trim(substr($row,5));
-			
-			printJSON($out);
-			exit 0;
-			
-		} elsif ( $row  =~ /^WARNING/){
-		
-			$out->{'status'}="WARNING";
-			$out->{'message'}=trim(substr($row,7));
-						
-			printJSON($out);
-			exit 0;
-			
-		}
-		else{
-			$message = $message." ".trim($row);
-		}
-	}
-	$out->{'status'}="ok";
-	$out->{'message'}=$message;
+        $message= $message.trim($row);
+    }
+    $out->{'message'}=$message;
 	
 	printJSON($out);
-	exit 1;
 }
 ###############################################################################
 # This code should be in a library, please do not modify it.
