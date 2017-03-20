@@ -63,7 +63,7 @@ sub validateResult{
 	if ((scalar @$result == 1) && (trim($$result[0])  =~ /^squeezelite/)){
 	
 		#my $str = trim(substr(trim($$result[0]),11));
-		my $str = "1";
+		my $str = "on";
 		push @data, $str;
 		
 	} else {
@@ -74,6 +74,8 @@ sub validateResult{
 		}
 		$out->{'status'}='warning';
 		$out->{'message'}=$message;
+        my $str = "off";
+	    push @data, $str;
 	}
 	printJSON($out);
 }
