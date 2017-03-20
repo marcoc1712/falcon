@@ -15,5 +15,5 @@ INSTALLATION GUIDE:
 
 See: https://github.com/marcoc1712/installFalcon
 
-Enjoi!
+Enjoy!
 
