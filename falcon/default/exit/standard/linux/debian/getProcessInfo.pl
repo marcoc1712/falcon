@@ -62,7 +62,9 @@ if ($pid){
 	
 } else {
 
-    $command = "service squeezelite status";
+    #$command = "service squeezelite status"; #error in streatch
+    $command = "/etc/init.d/squeezelite status";
+    
 }
 
 my @rows = `$command 2>&1`;
