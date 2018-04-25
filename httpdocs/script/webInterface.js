@@ -33,7 +33,9 @@ window.onload = function() {
     init(); //load data.
 };
 function init() {
-
+	
+	console.log( "init" );
+	
     hide(document.getElementById('status'));
     enable("savePreset",0);
     enable("loadPreset",0);
@@ -384,6 +386,7 @@ function load(item,value) {
 }
 function loadAudioDevices(errorCallback) {
     
+	console.log( "loadAudioDevices" );
 	$("#audioDevice").load('/cgi-bin/loadAudioCards.pl', function(){
 	
 		if( ($('#audioDevice').has('option').length > 0 ) && (global_audiodevice)){
@@ -392,8 +395,10 @@ function loadAudioDevices(errorCallback) {
 		} 
 	});
     
-}function loadDsdFormats(errorCallback) {
+}
+function loadDsdFormats(errorCallback) {
     
+	console.log( "loadDsdFormats" );
 	$("#dsdFormat").load('/cgi-bin/loadDsdFormats.pl', function(){
 	
 		if( ($('#dsdFormat').has('option').length > 0 ) && (global_dsdformat)){

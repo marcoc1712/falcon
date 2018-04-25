@@ -116,7 +116,7 @@ sub getDsdFormatsHTML{
     
     my @formatlist = ('disabled', 'DOP');
 
-if  ($self->_isDsdNativeCapalble()){
+	if  ($self->_isDsdNativeCapalble()){
         
         my $ref=$self->conf()->getDsdNatives();
         push  @formatlist, keys %$ref;
