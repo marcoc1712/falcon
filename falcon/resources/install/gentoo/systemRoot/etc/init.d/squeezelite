@@ -12,11 +12,7 @@ user="squeezelite:squeezelite"
 start_stop_daemon_args="--user $user"
 
 command="/usr/bin/squeezelite-R2"
-command_args="
-#        -f $logfile
-        -p 89
-        ${SL_OPTS}
-"
+command_args="${SL_OPTS}"
 
 command_background=yes
 pidfile=/run/squeezelite-R2.pid
